@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lt.permission.dao.FunctionDao">
+	<resultMap id="BaseResultMap" type="com.lt.permission.model.Function">
+		<id column="fid" jdbcType="VARCHAR" property="fid" />
+		<result column="fname" jdbcType="VARCHAR" property="fname" />
+		<result column="fcode" jdbcType="VARCHAR" property="fcode" />
+		<result column="pfid" jdbcType="VARCHAR" property="pfid" />
+		<result column="frelation" jdbcType="VARCHAR" property="frelation" />
+		<result column="fsort" jdbcType="INTEGER" property="fsort" />
+		<result column="ficon" jdbcType="VARCHAR" property="ficon" />
+		<result column="furl" jdbcType="VARCHAR" property="furl" />
+		<result column="ftarget" jdbcType="VARCHAR" property="ftarget" />
+		<result column="is_menu" jdbcType="INTEGER" property="isMenu" />
+		<result column="is_expand" jdbcType="INTEGER" property="isExpand" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+		<result column="modifier" jdbcType="VARCHAR" property="modifier" />
+		<result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+		<result column="version" jdbcType="INTEGER" property="version" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		fid, fname, fcode, pfid, frelation, fsort, ficon, furl,
+		ftarget, is_menu,
+		is_expand,
+		remark, created_time, creator,
+		modified_time, modifier, is_delete, version
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_function
+		where fid = #{fid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_function
+		where fid = #{fid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.lt.permission.model.Function">
+		insert into t_function (fid,
+		fname, fcode,
+		pfid, frelation, fsort,
+		ficon, furl, ftarget,
+		is_menu,
+		is_expand, remark,
+		created_time, creator, modified_time,
+		modifier,
+		is_delete, version
+		)
+		values (#{fid,jdbcType=VARCHAR},
+		#{fname,jdbcType=VARCHAR},
+		#{fcode,jdbcType=VARCHAR},
+		#{pfid,jdbcType=VARCHAR}, #{frelation,jdbcType=VARCHAR},
+		#{fsort,jdbcType=INTEGER},
+		#{ficon,jdbcType=VARCHAR},
+		#{furl,jdbcType=VARCHAR},
+		#{ftarget,jdbcType=VARCHAR},
+		#{isMenu,jdbcType=INTEGER}, #{isExpand,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR},
+		now(),
+		#{creator,jdbcType=VARCHAR},
+		now(),
+		#{modifier,jdbcType=VARCHAR}, 0,1)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lt.permission.model.Function">
+		insert into t_function
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fid != null">
+				fid,
+			</if>
+			<if test="fname != null">
+				fname,
+			</if>
+			<if test="fcode != null">
+				fcode,
+			</if>
+			<if test="pfid != null">
+				pfid,
+			</if>
+			<if test="frelation != null">
+				frelation,
+			</if>
+			<if test="fsort != null">
+				fsort,
+			</if>
+			<if test="ficon != null">
+				ficon,
+			</if>
+			<if test="furl != null">
+				furl,
+			</if>
+			<if test="ftarget != null">
+				ftarget,
+			</if>
+			<if test="isMenu != null">
+				is_menu,
+			</if>
+			<if test="isExpand != null">
+				is_expand,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="createdTime != null">
+				created_time,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="modifiedTime != null">
+				modified_time,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fid != null">
+				#{fid,jdbcType=VARCHAR},
+			</if>
+			<if test="fname != null">
+				#{fname,jdbcType=VARCHAR},
+			</if>
+			<if test="fcode != null">
+				#{fcode,jdbcType=VARCHAR},
+			</if>
+			<if test="pfid != null">
+				#{pfid,jdbcType=VARCHAR},
+			</if>
+			<if test="frelation != null">
+				#{frelation,jdbcType=VARCHAR},
+			</if>
+			<if test="fsort != null">
+				#{fsort,jdbcType=INTEGER},
+			</if>
+			<if test="ficon != null">
+				#{ficon,jdbcType=VARCHAR},
+			</if>
+			<if test="furl != null">
+				#{furl,jdbcType=VARCHAR},
+			</if>
+			<if test="ftarget != null">
+				#{ftarget,jdbcType=VARCHAR},
+			</if>
+			<if test="isMenu != null">
+				#{isMenu,jdbcType=INTEGER},
+			</if>
+			<if test="isExpand != null">
+				#{isExpand,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				#{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedTime != null">
+				#{modifiedTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lt.permission.model.Function">
+		update t_function
+		<set>
+			<if test="fname != null">
+				fname = #{fname,jdbcType=VARCHAR},
+			</if>
+			<if test="fcode != null">
+				fcode = #{fcode,jdbcType=VARCHAR},
+			</if>
+			<if test="pfid != null">
+				pfid = #{pfid,jdbcType=VARCHAR},
+			</if>
+			<if test="frelation != null">
+				frelation = #{frelation,jdbcType=VARCHAR},
+			</if>
+			<if test="fsort != null">
+				fsort = #{fsort,jdbcType=INTEGER},
+			</if>
+			<if test="ficon != null">
+				ficon = #{ficon,jdbcType=VARCHAR},
+			</if>
+			<if test="furl != null">
+				furl = #{furl,jdbcType=VARCHAR},
+			</if>
+			<if test="ftarget != null">
+				ftarget = #{ftarget,jdbcType=VARCHAR},
+			</if>
+			<if test="isMenu != null">
+				is_menu = #{isMenu,jdbcType=INTEGER},
+			</if>
+			<if test="isExpand != null">
+				is_expand = #{isExpand,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				created_time = #{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedTime != null">
+				modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="version != null">
+				version = #{version,jdbcType=INTEGER},
+			</if>
+		</set>
+		where fid = #{fid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lt.permission.model.Function">
+		update t_function
+		set fname = #{fname,jdbcType=VARCHAR},
+		fcode =
+		#{fcode,jdbcType=VARCHAR},
+		pfid = #{pfid,jdbcType=VARCHAR},
+		frelation =
+		#{frelation,jdbcType=VARCHAR},
+		fsort = #{fsort,jdbcType=INTEGER},
+		ficon
+		= #{ficon,jdbcType=VARCHAR},
+		furl = #{furl,jdbcType=VARCHAR},
+		ftarget =
+		#{ftarget,jdbcType=VARCHAR},
+		is_menu = #{isMenu,jdbcType=INTEGER},
+		is_expand = #{isExpand,jdbcType=INTEGER},
+		remark =
+		#{remark,jdbcType=VARCHAR},
+		created_time =
+		#{createdTime,jdbcType=TIMESTAMP},
+		creator =
+		#{creator,jdbcType=VARCHAR},
+		modified_time =
+		#{modifiedTime,jdbcType=TIMESTAMP},
+		modifier =
+		#{modifier,jdbcType=VARCHAR},
+		is_delete = #{isDelete,jdbcType=INTEGER},
+		version = #{version,jdbcType=INTEGER}
+		where fid =
+		#{fid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="findFunctionTrees" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_function
+		where is_delete=0
+		order by fsort
+	</select>
+	
+	<select id="findFunctionTreesByPfid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_function
+		where is_delete=0 and frelation like #{pfid}
+		order by fsort
+	</select>
+
+</mapper>

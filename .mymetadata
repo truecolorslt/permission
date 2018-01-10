@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="permission"
+  id="myeclipse.1513752405003"
+  context-root="/permission"
+  j2ee-spec="6.0"
+  archive="permission.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
