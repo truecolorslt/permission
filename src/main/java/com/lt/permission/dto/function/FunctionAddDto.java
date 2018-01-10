@@ -23,6 +23,16 @@ public class FunctionAddDto extends BaseDto {
 
 	private String frelation;
 
+	private String fid;
+
+	public String getFid() {
+		return fid;
+	}
+
+	public void setFid(String fid) {
+		this.fid = fid;
+	}
+
 	public String getFrelation() {
 		return frelation;
 	}

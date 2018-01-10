@@ -91,7 +91,7 @@ public class FunctionController extends BaseController {
 				Map<String, Object> rootMap = new HashMap<String, Object>();
 				rootMap.put("id", "0");
 				rootMap.put("pId", null);
-				rootMap.put("name", "管理系统");
+				rootMap.put("name", "当前系统");
 				rootMap.put("open", true);
 				mapList.add(rootMap);
 
@@ -170,6 +170,58 @@ public class FunctionController extends BaseController {
 				jo.put("result", false);
 			}
 			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * 修改菜单
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	@RequestMapping(value = "/updateFunction")
+	@ResponseBody
+	public String updateFunction(@RequestBody FunctionAddDto dto) {
+		String rtnStr = "";
+		try {
+			int i = functionService.updateFunction(dto);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	@RequestMapping(value = "/deleteFunction")
+	@ResponseBody
+	public String deleteFunction(@RequestBody String param) {
+		String rtnStr = "";
+		JSONObject jo = new JSONObject();
+
+		// 如果页面传的是json字符串，用下列方式解析
+		Map<String, Object> m = (Map<String, Object>) jo.parse(param);
+		// string转map
+		JSONObject parseObject = jo.parseObject(param); // string转json
+
+		String fid = parseObject.getString("fid");
+		try {
+			int i = functionService.deleteFunction(fid);
+			JSONObject jo1 = new JSONObject();
+			if (i > 0) {
+				jo1.put("result", true);
+			} else {
+				jo1.put("result", false);
+			}
+			rtnStr = jo1.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

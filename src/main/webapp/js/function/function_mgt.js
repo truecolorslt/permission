@@ -1,10 +1,7 @@
+// ztree设置
 var setting;
-
+// ztree节点
 var treeNodes;
-
-/*
- * Ladda.bind('div:not(.progress-demo) button', { timeout : 2000 });
- */
 
 $(document).ready(function() {
 	// 初始化按钮事件
@@ -23,39 +20,7 @@ function initButton() {
 		if(validateNewFunctionForm().form()) {
 			// 验证成功
 			var l = Ladda.create(this);
-			 l.start();
-			 var fname = $("#fname_add").val();
-			 var fcode = $("#fcode_add").val();
-			 var furl = $("#furl_add").val();
-			 var ficon = $("#ficon_add").val();
-			 var fsort = $("#fsort_add").val();
-			 var pfid = $("#pfid_add").val();
-			 var data = {"fname":fname,"fcode":fcode,"furl":furl,
-					 "ficon":ficon,"fsort":fsort,"pfid":pfid};
-			 $.ajax({
-					type : 'POST',
-					dataType : "json",
-					contentType : 'application/json;charset=utf-8',
-					url : "addFunction",// 请求的action路径
-					data:JSON.stringify(data),
-					error : function() {// 请求失败处理函数
-						alert('新增菜单失败');
-					},
-					success : function(data) { // 请求成功后处理函数。
-						var result = data.result;
-						if(result) {
-							alert('新增菜单成功');
-							$('#functionModal').modal('hide');
-							//refreshNode(pfid);
-							initFunctionTrees();
-						} else {
-							alert('新增菜单失败');
-						}
-					},
-					complete : function(){
-						l.stop();
-			        }
-				});
+			addFunction(l);
 		}
 	});
 	
@@ -65,10 +30,104 @@ function initButton() {
 		if(validateUpdateFunctionForm().form()) {
 			// 验证成功
 			var l = Ladda.create(this);
-			 l.start();
-			 // l.stop()
+			updateFunction(l);
 		}
 	});
+}
+
+/**
+ * 新增功能
+ */
+function addFunction(l) {
+	 l.start();
+	 var fname = $("#fname_add").val();
+	 var fcode = $("#fcode_add").val();
+	 var furl = $("#furl_add").val();
+	 var ficon = $("#ficon_add").val();
+	 var fsort = $("#fsort_add").val();
+	 var pfid = $("#pfid_add").val();
+	 var data = {"fname":fname,"fcode":fcode,"furl":furl,
+			 "ficon":ficon,"fsort":fsort,"pfid":pfid};
+	 $.ajax({
+			type : 'POST',
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8',
+			url : "addFunction",// 请求的action路径
+			data:JSON.stringify(data),
+			error : function() {// 请求失败处理函数
+				swal(
+					      '新增菜单失败!',
+					      '',
+					      'error');
+			},
+			success : function(data) { // 请求成功后处理函数。
+				var result = data.result;
+				if(result) {
+					swal(
+				      '新增菜单成功!',
+				      '',
+				      'success'
+				    );
+					$('#functionModal').modal('hide');
+					// refreshNode(pfid);
+					initFunctionTrees();
+				} else {
+					swal(
+				      '新增菜单失败!',
+				      '',
+				      'error');
+				}
+			},
+			complete : function(){
+				l.stop();
+	        }
+		});
+}
+
+/**
+ * 修改功能
+ */
+function updateFunction(l) {
+	 l.start();
+	 var fname = $("#fname").val();
+	 var fcode = $("#fcode").val();
+	 var furl = $("#furl").val();
+	 var ficon = $("#ficon").val();
+	 var fsort = $("#fsort").val();
+	 var fid = $("#fid").val();
+	 var data = {"fname":fname,"fcode":fcode,"furl":furl,
+			 "ficon":ficon,"fsort":fsort,"fid":fid};
+	 $.ajax({
+			type : 'POST',
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8',
+			url : "updateFunction",// 请求的action路径
+			data:JSON.stringify(data),
+			error : function() {// 请求失败处理函数
+				swal(
+					      '修改菜单失败!',
+					      '',
+					      'error');
+			},
+			success : function(data) { // 请求成功后处理函数。
+				var result = data.result;
+				if(result) {
+					swal(
+						      '修改菜单成功!',
+						      '',
+						      'success');
+					initFunctionTrees();
+				} else {
+					swal(
+						      '修改菜单失败!',
+						      '',
+						      'error');
+				}
+			},
+			complete : function(){
+				l.stop();
+	        }
+		});
 }
 
 /**
@@ -101,6 +160,7 @@ function initFunctionTrees() {
 		},
 		callback : {
 			onClick : getFunction,
+			beforeRemove: deleteFunction,
 			beforeClick : isRootNode
 		},
 		async:{
@@ -190,6 +250,67 @@ function getFunction(event, treeId, treeNode) {
 			$("#fid").val(data.fid);
 		}
 	});
+}
+
+
+/**
+ * 删除功能
+ * 
+ * @param event
+ * @param treeId
+ * @param treeNode
+ */
+function deleteFunction(treeId, treeNode) {
+	var param = {
+			fid : treeNode.id
+		};
+	swal({
+		  title: '请确认是否删除此功能菜单',
+		  text: "此功能菜单被删除后将无法恢复!",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '确认',
+		  cancelButtonText:'取消'
+		}).then(function(isConfirm) {
+		  if (isConfirm) {
+			  $.ajax({
+					type : 'POST',
+					dataType : "json",
+					contentType : 'application/json;charset=utf-8',
+					url : "deleteFunction",// 请求的action路径
+					data:JSON.stringify(param),
+					error : function() {// 请求失败处理函数
+						swal(
+					      '删除菜单失败!',
+					      '',
+					      'success'
+					    );
+					},
+					success : function(data) { // 请求成功后处理函数。
+						var result = data.result;
+						if(result) {
+							swal(
+						      '删除菜单成功!',
+						      '',
+						      'success'
+						    );
+							initFunctionTrees();
+						} else {
+							swal(
+						      '删除菜单失败!',
+						      '',
+						      'success'
+						    );
+						}
+					}
+				});
+		  }
+		})
+		
+	
+	return false;
 }
 
 /**

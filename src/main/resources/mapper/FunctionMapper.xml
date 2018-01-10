@@ -277,13 +277,20 @@
 		where is_delete=0
 		order by fsort
 	</select>
-	
+
 	<select id="findFunctionTreesByPfid" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from t_function
 		where is_delete=0 and frelation like #{pfid}
-		order by fsort
+		order by
+		fsort
 	</select>
-
+	<update id="logicDeleteFunction">
+		update t_function
+		set
+		is_delete = 1
+		where fid =
+		#{fid,jdbcType=VARCHAR}
+	</update>
 </mapper>

@@ -45,4 +45,19 @@ public interface IFunctionService {
 	 * @return
 	 */
 	public int addFunction(FunctionAddDto dto);
+
+	/**
+	 * 修改菜单
+	 * 
+	 * @param function
+	 * @return
+	 */
+	public int updateFunction(FunctionAddDto dto);
+
+	/**
+	 * 删除菜单
+	 * 
+	 * @param fid
+	 */
+	public int deleteFunction(String fid);
 }

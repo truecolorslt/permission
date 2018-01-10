@@ -16,9 +16,11 @@ public interface FunctionDao {
 	public int updateByPrimaryKeySelective(Function record);
 
 	public int updateByPrimaryKey(Function record);
-	
+
 	public List<Function> findFunctionTrees();
 
 	public List<Function> findFunctionTreesByPfid(String pfid);
-	
+
+	public int logicDeleteFunction(String fid);
+
 }

@@ -70,4 +70,29 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 		List<Function> functionList = functionDao.findFunctionTreesByPfid(pfid);
 		return functionList;
 	}
+
+	@Override
+	public int deleteFunction(String fid) {
+		return functionDao.logicDeleteFunction(fid);
+
+	}
+
+	@Override
+	public int updateFunction(FunctionAddDto dto) {
+		int i = 0;
+		if (dto != null) {
+			// 封装function对象
+			Function f = new Function();
+			f.setFid(dto.getFid());
+			f.setFname(dto.getFname());
+			f.setFcode(dto.getFcode());
+			f.setFicon(dto.getFicon());
+			f.setFurl(dto.getFurl());
+			f.setFsort(Integer.parseInt(dto.getFsort() == null ? "1" : dto
+					.getFsort()));
+			f.setModifier(dto.getOperatorName());
+			i = functionDao.updateByPrimaryKeySelective(f);
+		}
+		return i;
+	}
 }
