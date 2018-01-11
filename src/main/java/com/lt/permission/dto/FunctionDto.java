@@ -1,8 +1,7 @@
-package com.lt.permission.dto.function;
+package com.lt.permission.dto;
 
-import com.lt.permission.dto.BaseDto;
 
-public class FunctionAddDto extends BaseDto {
+public class FunctionDto extends BaseDto {
 
 	/**
 	 * 

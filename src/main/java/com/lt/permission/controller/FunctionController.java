@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lt.permission.dto.function.FunctionAddDto;
+import com.lt.permission.dto.FunctionDto;
 import com.lt.permission.model.Function;
 import com.lt.permission.service.IFunctionService;
 
@@ -151,7 +151,7 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(value = "/addFunction")
 	@ResponseBody
-	public String addFunction(@RequestBody FunctionAddDto dto) {
+	public String addFunction(@RequestBody FunctionDto dto) {
 		String rtnStr = "";
 		try {
 			// 获取父级节点信息
@@ -184,7 +184,7 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateFunction")
 	@ResponseBody
-	public String updateFunction(@RequestBody FunctionAddDto dto) {
+	public String updateFunction(@RequestBody FunctionDto dto) {
 		String rtnStr = "";
 		try {
 			int i = functionService.updateFunction(dto);

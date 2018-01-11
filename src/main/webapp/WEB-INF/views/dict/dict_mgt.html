@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+<link rel="stylesheet" href="../css/bootstrapStyle/bootstrapStyle.css">
+<link rel="stylesheet" href="../css/index.css">
+
+<link rel="stylesheet"
+	href="../js/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/font-awesome.min.css" />
+<link rel="stylesheet" href="../css/animate.css">
+
+<link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="../css/plugins/jqgrid/ui.jqgrid.css?0820">
+<!-- <link rel="stylesheet" href="../css/style.css?v=4.1.0"> -->
+
+
+<style>
+/* Additional style to fix warning dialog position */
+#alertmod_table_list_2 {
+	top: 900px !important;
+}
+</style>
+<title>数据字典管理</title>
+</head>
+<body style="background-color: transparent">
+	<div id="areascontent" style="height: 100%"
+		class="wrapper wrapper-content">
+		<div class="rows"
+			style="margin-bottom: 0.8%; overflow: hidden;height: 98%">
+			<!-- 树形菜单 -->
+			<div>
+				<div class="panel panel-default" style="height: 95%">
+					<div class="panel-heading">
+						<i class="fa fa-tree" style="padding-right: 5px;"></i>数据字典列表
+					</div>
+					<div class="panel-body" style="height:430px; overflow:auto;">
+						<div class="jqGrid_wrapper">
+							<table id="table_list_2"></table>
+							<div id="pager_list_2"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<!-- 全局js -->
+<script src="../js/jquery/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- js插件 -->
+<!-- Peity -->
+<script src="../js/plugins/peity/jquery.peity.min.js"></script>
+<!-- jqGrid -->
+<script src="../js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
+<script src="../js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
+
+<!-- 自定义js -->
+<script src="../js/dict/dict_mgt.js"></script>

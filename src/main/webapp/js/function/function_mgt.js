@@ -261,6 +261,15 @@ function getFunction(event, treeId, treeNode) {
  * @param treeNode
  */
 function deleteFunction(treeId, treeNode) {
+	var isParent = treeNode.isParent;
+	if(isParent) {
+		swal(
+			      '不允许删除该菜单!',
+			      '该菜单为父级菜单，其下还存在子菜单，请先删除子菜单！',
+			      'warning'
+			    );
+		return false;
+	}
 	var param = {
 			fid : treeNode.id
 		};
@@ -308,8 +317,6 @@ function deleteFunction(treeId, treeNode) {
 				});
 		  }
 		})
-		
-	
 	return false;
 }
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lt.permission.dao.FunctionDao;
-import com.lt.permission.dto.function.FunctionAddDto;
+import com.lt.permission.dto.FunctionDto;
 import com.lt.permission.model.Function;
 import com.lt.permission.service.IFunctionService;
 
@@ -42,7 +42,7 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public int addFunction(FunctionAddDto dto) {
+	public int addFunction(FunctionDto dto) {
 		int i = 0;
 		if (dto != null) {
 			// 封装function对象
@@ -78,7 +78,7 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public int updateFunction(FunctionAddDto dto) {
+	public int updateFunction(FunctionDto dto) {
 		int i = 0;
 		if (dto != null) {
 			// 封装function对象

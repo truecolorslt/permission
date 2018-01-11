@@ -4,21 +4,22 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<link rel="stylesheet" href="../css/bootstrapStyle/bootstrapStyle.css">
+<link rel="stylesheet" href="../css/index.css">
+
 <link rel="stylesheet"
 	href="../js/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../css/font-awesome.min.css" />
-<link href="../css/animate.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/animate.css">
+
 <link rel="stylesheet"
 	href="../css/plugins/ladda/ladda-themeless.min.css" />
-<link rel="stylesheet" href="../css/index.css">
-<link rel="stylesheet" href="../css/bootstrapStyle/bootstrapStyle.css"
-	type="text/css">
 <link rel="stylesheet"
 	href="../css/plugins/sweetalert/sweetalert2.min.css" />
 
 <title>功能菜单管理</title>
 </head>
-<body class="gray-bg">
+<body style="background-color: transparent">
 	<div id="areascontent" style="height: 100%">
 		<div class="rows"
 			style="margin-bottom: 0.8%; overflow: hidden;height: 98%">
@@ -28,7 +29,7 @@
 					<div class="panel-heading">
 						<i class="fa fa-tree" style="padding-right: 5px;"></i>功能树形菜单
 					</div>
-					<div class="panel-body" style="height:435px; overflow:auto;">
+					<div class="panel-body" style="height:430px; overflow:auto;">
 						<ul id="functionTree" class="ztree"></ul>
 					</div>
 				</div>
@@ -39,7 +40,7 @@
 					<div class="panel-heading">
 						<i class="fa fa-info" style="padding-right: 5px;"></i>功能信息
 					</div>
-					<div class="panel-body" style="height:435px; overflow:auto;">
+					<div class="panel-body" style="height:430px; overflow:auto;">
 						<form class="form-horizontal m-t" id="updateFunctionForm">
 							<input type="hidden" name="fid" id="fid">
 							<div class="form-group">
@@ -96,8 +97,8 @@
 										placeholder="图标">
 								</div>
 								<div class="col-sm-2">
-									<a href="http://www.fontawesome.com.cn/faicons/#transportation" target="_blank"
-										class="btn btn-success btn-sm" role="button">参考图标</a>
+									<a href="http://www.fontawesome.com.cn/faicons/#transportation"
+										target="_blank" class="btn btn-success btn-sm" role="button">参考图标</a>
 								</div>
 							</div>
 
@@ -189,8 +190,9 @@
 									</div>
 
 									<div class="col-sm-2">
-										<a href="http://www.fontawesome.com.cn/faicons/#transportation" target="_blank"
-											class="btn btn-success btn-sm" role="button">参考图标</a>
+										<a
+											href="http://www.fontawesome.com.cn/faicons/#transportation"
+											target="_blank" class="btn btn-success btn-sm" role="button">参考图标</a>
 									</div>
 								</div>
 							</form>
@@ -214,13 +216,18 @@
 <!-- 全局js -->
 <script src="../js/jquery/jquery-3.2.1.min.js"></script>
 <script src="../js/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- js插件 -->
+<!-- 树形菜单ztree -->
 <script src="../js/plugins/ztree/jquery.ztree.core.js"></script>
 <script src="../js/plugins/ztree/jquery.ztree.excheck.js"></script>
 <script src="../js/plugins/ztree/jquery.ztree.exedit.js"></script>
+<!-- 防止按钮重复提交ladda -->
 <script src="../js/plugins/ladda/spin.min.js"></script>
 <script src="../js/plugins/ladda/ladda.min.js"></script>
+<!-- 表单验证validate -->
 <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 <script src="../js/plugins/validate/messages_zh.min.js"></script>
+<!-- 弹框sweetalert -->
 <script src="../js/plugins/sweetalert2/sweetalert2.min.js"></script>
 
 <!-- 自定义js -->

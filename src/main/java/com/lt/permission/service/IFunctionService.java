@@ -2,7 +2,7 @@ package com.lt.permission.service;
 
 import java.util.List;
 
-import com.lt.permission.dto.function.FunctionAddDto;
+import com.lt.permission.dto.FunctionDto;
 import com.lt.permission.model.Function;
 
 public interface IFunctionService {
@@ -44,7 +44,7 @@ public interface IFunctionService {
 	 * @param function
 	 * @return
 	 */
-	public int addFunction(FunctionAddDto dto);
+	public int addFunction(FunctionDto dto);
 
 	/**
 	 * 修改菜单
@@ -52,7 +52,7 @@ public interface IFunctionService {
 	 * @param function
 	 * @return
 	 */
-	public int updateFunction(FunctionAddDto dto);
+	public int updateFunction(FunctionDto dto);
 
 	/**
 	 * 删除菜单
