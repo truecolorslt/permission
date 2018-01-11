@@ -217,11 +217,11 @@ $(document).ready(function() {
 	$("#table_list_2").jqGrid({
 		data : mydata,
 		datatype : "local",
-		height : 450,
+		height : 370,
 		autowidth : true,
 		shrinkToFit : true,
-		rowNum : 20,
-		rowList : [ 10, 20, 30 ],
+		rowNum : 10,
+		rowList : [ 10, 20, 50 ],
 		colNames : [ '序号', '日期', '客户', '金额', '运费', '总额', '备注' ],
 		colModel : [ {
 			name : 'id',
@@ -273,7 +273,7 @@ $(document).ready(function() {
 		} ],
 		pager : "#pager_list_2",
 		viewrecords : true,
-		caption : "jqGrid 示例2",
+		//caption : "数据字典列表",
 		add : true,
 		edit : true,
 		addtext : 'Add',

@@ -5,43 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 
-<link rel="stylesheet" href="../css/bootstrapStyle/bootstrapStyle.css">
-<link rel="stylesheet" href="../css/index.css">
-
 <link rel="stylesheet"
 	href="../js/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../css/font-awesome.min.css" />
 <link rel="stylesheet" href="../css/animate.css">
 
+<link rel="stylesheet" href="../css/bootstrapStyle/bootstrapStyle.css">
 <link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="../css/table.css">
+
 <link rel="stylesheet" href="../css/plugins/jqgrid/ui.jqgrid.css?0820">
+<link rel="stylesheet"
+	href="../css/plugins/ladda/ladda-themeless.min.css" />
+<link rel="stylesheet"
+	href="../css/plugins/sweetalert/sweetalert2.min.css" />
 <!-- <link rel="stylesheet" href="../css/style.css?v=4.1.0"> -->
 
-
-<style>
-/* Additional style to fix warning dialog position */
-#alertmod_table_list_2 {
-	top: 900px !important;
-}
-</style>
 <title>数据字典管理</title>
 </head>
-<body style="background-color: transparent">
-	<div id="areascontent" style="height: 100%"
-		class="wrapper wrapper-content">
+<body style="background-color: transparent;">
+	<div id="areascontent" style="height: 100%">
 		<div class="rows"
 			style="margin-bottom: 0.8%; overflow: hidden;height: 98%">
-			<!-- 树形菜单 -->
-			<div>
-				<div class="panel panel-default" style="height: 95%">
-					<div class="panel-heading">
-						<i class="fa fa-tree" style="padding-right: 5px;"></i>数据字典列表
-					</div>
-					<div class="panel-body" style="height:430px; overflow:auto;">
-						<div class="jqGrid_wrapper">
-							<table id="table_list_2"></table>
-							<div id="pager_list_2"></div>
-						</div>
+			<div class="panel panel-default" style="height: 95%">
+				<!-- <div class="panel-heading">
+					<i class="fa fa-book" style="padding-right: 5px;"></i>数据字典列表
+				</div> -->
+				<div class="panel-body">
+					<div class="jqGrid_wrapper">
+						<table id="table_list_2"></table>
+						<div id="pager_list_2"></div>
 					</div>
 				</div>
 			</div>
