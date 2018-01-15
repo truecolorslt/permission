@@ -1,9 +1,7 @@
 package com.lt.permission.service;
 
-import java.util.List;
-
 import com.lt.permission.dto.DictQueryDto;
-import com.lt.permission.model.Dict;
+import com.lt.permission.vo.DictVo;
 
 public interface IDictService {
 	/**
@@ -12,5 +10,5 @@ public interface IDictService {
 	 * @param queryDto
 	 * @return
 	 */
-	public List<Dict> findDictsByPage(DictQueryDto queryDto);
+	public DictVo findDictsByPage(DictQueryDto queryDto);
 }

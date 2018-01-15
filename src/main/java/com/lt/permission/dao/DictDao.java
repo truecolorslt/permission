@@ -1,6 +1,7 @@
 package com.lt.permission.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.lt.permission.model.Dict;
 
@@ -17,6 +18,7 @@ public interface DictDao {
 
 	int updateByPrimaryKey(Dict record);
 
-	public List<Dict> findDictsByPage(Dict dict, Integer currentPage,
-			Integer pageSize);
+	public List<Dict> findDictsByPage(Map<String, Object> map);
+
+	public int findDictsCount(Map<String, Object> map);
 }

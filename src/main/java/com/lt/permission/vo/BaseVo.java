@@ -20,19 +20,19 @@ public class BaseVo implements Serializable {
 	private String resultCode;
 	/** 返回结果错误描述，正确时为空 */
 	private String resultMsg;
-	/** 返回的对�?*/
+	/** 返回的对象 */
 	private Object resultObject;
-	/** 返回总记录数 * */
+	/** 返回总记录数 */
 	private Integer totalCount;
 
-	/** 返回总页�?* */
+	/** 返回总页数 */
 	private Integer totalPage;
 
-	/** 返回结果�?*/
+	/** 返回结果集 */
 	private List<?> resultList;
 
 	/**
-	 * 返回key-value形式的结�?
+	 * 返回key-value形式的结�?
 	 */
 	private Map<String, Object> resultMap;
 

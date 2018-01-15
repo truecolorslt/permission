@@ -16,7 +16,7 @@ function initDicts() {
 		mtype : "POST",
 		rownumbers : true,
 		datatype : "json",
-		height : 370,
+		// height : 370,
 		autowidth : true,
 		shrinkToFit : true,
 		// viewrecords:true,
@@ -66,6 +66,10 @@ function initDicts() {
 		hidegrid : false
 	});
 
+	var newHeight = $(window).height() - 235;
+	$(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText",
+			"height: " + newHeight + "px!important;");
+
 	// Add selection
 	$("#table_list").setSelection(4, true);
 
@@ -93,6 +97,7 @@ function initDicts() {
 function initButton() {
 	$("#find_btn").click(function() {
 		jQuery("#table_list").jqGrid('setGridParam', {
+			datatype:'json',
 			url : 'findDicts',
 			postData : {
 				'dname' : $("#dname").val(),
