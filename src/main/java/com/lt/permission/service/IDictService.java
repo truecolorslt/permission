@@ -1,5 +1,6 @@
 package com.lt.permission.service;
 
+import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.vo.DictVo;
 
@@ -11,4 +12,19 @@ public interface IDictService {
 	 * @return
 	 */
 	public DictVo findDictsByPage(DictQueryDto queryDto);
+
+	/**
+	 * 删除数据字典
+	 * 
+	 * @param did
+	 */
+	public int deleteDict(String did);
+
+	/**
+	 * 修改数据字典
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public int updateDict(DictDto dto);
 }

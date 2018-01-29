@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
 import com.lt.permission.service.IDictService;
+import com.lt.permission.util.DateUtil;
 import com.lt.permission.vo.DictVo;
 
 /**
@@ -73,7 +75,8 @@ public class DictController extends BaseController {
 						map.put("dname", d.getDname());
 						map.put("dcode", d.getDcode());
 						map.put("remark", d.getRemark());
-						map.put("modifiedTime", d.getModifiedTime());
+						map.put("modifiedTime", DateUtil.formatDate(
+								d.getModifiedTime(), "yyyy-MM-dd HH:mm:ss"));
 						map.put("modifier", d.getModifier());
 						mapList.add(map);
 					}
@@ -89,7 +92,7 @@ public class DictController extends BaseController {
 					// json中代表数据行总数
 					jo.put("records", dictCount);
 				} else {
-					jo.put("total","0");
+					jo.put("total", "0");
 					jo.put("page", "1");
 					jo.put("records", "0");
 					jo.put("rows", "");
@@ -101,4 +104,51 @@ public class DictController extends BaseController {
 		}
 		return dictsJson;
 	}
+
+	@RequestMapping(value = "/deleteDict")
+	@ResponseBody
+	public String deleteDict(
+			@RequestParam(value = "did", required = true) String did) {
+		String rtnStr = "";
+		try {
+			int i = dictService.deleteDict(did);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	@RequestMapping(value = "/editDict")
+	@ResponseBody
+	public String editDict(
+			@RequestParam(value = "did", required = true) String did,
+			@RequestParam(value = "dname", required = true) String dname,
+			@RequestParam(value = "remark", required = false) String remark) {
+		String rtnStr = "";
+		try {
+			DictDto dto = new DictDto();
+			dto.setDid(did);
+			dto.setDname(dname);
+			dto.setRemark(remark);
+			int i = dictService.updateDict(dto);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
 }

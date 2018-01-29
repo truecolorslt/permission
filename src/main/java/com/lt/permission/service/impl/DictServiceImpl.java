@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.lt.permission.dao.DictDao;
+import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
 import com.lt.permission.service.IDictService;
@@ -46,5 +47,25 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 		dictVo.setResultList(dictList);
 		dictVo.setTotalCount(dictCount);
 		return dictVo;
+	}
+
+	@Override
+	public int deleteDict(String did) {
+		return dictDao.logicDeleteDict(did);
+	}
+
+	@Override
+	public int updateDict(DictDto dto) {
+		int i = 0;
+		if (dto != null) {
+			// 封装dict对象
+			Dict d = new Dict();
+			d.setDid(dto.getDid());
+			d.setDname(dto.getDname());
+			d.setRemark(dto.getRemark());
+			d.setModifier(dto.getOperatorName());
+			i = dictDao.updateByPrimaryKeySelective(d);
+		}
+		return i;
 	}
 }

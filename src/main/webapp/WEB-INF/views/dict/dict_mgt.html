@@ -27,32 +27,38 @@
 	<div id="areascontent" style="height: 100%">
 		<div class="rows"
 			style="margin-bottom: 0.8%; overflow: hidden;height: 98%">
-			<div class="panel panel-default" style="height: 95%">
-				<!-- <div class="panel-heading">
+			<div style="float: left; width: 100%;height: 100%">
+				<div class="panel panel-default" style="height: 95%">
+					<!-- <div class="panel-heading">
 					<i class="fa fa-book" style="padding-right: 5px;"></i>数据字典列表
 				</div> -->
-				<form id="formSearch" class="form-horizontal">
-					<div class="form-group" style="margin-top:15px">
-						<label class="control-label col-sm-2" style="" for="dname">数据字典名称</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="dname" name="dname">
+					<form id="formSearch" class="form-horizontal">
+						<div class="form-group" style="margin-top:15px">
+							<label class="control-label col-sm-3" style="" for="dname">数据字典名称</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="dname" name="dname">
+							</div>
+							<label class="control-label col-sm-3" style="" for="dcode">数据字典编码</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="dcode" name="dcode">
+							</div>
+							<div class="col-sm-12" style="text-align:center;">
+								<button type="button" id="find_btn" class="btn btn-primary">
+									<i class="fa fa-search" aria-hidden="true"></i>查询
+								</button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn" id="resetBtn">
+									<i class="fa fa-reply" aria-hidden="true"></i>重置
+								</button>
+							</div>
 						</div>
-						<label class="control-label col-sm-2" style="" for="dcode">数据字典编码</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="dcode" name="dcode">
+					</form>
+					<hr>
+					<div class="panel-body" style="height: 100%">
+						<div class="jqGrid_wrapper" style="height: 100%">
+							<table id="table_list" style="height: 100%"></table>
+							<div id="pager_list"></div>
 						</div>
-						<div class="col-sm-2" style="text-align:center;">
-							<button type="button" id="find_btn" class="btn btn-primary">
-								<i class="fa fa-search" aria-hidden="true"></i>查询
-							</button>
-						</div>
-					</div>
-				</form>
-				<hr>
-				<div class="panel-body" style="height: 100%">
-					<div class="jqGrid_wrapper" style="height: 100%">
-						<table id="table_list" style="height: 100%"></table>
-						<div id="pager_list"></div>
 					</div>
 				</div>
 			</div>
@@ -70,6 +76,8 @@
 <!-- jqGrid -->
 <script src="../js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
 <script src="../js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
+<!-- 弹框sweetalert -->
+<script src="../js/plugins/sweetalert2/sweetalert2.min.js"></script>
 
 <!-- 自定义js -->
 <script src="../js/dict/dict_mgt.js"></script>
