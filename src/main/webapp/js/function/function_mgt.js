@@ -303,20 +303,20 @@ function deleteFunction(treeId, treeNode) {
 							swal(
 						      '删除菜单成功!',
 						      '',
-						      'success'
+						      'error'
 						    );
 							initFunctionTrees();
 						} else {
 							swal(
 						      '删除菜单失败!',
 						      '',
-						      'success'
+						      'error'
 						    );
 						}
 					}
 				});
 		  }
-		})
+		});
 	return false;
 }
 

@@ -47,4 +47,9 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 		dictVo.setTotalCount(dictCount);
 		return dictVo;
 	}
+
+	@Override
+	public int deleteDict(String did) {
+		return dictDao.logicDeleteDict(did);
+	}
 }

@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
 import com.lt.permission.service.IDictService;
+import com.lt.permission.util.DateUtil;
 import com.lt.permission.vo.DictVo;
 
 /**
@@ -73,7 +74,8 @@ public class DictController extends BaseController {
 						map.put("dname", d.getDname());
 						map.put("dcode", d.getDcode());
 						map.put("remark", d.getRemark());
-						map.put("modifiedTime", d.getModifiedTime());
+						map.put("modifiedTime", DateUtil.formatDate(
+								d.getModifiedTime(), "yyyy-MM-dd HH:mm:ss"));
 						map.put("modifier", d.getModifier());
 						mapList.add(map);
 					}
@@ -89,7 +91,7 @@ public class DictController extends BaseController {
 					// json中代表数据行总数
 					jo.put("records", dictCount);
 				} else {
-					jo.put("total","0");
+					jo.put("total", "0");
 					jo.put("page", "1");
 					jo.put("records", "0");
 					jo.put("rows", "");
@@ -100,5 +102,25 @@ public class DictController extends BaseController {
 			e.printStackTrace();
 		}
 		return dictsJson;
+	}
+
+	@RequestMapping(value = "/deleteDict")
+	@ResponseBody
+	public String deleteDict(
+			@RequestParam(value = "did", required = false) String did) {
+		String rtnStr = "";
+		try {
+			int i = dictService.deleteDict(did);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
 	}
 }

@@ -21,4 +21,6 @@ public interface DictDao {
 	public List<Dict> findDictsByPage(Map<String, Object> map);
 
 	public int findDictsCount(Map<String, Object> map);
+
+	public int logicDeleteDict(String did);
 }

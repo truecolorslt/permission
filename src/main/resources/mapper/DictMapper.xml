@@ -242,4 +242,13 @@
 		where is_delete=0 and pdid is null
 		<include refid="findDictsCondition"></include>
 	</select>
+	
+	<update id="logicDeleteDict">
+		update t_dict
+		set
+		is_delete = 1,
+		modified_time=now()
+		where did =
+		#{did,jdbcType=VARCHAR}
+	</update>
 </mapper>

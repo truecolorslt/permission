@@ -11,4 +11,11 @@ public interface IDictService {
 	 * @return
 	 */
 	public DictVo findDictsByPage(DictQueryDto queryDto);
+
+	/**
+	 * 删除数据字典
+	 * 
+	 * @param did
+	 */
+	public int deleteDict(String did);
 }
