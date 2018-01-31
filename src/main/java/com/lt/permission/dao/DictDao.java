@@ -23,4 +23,6 @@ public interface DictDao {
 	public int findDictsCount(Map<String, Object> map);
 
 	public int logicDeleteDict(String did);
+
+	public Dict getDictByCode(String dcode);
 }

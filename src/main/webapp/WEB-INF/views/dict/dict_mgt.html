@@ -15,10 +15,14 @@
 <link rel="stylesheet" href="../css/table.css">
 
 <link rel="stylesheet" href="../css/plugins/jqgrid/ui.jqgrid.css?0820">
+<!-- 防止按钮重复提交ladda -->
 <link rel="stylesheet"
 	href="../css/plugins/ladda/ladda-themeless.min.css" />
+<!-- 弹框sweetalert -->
 <link rel="stylesheet"
 	href="../css/plugins/sweetalert/sweetalert2.min.css" />
+
+
 <!-- <link rel="stylesheet" href="../css/style.css?v=4.1.0"> -->
 
 <title>数据字典管理</title>
@@ -65,19 +69,83 @@
 		</div>
 	</div>
 
+	<!-- 新增数据字典div -->
+	<div class="modal fade" id="dictModal" tabindex="-1" role="dialog"
+		aria-labelledby="dictModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="dictModalLabel">新增</h4>
+				</div>
+				<div class="modal-body">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<form class="form-horizontal m-t" id="newDictForm">
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span
+										class="text-danger">*</span>数据字典名称：</label>
+									<div class="col-sm-6">
+										<input id="dname_add" name="dname_add" type="text"
+											class="form-control" placeholder="数据字典名称（必填项）">
+									</div>
+									<div class="col-sm-2 mblack"></div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span
+										class="text-danger">*</span>数据字典编码：</label>
+									<div class="col-sm-6">
+										<input id="dcode_add" name="dcode_add" type="text"
+											class="form-control" placeholder="数据字典编码（必填项）">
+									</div>
+									<div class="col-sm-2 mblack"></div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-3 control-label">备注：</label>
+									<div class="col-sm-6">
+										<input id="remark_add" type="text" class="form-control"
+											name="remark_add" placeholder="备注">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+					</button>
+					<button id="btn_save_new" class="btn btn-primary ladda-button"
+						data-style="zoom-in">
+						<span class="glyphicon glyphicon-floppy-disk ladda-label">保存</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 <!-- 全局js -->
 <script src="../js/jquery/jquery-3.2.1.min.js"></script>
 <script src="../js/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- js插件 -->
-<!-- Peity -->
-<script src="../js/plugins/peity/jquery.peity.min.js"></script>
-<!-- jqGrid -->
+<!-- jqGrid表格 -->
 <script src="../js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
 <script src="../js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
 <!-- 弹框sweetalert -->
 <script src="../js/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- 防止按钮重复提交ladda -->
+<script src="../js/plugins/ladda/spin.min.js"></script>
+<script src="../js/plugins/ladda/ladda.min.js"></script>
+<!-- 表单验证validate -->
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/messages_zh.min.js"></script>
 
 <!-- 自定义js -->
 <script src="../js/dict/dict_mgt.js"></script>

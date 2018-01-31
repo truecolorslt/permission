@@ -3,6 +3,7 @@ package com.lt.permission.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import com.lt.permission.dao.DictDao;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
+import com.lt.permission.model.Function;
 import com.lt.permission.service.IDictService;
 import com.lt.permission.vo.DictVo;
 
@@ -67,5 +69,28 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 			i = dictDao.updateByPrimaryKeySelective(d);
 		}
 		return i;
+	}
+
+	@Override
+	public int addDict(DictDto dto) {
+		int i = 0;
+		if (dto != null) {
+			// 封装Dict对象
+			Dict d = new Dict();
+			String did = UUID.randomUUID().toString().toLowerCase();
+			d.setDid(did);
+			d.setDname(dto.getDname());
+			d.setDcode(dto.getDcode());
+			d.setRemark(dto.getRemark());
+			d.setCreator(dto.getOperatorName());
+			d.setModifier(dto.getOperatorName());
+			i = dictDao.insert(d);
+		}
+		return i;
+	}
+
+	@Override
+	public Dict getDictByCode(String dcode) {
+		return dictDao.getDictByCode(dcode);
 	}
 }

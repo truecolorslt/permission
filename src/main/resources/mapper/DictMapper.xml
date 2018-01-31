@@ -48,10 +48,10 @@
 		#{dname,jdbcType=VARCHAR},
 		#{dkey,jdbcType=VARCHAR}, #{dvalue,jdbcType=VARCHAR},
 		#{dsort,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
-		#{createdTime,jdbcType=TIMESTAMP},
+		now(),
 		#{creator,jdbcType=VARCHAR},
-		#{modifiedTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR},
-		#{isDelete,jdbcType=INTEGER}, #{version,jdbcType=INTEGER})
+		now(), #{modifier,jdbcType=VARCHAR},
+		0,1)
 	</insert>
 	<insert id="insertSelective" parameterType="com.lt.permission.model.Dict">
 		insert into t_dict
@@ -229,7 +229,7 @@
 		from t_dict
 		where is_delete=0 and pdid is null
 		<include refid="findDictsCondition" />
-		order by dsort
+		order by modified_time desc
 		limit
 		#{page},#{pageSize}
 	</select>
@@ -242,7 +242,7 @@
 		where is_delete=0 and pdid is null
 		<include refid="findDictsCondition"></include>
 	</select>
-	
+
 	<update id="logicDeleteDict">
 		update t_dict
 		set
@@ -251,4 +251,12 @@
 		where did =
 		#{did,jdbcType=VARCHAR}
 	</update>
+
+	<select id="getDictByCode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dict
+		where is_delete=0 and dcode = #{dcode,jdbcType=VARCHAR}
+	</select>
 </mapper>

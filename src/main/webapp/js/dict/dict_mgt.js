@@ -3,10 +3,10 @@ $(document).ready(function() {
 	initDictsTable();
 	// 初始化按钮
 	initButton();
+	validateNewDictForm();
 });
 
-var lastsel;
-var lastselCol;
+var lastsel = 0;
 
 /**
  * 初始化表格
@@ -25,13 +25,14 @@ function initDictsTable() {
 						autowidth : true,
 						shrinkToFit : true,
 						// viewrecords:true,
-						// onSelectRow : editSelectRow,
-						onCellSelect : editSelectRow,
+						onSelectRow : editSelectRow,
+						// onCellSelect : editSelectRow,
+						ondblClickRow : dblClickRow,
 						rowNum : 10,
 						rowList : [ 10, 20, 50 ],
 						colModel : [
 								{
-									label : '数据字典名称<font color=gray size=1px>（单击编辑）</font>',
+									label : '数据字典名称<font color=gray size=1px>（双击编辑）</font>',
 									name : 'dname',
 									index : 'dname',
 									editable : true,
@@ -46,7 +47,7 @@ function initDictsTable() {
 									width : 80
 								},
 								{
-									label : '备注<font color=gray size=1px>（单击编辑）</font>',
+									label : '备注<font color=gray size=1px>（双击编辑）</font>',
 									name : 'remark',
 									index : 'remark',
 									editable : true,
@@ -83,12 +84,12 @@ function initDictsTable() {
 										var deleteFunction = "deleteDict('"
 												+ rowObject.did + "')";
 
-										var actions = '<a href="#" onclick="" title="查看明细">'
+										var actions = '<a href="#" onclick="" title="查看属性明细">'
 												+ '<i class="fa fa-file-text-o" aria-hidden="true"></i></a>';
 										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
 										actions += '<a href="#" onclick="'
 												+ deleteFunction
-												+ '" title="删除数据">'
+												+ '" title="删除数据字典">'
 												+ '<i class="fa fa-trash" aria-hidden="true"></i></a>';
 										return actions;
 									}
@@ -114,17 +115,33 @@ function initDictsTable() {
 			"height: " + newHeight + "px!important;");
 
 	// Add selection
-	$("#table_list").setSelection(4, true);
+	// $("#table_list").setSelection(4, true);
 
-	// Setup buttons
+	// 初始化按钮
 	$("#table_list").jqGrid('navGrid', '#pager_list', {
 		edit : false,
-		add : true,
-		del : true,
-		search : false
-	}, {
-		height : 200,
-		reloadAfterSubmit : true
+		add : false,
+		del : false,
+		search : false,
+		refresh : true,
+		refreshtext : "刷新",
+		refreshtitle : "刷新数据字典列表",
+	}).navButtonAdd('#pager_list', {
+		caption : "新增",
+		title : "新增数据字典",
+		buttonicon : "glyphicon glyphicon-plus",
+		onClickButton : function() {
+			$("#dictModalLabel").text("新增数据字典");
+			$('#dictModal').modal();
+			$("#dname_add").val("");
+			$("#dcode_add").val("");
+			$("#remark_add").val("");
+			$(".mblack").html("");
+		},
+		position : "first"
+	}).navSeparatorAdd('#pager_list', {
+		sepclass : "ui-separator",
+		sepcontent : ""
 	});
 
 	// Add responsive to jqGrid
@@ -149,12 +166,23 @@ function initButton() {
 		$("#dcode").val("");
 		return false;
 	});
+
+	// 新增按钮
+	$("#btn_save_new").click(function() {
+		// 初始化新增form校验规则
+		if ($("#newDictForm").validate().form()) {
+			// 验证成功
+			var l = Ladda.create(this);
+			addDict(l);
+		}
+	});
 }
 
 /**
  * 重新加载表格
  */
 function reloadGrid() {
+	lastsel = 0;
 	jQuery("#table_list").jqGrid('setGridParam', {
 		datatype : 'json',
 		url : 'findDicts',
@@ -216,30 +244,30 @@ function deleteDict(did) {
  * 
  * @param id
  */
-function editSelectRow(rowid, iCol, cellcontent) {
-	if (iCol == 1 || iCol == 3) {
-		if (rowid
-				&& iCol
-				&& ((rowid != lastsel) || (rowid == lastsel && iCol != lastselCol))) {
-			// 保存上一行数据
-			saveDict();
-
-			// 启用当前行为编辑状态
-			jQuery('#table_list').jqGrid('restoreRow', lastsel);
-			jQuery('#table_list').jqGrid('editRow', rowid, true);
-			// 当前选中行,临时存储当前选中行
-			lastsel = rowid;
-		}
-	} else {
-		lastselCol = iCol;
+function editSelectRow(rowid, status) {
+	if (rowid && rowid != lastsel) {
+		// 保存上一行数据
+		updateDict();
+		// 恢复上行数据
 		jQuery('#table_list').jqGrid('restoreRow', lastsel);
+		lastsel = rowid;
 	}
+}
+
+/**
+ * 双击
+ * 
+ * @param id
+ */
+function dblClickRow(rowid, iRow, iCol, e) {
+	// 启用当前行为编辑状态
+	jQuery('#table_list').jqGrid('editRow', rowid, true);
 }
 
 /**
  * 执行保存
  */
-function saveDict() {
+function updateDict() {
 	// 原选中行ID
 	var oldSelectRowId = lastsel;
 	if (oldSelectRowId != null && oldSelectRowId != ""
@@ -266,4 +294,95 @@ function saveDict() {
 			}
 		});
 	}
+}
+
+/**
+ * 校验新增数据字典的form规则
+ */
+function validateNewDictForm() {
+	$("#newDictForm").validate(
+			{
+				rules : {
+					dname_add : "required",
+					dcode_add : {
+						required : true,
+						remote : {
+							async : false,// 默认为异步请求，设置false为同步
+							cache : false,
+							url : "checkDcode",
+							type : "post", // 数据发送方式
+							data : {
+								dcode : function() {
+									return $("#dcode_add").val();
+								}
+							}
+						}
+					},
+				},
+				messages : {
+					dname_add : "请输入数据字典名称!",
+					dcode_add : {
+						required : "请输入数据字典编码!",
+						remote : "数据字典编码已存在!"
+					},
+				},
+				// the errorPlacement has to take the table layout into account
+				errorPlacement : function(error, element) {
+					if (element.is(":radio")) {
+						error.appendTo(element.parent().next());
+					} else if (element.is(":checkbox")) {
+						error.appendTo(element.next());
+					} else {
+						error.appendTo(element.parent().next());
+					}
+				},
+				// set this class to error-labels to indicate valid fields
+				success : function(label) {
+					// set &nbsp; as text for IE
+					label.html("&nbsp;").addClass("checked");
+					// label.addClass("valid").text("Ok!")
+				},
+				highlight : function(element, errorClass) {
+					$(element).parent().next().find("." + errorClass)
+							.removeClass("checked");
+				}
+			});
+}
+
+/**
+ * 新增功能
+ */
+function addDict(l) {
+	l.start();
+	var dname = $("#dname_add").val();
+	var dcode = $("#dcode_add").val();
+	var remark = $("#remark_add").val();
+	var data = {
+		"dname" : dname,
+		"dcode" : dcode,
+		"remark" : remark
+	};
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		contentType : 'application/json;charset=utf-8',
+		url : "addDict",// 请求的action路径
+		data : JSON.stringify(data),
+		error : function() {// 请求失败处理函数
+			swal('新增数据字典失败!', '', 'error');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			var result = data.result;
+			if (result) {
+				swal('新增数据字典成功!', '', 'success');
+				$('#dictModal').modal('hide');
+				reloadGrid();
+			} else {
+				swal('新增数据字典失败!', '', 'error');
+			}
+		},
+		complete : function() {
+			l.stop();
+		}
+	});
 }

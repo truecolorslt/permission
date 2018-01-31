@@ -2,6 +2,7 @@ package com.lt.permission.service;
 
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
+import com.lt.permission.model.Dict;
 import com.lt.permission.vo.DictVo;
 
 public interface IDictService {
@@ -27,4 +28,20 @@ public interface IDictService {
 	 * @return
 	 */
 	public int updateDict(DictDto dto);
+
+	/**
+	 * 新增数据字典
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public int addDict(DictDto dto);
+
+	/**
+	 * 根据编码获取字典对象
+	 * 
+	 * @param dcode
+	 * @return
+	 */
+	public Dict getDictByCode(String dcode);
 }

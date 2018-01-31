@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
+import com.lt.permission.model.Function;
 import com.lt.permission.service.IDictService;
 import com.lt.permission.util.DateUtil;
 import com.lt.permission.vo.DictVo;
@@ -149,6 +151,39 @@ public class DictController extends BaseController {
 			e.printStackTrace();
 		}
 		return rtnStr;
+	}
+
+	@RequestMapping(value = "/addDict")
+	@ResponseBody
+	public String addDict(@RequestBody DictDto dto) {
+		String rtnStr = "";
+		try {
+			int i = dictService.addDict(dto);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * Ajax请求校验编码是否合法。
+	 */
+	@RequestMapping(value = "/checkDcode")
+	@ResponseBody
+	public boolean checkDcode(
+			@RequestParam(value = "dcode", required = true) String dcode) {
+		Dict dict = dictService.getDictByCode(dcode);
+		if (dict != null) {
+			return false;
+		}
+		return true;
 	}
 
 }

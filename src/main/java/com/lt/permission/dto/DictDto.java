@@ -14,7 +14,16 @@ public class DictDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	private String did;
 	private String dname;
+	private String dcode;
 	private String remark;
+
+	public String getDcode() {
+		return dcode;
+	}
+
+	public void setDcode(String dcode) {
+		this.dcode = dcode;
+	}
 
 	public String getDid() {
 		return did;
