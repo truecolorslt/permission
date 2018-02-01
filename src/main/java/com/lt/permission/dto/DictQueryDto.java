@@ -14,6 +14,19 @@ public class DictQueryDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	private String dname;
 	private String dcode;
+	private String did;
+
+	public String getDid() {
+		return did;
+	}
+
+	public void setDid(String did) {
+		this.did = did;
+	}
+
+	public DictQueryDto() {
+
+	}
 
 	public DictQueryDto(String currentPage, String pageSize) {
 		this.setCurrentPage(Integer.parseInt(currentPage == null ? "1"

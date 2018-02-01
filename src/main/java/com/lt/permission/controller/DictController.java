@@ -18,7 +18,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
-import com.lt.permission.model.Function;
 import com.lt.permission.service.IDictService;
 import com.lt.permission.util.DateUtil;
 import com.lt.permission.vo.DictVo;
@@ -135,16 +134,22 @@ public class DictController extends BaseController {
 			@RequestParam(value = "remark", required = false) String remark) {
 		String rtnStr = "";
 		try {
-			DictDto dto = new DictDto();
-			dto.setDid(did);
-			dto.setDname(dname);
-			dto.setRemark(remark);
-			int i = dictService.updateDict(dto);
 			JSONObject jo = new JSONObject();
-			if (i > 0) {
+			Dict dict = dictService.getDictByDid(did);
+			if (dict != null && dict.getDname().equals(dname)
+					&& dict.getRemark().equals(remark)) {
 				jo.put("result", true);
 			} else {
-				jo.put("result", false);
+				DictDto dto = new DictDto();
+				dto.setDid(did);
+				dto.setDname(dname);
+				dto.setRemark(remark);
+				int i = dictService.updateDict(dto);
+				if (i > 0) {
+					jo.put("result", true);
+				} else {
+					jo.put("result", false);
+				}
 			}
 			rtnStr = jo.toString();
 		} catch (Exception e) {
@@ -184,6 +189,47 @@ public class DictController extends BaseController {
 			return false;
 		}
 		return true;
+	}
+
+	@RequestMapping(value = "/findDictDetails")
+	@ResponseBody
+	public String findDictDetails(
+			@RequestParam(value = "did", required = true) String did) {
+		String dictsJson = "";
+		JSONObject jo = new JSONObject();
+		try {
+			DictQueryDto queryDto = new DictQueryDto();
+			queryDto.setDid(did);
+
+			DictVo dictVo = dictService.findDictsByPage(queryDto);
+			if (dictVo != null) {
+				List<Dict> dictList = (List<Dict>) dictVo.getResultList();
+				Integer dictCount = dictVo.getTotalCount();
+
+				List<Map<String, Object>> mapList = null;
+				if (dictList != null && dictList.size() > 0) {
+					mapList = new ArrayList<Map<String, Object>>();
+
+					for (Dict d : dictList) {
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("did", d.getDid());
+						map.put("dname", d.getDname());
+						map.put("dcode", d.getDcode());
+						map.put("remark", d.getRemark());
+						map.put("modifiedTime", DateUtil.formatDate(
+								d.getModifiedTime(), "yyyy-MM-dd HH:mm:ss"));
+						map.put("modifier", d.getModifier());
+						mapList.add(map);
+					}
+
+					jo.put("rows", this.toJSONArray(mapList));
+				}
+				dictsJson = this.toJSONObject(jo).toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dictsJson;
 	}
 
 }

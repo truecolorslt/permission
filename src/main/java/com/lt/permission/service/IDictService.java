@@ -44,4 +44,12 @@ public interface IDictService {
 	 * @return
 	 */
 	public Dict getDictByCode(String dcode);
+
+	/**
+	 * 根据id获取字典对象
+	 * 
+	 * @param did
+	 * @return
+	 */
+	public Dict getDictByDid(String did);
 }

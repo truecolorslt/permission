@@ -3,9 +3,13 @@ $(document).ready(function() {
 	initDictsTable();
 	// 初始化按钮
 	initButton();
+	// 初始化数据字典验证规则
 	validateNewDictForm();
+	// 初始化detail表格
+	initDictDetailTable();
 });
 
+// 上次选择row_id
 var lastsel = 0;
 
 /**
@@ -79,12 +83,17 @@ function initDictsTable() {
 									// formatter : 'actions'
 									formatter : function(cellvalue, options,
 											rowObject) {
-										var editFunction = "";
+										var detailFunction = "detailDict('"
+												+ rowObject.did + "','"
+												+ rowObject.dname + "','"
+												+ rowObject.dcode + "')";
 										// 调用删除方法
 										var deleteFunction = "deleteDict('"
 												+ rowObject.did + "')";
 
-										var actions = '<a href="#" onclick="" title="查看属性明细">'
+										var actions = '<a href="#" onclick="'
+												+ detailFunction
+												+ '" title="查看属性明细">'
 												+ '<i class="fa fa-file-text-o" aria-hidden="true"></i></a>';
 										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
 										actions += '<a href="#" onclick="'
@@ -167,7 +176,7 @@ function initButton() {
 		return false;
 	});
 
-	// 新增按钮
+	// 新增保存按钮
 	$("#btn_save_new").click(function() {
 		// 初始化新增form校验规则
 		if ($("#newDictForm").validate().form()) {
@@ -237,6 +246,21 @@ function deleteDict(did) {
 		}
 	});
 	return false;
+}
+
+/**
+ * 查看数据字典属性明细
+ * 
+ * @param did
+ */
+function detailDict(did, dname, dcode) {
+	$("#dictDetailModalLabel").text("查看数据字典属性明细");
+	$('#dictDetailModal').modal();
+	$("#pdname_add").html(dname);
+	$("#pdcode_add").html(dcode);
+
+	// 初始化明细表格
+	reloadDetailGrid(did);
 }
 
 /**
@@ -385,4 +409,102 @@ function addDict(l) {
 			l.stop();
 		}
 	});
+}
+
+/**
+ * 初始化明细表格
+ */
+function initDictDetailTable() {
+	$.jgrid.defaults.styleUI = 'Bootstrap';
+	$("#table_detail_list")
+			.jqGrid(
+					{
+						height : 370,
+						// url : "findDictDetails",
+						mtype : "POST",
+						rownumbers : true,
+						autowidth : true,
+						shrinkToFit : true,
+						colModel : [
+								{
+									label : '属性名称',
+									name : 'dname',
+									index : 'dname',
+									editable : true,
+									width : 85,
+									sortable : false
+								},
+								{
+									label : '属性键',
+									name : 'dkey',
+									index : 'dkey',
+									editable : false,
+									width : 80
+								},
+								{
+									label : '属性值',
+									name : 'dvalue',
+									index : 'dvalue',
+									editable : true,
+									width : 80,
+									sortable : false
+								},
+								{
+									label : '顺序',
+									name : 'dsort',
+									index : 'dsort',
+									editable : false,
+									width : 80
+								},
+								{
+									label : '备注',
+									name : 'remark',
+									index : 'remark',
+									editable : false,
+									width : 60,
+								},
+								{
+									label : '操作',
+									name : 'operate',
+									index : 'operate',
+									width : 100,
+									fixed : true,
+									sortable : false,
+									resize : false,
+									// formatter : 'actions'
+									formatter : function(cellvalue, options,
+											rowObject) {
+										var actions = '<a href="#" onclick="'
+												+ deleteFunction
+												+ '" title="删除属性">'
+												+ '<i class="fa fa-trash" aria-hidden="true"></i></a>';
+										return actions;
+									}
+								}, {
+									label : '数据字典ID',
+									name : 'did',
+									index : 'did',
+									hidden : true
+								} ],
+						viewrecords : true,
+						hidegrid : false
+					});
+
+	// 自应高度
+	var newHeight = $(window).height() - 265;
+	$(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText",
+			"height: " + newHeight + "px!important;");
+
+}
+/**
+ * 重新加载表格
+ */
+function reloadDetailGrid(did) {
+	jQuery("#table_detail_list").jqGrid('setGridParam', {
+		datatype : 'json',
+		url : 'findDictDetails',
+		postData : {
+			'did' : did,
+		}
+	}).trigger("reloadGrid");
 }

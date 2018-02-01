@@ -16,7 +16,6 @@ import com.lt.permission.dao.DictDao;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
-import com.lt.permission.model.Function;
 import com.lt.permission.service.IDictService;
 import com.lt.permission.vo.DictVo;
 
@@ -92,5 +91,10 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 	@Override
 	public Dict getDictByCode(String dcode) {
 		return dictDao.getDictByCode(dcode);
+	}
+
+	@Override
+	public Dict getDictByDid(String did) {
+		return dictDao.selectByPrimaryKey(did);
 	}
 }
