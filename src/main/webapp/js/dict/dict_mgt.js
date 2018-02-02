@@ -253,14 +253,43 @@ function deleteDict(did) {
  * 
  * @param did
  */
+var pdid;
 function detailDict(did, dname, dcode) {
+	pdid = did;
 	$("#dictDetailModalLabel").text("查看数据字典属性明细");
 	$('#dictDetailModal').modal();
 	$("#pdname_add").html(dname);
 	$("#pdcode_add").html(dcode);
 
 	// 初始化明细表格
-	reloadDetailGrid(did);
+	reloadDetailGrid();
+
+	// 刷新按钮
+	$("#btn_refresh").click(function() {
+		reloadDetailGrid();
+	});
+
+	// 新增按钮
+	$("#btn_add_detail").click(function() {
+		$("#detail_name_add").val("");
+		$("#detail_key_add").val("");
+		$("#detail_value_add").val("");
+		$("#detail_remark_add").val("");
+		$(".mblack").html("");
+		$("#dictDetailAddModalLabel").text("新增数据字典属性");
+		$('#dictDetailAddModal').modal();
+	});
+
+	// 新增保存按钮
+	$("#btn_save_detail").click(function() {
+		// 初始化新增form校验规则
+		if (validateDictDetailForm().form()) {
+			// 验证成功
+			var l = Ladda.create(this);
+			// addDictDetail(l);
+		}
+	});
+
 }
 
 /**
@@ -419,19 +448,21 @@ function initDictDetailTable() {
 	$("#table_detail_list")
 			.jqGrid(
 					{
-						height : 370,
 						// url : "findDictDetails",
 						mtype : "POST",
+						height : 195,
 						rownumbers : true,
+						datatype : "json",
 						autowidth : true,
 						shrinkToFit : true,
+						rowNum : -1,
 						colModel : [
 								{
 									label : '属性名称',
 									name : 'dname',
 									index : 'dname',
 									editable : true,
-									width : 85,
+									width : 120,
 									sortable : false
 								},
 								{
@@ -439,14 +470,14 @@ function initDictDetailTable() {
 									name : 'dkey',
 									index : 'dkey',
 									editable : false,
-									width : 80
+									width : 120
 								},
 								{
 									label : '属性值',
 									name : 'dvalue',
 									index : 'dvalue',
 									editable : true,
-									width : 80,
+									width : 120,
 									sortable : false
 								},
 								{
@@ -461,21 +492,23 @@ function initDictDetailTable() {
 									name : 'remark',
 									index : 'remark',
 									editable : false,
-									width : 60,
+									width : 150,
 								},
 								{
 									label : '操作',
 									name : 'operate',
 									index : 'operate',
-									width : 100,
+									width : 50,
 									fixed : true,
 									sortable : false,
 									resize : false,
 									// formatter : 'actions'
 									formatter : function(cellvalue, options,
 											rowObject) {
+										var deleteDictDetailFunction = "deleteDictDetail('"
+												+ rowObject.did + "')";
 										var actions = '<a href="#" onclick="'
-												+ deleteFunction
+												+ deleteDictDetailFunction
 												+ '" title="删除属性">'
 												+ '<i class="fa fa-trash" aria-hidden="true"></i></a>';
 										return actions;
@@ -486,25 +519,131 @@ function initDictDetailTable() {
 									index : 'did',
 									hidden : true
 								} ],
+						// pager : "#pager_detail_list",
 						viewrecords : true,
-						hidegrid : false
+						hidegrid : false,
+						loadComplete : function() {
+
+							var re_records = $("#table_detail_list")
+									.getGridParam('records');
+							if (re_records == 0 || re_records == null) {
+								if ($(".norecords").html() == null) {
+									$("#table_detail_list")
+											.parent()
+											.append(
+													"<div class=\"norecords\">没有符合数据</div>");
+								}
+								$(".norecords").show();
+							}
+						}
 					});
 
 	// 自应高度
-	var newHeight = $(window).height() - 265;
-	$(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText",
-			"height: " + newHeight + "px!important;");
+	/*
+	 * var newHeight = $(window).height() - 265; $(".ui-jqgrid
+	 * .ui-jqgrid-bdiv").css("cssText", "height: " + newHeight +
+	 * "px!important;");
+	 */
 
+	// Add responsive to jqGrid
+	$(window).bind('resize', function() {
+		var width = $('.jqGrid_wrapper').width();
+		$('#table_list').setGridWidth(width);
+	});
 }
 /**
  * 重新加载表格
  */
-function reloadDetailGrid(did) {
+function reloadDetailGrid() {
+	$(".norecords").hide();
 	jQuery("#table_detail_list").jqGrid('setGridParam', {
 		datatype : 'json',
 		url : 'findDictDetails',
 		postData : {
-			'did' : did,
+			'did' : pdid,
 		}
 	}).trigger("reloadGrid");
+}
+/**
+ * 删除数据字典属性
+ * 
+ * @param did
+ * @returns {Boolean}
+ */
+function deleteDictDetail(did) {
+	var param = {
+		did : did
+	};
+	swal({
+		title : '请确认是否删除此数据字典属性',
+		text : "此数据字典属性被删除后将无法恢复!",
+		type : 'warning',
+		showCancelButton : true,
+		confirmButtonColor : '#3085d6',
+		cancelButtonColor : '#d33',
+		confirmButtonText : '确认',
+		cancelButtonText : '取消'
+	}).then(function(isConfirm) {
+		if (isConfirm) {
+			$.ajax({
+				type : 'POST',
+				dataType : "json",
+				// contentType : 'application/json;charset=utf-8',
+				url : "deleteDict",// 请求的action路径
+				data : param,
+				error : function() {// 请求失败处理函数
+					swal('删除数据字典属性失败!', '', 'error');
+				},
+				success : function(data) { // 请求成功后处理函数。
+					var result = data.result;
+					if (result) {
+						swal('删除数据字典属性成功!', '', 'success');
+						reloadDetailGrid();
+					} else {
+						swal('删除数据字典属性失败!', '', 'error');
+					}
+				}
+			});
+		}
+	});
+	return false;
+}
+
+/**
+ * 校验新增数据字典属性的form规则
+ */
+function validateDictDetailForm() {
+	return $("#dictDetailAddForm").validate(
+			{
+				rules : {
+					detail_name_add : "required",
+					detail_key_add : "required",
+					detail_value_add : "required"
+				},
+				messages : {
+					detail_name_add : "请输入属性名称！",
+					detail_key_add : "请输入属性键！",
+					detail_value_add : "请输入属性值！"
+				},
+				// the errorPlacement has to take the table layout into account
+				errorPlacement : function(error, element) {
+					if (element.is(":radio")) {
+						error.appendTo(element.parent().next());
+					} else if (element.is(":checkbox")) {
+						error.appendTo(element.next());
+					} else {
+						error.appendTo(element.parent().next());
+					}
+				},
+				// set this class to error-labels to indicate valid fields
+				success : function(label) {
+					// set &nbsp; as text for IE
+					label.html("&nbsp;").addClass("checked");
+					// label.addClass("valid").text("Ok!")
+				},
+				highlight : function(element, errorClass) {
+					$(element).parent().next().find("." + errorClass)
+							.removeClass("checked");
+				}
+			});
 }

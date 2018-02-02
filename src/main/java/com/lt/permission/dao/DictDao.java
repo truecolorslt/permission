@@ -25,4 +25,6 @@ public interface DictDao {
 	public int logicDeleteDict(String did);
 
 	public Dict getDictByCode(String dcode);
+	
+	public List<Dict> getDictsByPdid(Map<String, Object> map);
 }

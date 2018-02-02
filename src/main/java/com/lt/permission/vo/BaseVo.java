@@ -32,7 +32,7 @@ public class BaseVo implements Serializable {
 	private List<?> resultList;
 
 	/**
-	 * 返回key-value形式的结�?
+	 * 返回key-value形式的结构
 	 */
 	private Map<String, Object> resultMap;
 

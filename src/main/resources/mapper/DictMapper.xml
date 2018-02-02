@@ -174,7 +174,7 @@
 			<if test="creator != null">
 				creator = #{creator,jdbcType=VARCHAR},
 			</if>
-				modified_time = now(),
+			modified_time = now(),
 			<if test="modifier != null">
 				modifier = #{modifier,jdbcType=VARCHAR},
 			</if>
@@ -256,5 +256,15 @@
 		<include refid="Base_Column_List" />
 		from t_dict
 		where is_delete=0 and dcode = #{dcode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getDictsByPdid" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dict
+		where is_delete=0 and pdid =#{pdid,jdbcType=VARCHAR}
+		<include refid="findDictsCondition" />
+		order by dsort,dkey
 	</select>
 </mapper>

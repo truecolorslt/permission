@@ -201,35 +201,29 @@ public class DictController extends BaseController {
 			DictQueryDto queryDto = new DictQueryDto();
 			queryDto.setDid(did);
 
-			DictVo dictVo = dictService.findDictsByPage(queryDto);
-			if (dictVo != null) {
-				List<Dict> dictList = (List<Dict>) dictVo.getResultList();
-				Integer dictCount = dictVo.getTotalCount();
+			List<Dict> dictList = dictService.getDictsByPdid(queryDto);
 
-				List<Map<String, Object>> mapList = null;
-				if (dictList != null && dictList.size() > 0) {
-					mapList = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> mapList = null;
+			if (dictList != null && dictList.size() > 0) {
+				mapList = new ArrayList<Map<String, Object>>();
 
-					for (Dict d : dictList) {
-						Map<String, Object> map = new HashMap<String, Object>();
-						map.put("did", d.getDid());
-						map.put("dname", d.getDname());
-						map.put("dcode", d.getDcode());
-						map.put("remark", d.getRemark());
-						map.put("modifiedTime", DateUtil.formatDate(
-								d.getModifiedTime(), "yyyy-MM-dd HH:mm:ss"));
-						map.put("modifier", d.getModifier());
-						mapList.add(map);
-					}
-
-					jo.put("rows", this.toJSONArray(mapList));
+				for (Dict d : dictList) {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("did", d.getDid());
+					map.put("dname", d.getDname());
+					map.put("dkey", d.getDkey());
+					map.put("dvalue", d.getDvalue());
+					map.put("dsort", d.getDsort());
+					map.put("remark", d.getRemark());
+					mapList.add(map);
 				}
-				dictsJson = this.toJSONObject(jo).toString();
+
+				jo.put("rows", this.toJSONArray(mapList));
 			}
+			dictsJson = this.toJSONObject(jo).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return dictsJson;
 	}
-
 }

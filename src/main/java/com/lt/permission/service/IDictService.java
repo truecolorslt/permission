@@ -1,5 +1,7 @@
 package com.lt.permission.service;
 
+import java.util.List;
+
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
@@ -52,4 +54,12 @@ public interface IDictService {
 	 * @return
 	 */
 	public Dict getDictByDid(String did);
+
+	/**
+	 * 根据父id查询子集合
+	 * 
+	 * @param pdid
+	 * @return
+	 */
+	public List<Dict> getDictsByPdid(DictQueryDto queryDto);
 }

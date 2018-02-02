@@ -147,3 +147,16 @@ a:hover,a:active,a:focus{outline:none;text-decoration:none;color:#72afd2}
 .checked {
   background:url("../img/true.png") no-repeat center center;
 }
+.norecords {
+    border-width: 2px !important;
+	display:none;
+    font-weight: bold;
+    left: 45%;
+    margin: 5px;
+    padding: 6px;
+    position: absolute;
+    text-align: center;
+    top: 45%;
+    width: auto;
+    z-index: 102;
+}

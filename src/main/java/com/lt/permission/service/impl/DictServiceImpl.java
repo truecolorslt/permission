@@ -97,4 +97,13 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 	public Dict getDictByDid(String did) {
 		return dictDao.selectByPrimaryKey(did);
 	}
+
+	@Override
+	public List<Dict> getDictsByPdid(DictQueryDto queryDto) {
+		List<Dict> dictList = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pdid", queryDto.getDid());
+		dictList = dictDao.getDictsByPdid(map);
+		return dictList;
+	}
 }
