@@ -62,4 +62,12 @@ public interface IDictService {
 	 * @return
 	 */
 	public List<Dict> getDictsByPdid(DictQueryDto queryDto);
+
+	/**
+	 * 新增数据字典属性
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public int addDictDetail(DictDto dto);
 }

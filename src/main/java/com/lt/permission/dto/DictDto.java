@@ -16,6 +16,42 @@ public class DictDto extends BaseDto {
 	private String dname;
 	private String dcode;
 	private String remark;
+	private String dkey;
+	private String dvalue;
+	private String dsort;
+	private String pdid;
+
+	public String getPdid() {
+		return pdid;
+	}
+
+	public void setPdid(String pdid) {
+		this.pdid = pdid;
+	}
+
+	public String getDkey() {
+		return dkey;
+	}
+
+	public void setDkey(String dkey) {
+		this.dkey = dkey;
+	}
+
+	public String getDvalue() {
+		return dvalue;
+	}
+
+	public void setDvalue(String dvalue) {
+		this.dvalue = dvalue;
+	}
+
+	public String getDsort() {
+		return dsort;
+	}
+
+	public void setDsort(String dsort) {
+		this.dsort = dsort;
+	}
 
 	public String getDcode() {
 		return dcode;

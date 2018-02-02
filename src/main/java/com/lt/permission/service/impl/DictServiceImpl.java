@@ -106,4 +106,26 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 		dictList = dictDao.getDictsByPdid(map);
 		return dictList;
 	}
+
+	@Override
+	public int addDictDetail(DictDto dto) {
+		int i = 0;
+		if (dto != null) {
+			// 封装Dict对象
+			Dict d = new Dict();
+			String did = UUID.randomUUID().toString().toLowerCase();
+			d.setDid(did);
+			d.setPdid(dto.getPdid());
+			d.setDname(dto.getDname());
+			d.setDkey(dto.getDkey());
+			d.setDvalue(dto.getDvalue());
+			d.setDsort(dto.getDsort() == null ? 0 : Integer.parseInt(dto
+					.getDsort()));
+			d.setRemark(dto.getRemark());
+			d.setCreator(dto.getOperatorName());
+			d.setModifier(dto.getOperatorName());
+			i = dictDao.insert(d);
+		}
+		return i;
+	}
 }

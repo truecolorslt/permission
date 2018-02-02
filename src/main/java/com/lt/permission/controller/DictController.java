@@ -226,4 +226,23 @@ public class DictController extends BaseController {
 		}
 		return dictsJson;
 	}
+
+	@RequestMapping(value = "/addDictDetail")
+	@ResponseBody
+	public String addDictDetail(@RequestBody DictDto dto) {
+		String rtnStr = "";
+		try {
+			int i = dictService.addDictDetail(dto);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
 }

@@ -1,3 +1,4 @@
+var pdid;
 $(document).ready(function() {
 	// 初始化表格
 	initDictsTable();
@@ -7,6 +8,32 @@ $(document).ready(function() {
 	validateNewDictForm();
 	// 初始化detail表格
 	initDictDetailTable();
+	// 刷新按钮
+	$("#btn_refresh").click(function() {
+		reloadDetailGrid();
+	});
+
+	// 新增按钮
+	$("#btn_add_detail").click(function() {
+		$("#detail_name_add").val("");
+		$("#detail_key_add").val("");
+		$("#detail_value_add").val("");
+		$("#detail_sort_add").val("");
+		$("#detail_remark_add").val("");
+		$(".mblack").html("");
+		$("#dictDetailAddModalLabel").text("新增数据字典属性");
+		$('#dictDetailAddModal').modal();
+	});
+
+	// 新增保存按钮
+	$("#btn_save_detail").click(function() {
+		// 初始化新增form校验规则
+		if (validateDictDetailForm().form()) {
+			// 验证成功
+			var l = Ladda.create(this);
+			addDictDetail(l);
+		}
+	});
 });
 
 // 上次选择row_id
@@ -115,7 +142,21 @@ function initDictsTable() {
 						// edit : true,
 						// addtext : 'Add',
 						// edittext : 'Edit',
-						hidegrid : false
+						hidegrid : false,
+						loadComplete : function() {
+
+							var re_records = $("#table_list").getGridParam(
+									'records');
+							if (re_records == 0 || re_records == null) {
+								if ($(".norecords").html() == null) {
+									$("#table_list")
+											.parent()
+											.append(
+													"<div class=\"norecords\">没有符合数据</div>");
+								}
+								$(".norecords").show();
+							}
+						}
 					});
 
 	// 自应高度
@@ -191,6 +232,7 @@ function initButton() {
  * 重新加载表格
  */
 function reloadGrid() {
+	$(".norecords").hide();
 	lastsel = 0;
 	jQuery("#table_list").jqGrid('setGridParam', {
 		datatype : 'json',
@@ -253,7 +295,7 @@ function deleteDict(did) {
  * 
  * @param did
  */
-var pdid;
+
 function detailDict(did, dname, dcode) {
 	pdid = did;
 	$("#dictDetailModalLabel").text("查看数据字典属性明细");
@@ -263,32 +305,6 @@ function detailDict(did, dname, dcode) {
 
 	// 初始化明细表格
 	reloadDetailGrid();
-
-	// 刷新按钮
-	$("#btn_refresh").click(function() {
-		reloadDetailGrid();
-	});
-
-	// 新增按钮
-	$("#btn_add_detail").click(function() {
-		$("#detail_name_add").val("");
-		$("#detail_key_add").val("");
-		$("#detail_value_add").val("");
-		$("#detail_remark_add").val("");
-		$(".mblack").html("");
-		$("#dictDetailAddModalLabel").text("新增数据字典属性");
-		$('#dictDetailAddModal').modal();
-	});
-
-	// 新增保存按钮
-	$("#btn_save_detail").click(function() {
-		// 初始化新增form校验规则
-		if (validateDictDetailForm().form()) {
-			// 验证成功
-			var l = Ladda.create(this);
-			// addDictDetail(l);
-		}
-	});
 
 }
 
@@ -618,12 +634,14 @@ function validateDictDetailForm() {
 				rules : {
 					detail_name_add : "required",
 					detail_key_add : "required",
-					detail_value_add : "required"
+					detail_value_add : "required",
+					detail_sort_add : "required"
 				},
 				messages : {
 					detail_name_add : "请输入属性名称！",
 					detail_key_add : "请输入属性键！",
-					detail_value_add : "请输入属性值！"
+					detail_value_add : "请输入属性值！",
+					detail_sort_add : "请输入属性顺序！"
 				},
 				// the errorPlacement has to take the table layout into account
 				errorPlacement : function(error, element) {
@@ -646,4 +664,47 @@ function validateDictDetailForm() {
 							.removeClass("checked");
 				}
 			});
+}
+
+/**
+ * 新增属性
+ */
+function addDictDetail(l) {
+	l.start();
+	var dname = $("#detail_name_add").val();
+	var dkey = $("#detail_key_add").val();
+	var dvalue = $("#detail_value_add").val();
+	var dsort = $("#detail_sort_add").val();
+	var remark = $("#detail_remark_add").val();
+	var data = {
+		"dname" : dname,
+		"dkey" : dkey,
+		"dvalue" : dvalue,
+		"remark" : remark,
+		"dsort" : dsort,
+		"pdid" : pdid
+	};
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		contentType : 'application/json;charset=utf-8',
+		url : "addDictDetail",// 请求的action路径
+		data : JSON.stringify(data),
+		error : function() {// 请求失败处理函数
+			swal('新增数据字典属性失败!', '', 'error');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			var result = data.result;
+			if (result) {
+				swal('新增数据字典属性成功!', '', 'success');
+				$('#dictDetailAddModal').modal('hide');
+				reloadDetailGrid();
+			} else {
+				swal('新增数据字典属性失败!', '', 'error');
+			}
+		},
+		complete : function() {
+			l.stop();
+		}
+	});
 }
