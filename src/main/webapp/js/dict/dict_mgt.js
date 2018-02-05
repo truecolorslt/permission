@@ -144,12 +144,12 @@ function initDictsTable() {
 										var deleteFunction = "deleteDict('"
 												+ rowObject.did + "')";
 
-										var actions = '<a href="#" onclick="'
+										var actions = '<a href="#" class="btn btn-info" onclick="'
 												+ detailFunction
 												+ '" title="查看属性明细">'
 												+ '<i class="fa fa-file-text-o" aria-hidden="true"></i></a>';
 										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
-										actions += '<a href="#" onclick="'
+										actions += '<a href="#" class="btn btn-danger" onclick="'
 												+ deleteFunction
 												+ '" title="删除数据字典">'
 												+ '<i class="fa fa-trash" aria-hidden="true"></i></a>';
@@ -549,7 +549,7 @@ function initDictDetailTable() {
 											rowObject) {
 										var deleteDictDetailFunction = "deleteDictDetail('"
 												+ rowObject.did + "')";
-										var actions = '<a href="#" onclick="'
+										var actions = '<a href="#"  class="btn btn-danger" onclick="'
 												+ deleteDictDetailFunction
 												+ '" title="删除属性">'
 												+ '<i class="fa fa-trash" aria-hidden="true"></i></a>';
