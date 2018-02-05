@@ -68,7 +68,20 @@ function initDictsTable() {
 									index : 'dname',
 									editable : true,
 									width : 85,
-									sortable : false
+									sortable : false,
+									editoptions : {
+										dataInit : function(element) {
+											$(element)
+													.keydown(
+															function(event) {
+																if (event.keyCode == 13) { // 回车
+																	updateDict();
+																} else if (event.keyCode == 27) { // esc
+																	// alert("27")
+																}
+															});
+										}
+									}
 								},
 								{
 									label : '数据字典编码',
@@ -83,7 +96,20 @@ function initDictsTable() {
 									index : 'remark',
 									editable : true,
 									width : 80,
-									sortable : false
+									sortable : false,
+									editoptions : {
+										dataInit : function(element) {
+											$(element)
+													.keydown(
+															function(event) {
+																if (event.keyCode == 13) { // 回车
+																	updateDict();
+																} else if (event.keyCode == 27) { // esc
+																	// alert("27")
+																}
+															});
+										}
+									}
 								},
 								{
 									label : '修改时间',
@@ -339,8 +365,8 @@ function dblClickRow(rowid, iRow, iCol, e) {
 function updateDict() {
 	// 原选中行ID
 	var oldSelectRowId = lastsel;
-	if (oldSelectRowId != null && oldSelectRowId != ""
-			&& oldSelectRowId.length > 0) {
+	if (oldSelectRowId != null && oldSelectRowId != "0") {
+		// && oldSelectRowId.length > 0) {
 		// 保存上一行
 		$("#table_list").jqGrid('saveRow', oldSelectRowId);
 		// 获取上一行数据
