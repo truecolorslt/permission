@@ -35,7 +35,7 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", queryDto.getPage());
 		map.put("pageSize", queryDto.getPageSize());
-		if (!StringUtils.isEmpty(queryDto.getDname())) {
+		if (!StringUtils.isEmpty(queryDto.getUsername())) {
 			map.put("username", "%" + queryDto.getUsername() + "%");
 		}
 		if (!StringUtils.isEmpty(queryDto.getRealName())) {

@@ -225,7 +225,7 @@
 	</update>
 
 	<sql id="findUsersCondition">
-		<if test="userName != null">
+		<if test="username != null">
 			and username like #{username}
 		</if>
 		<if test="realName != null">
