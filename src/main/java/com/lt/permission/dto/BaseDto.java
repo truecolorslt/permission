@@ -65,4 +65,13 @@ public class BaseDto implements Serializable {
 		this.operatorName = operatorName;
 	}
 
+	/**
+	 * 获取mysql分页所需参数
+	 * 
+	 * @return
+	 */
+	public Integer getPage() {
+		return (this.getCurrentPage() - 1) * this.getPageSize();
+	}
+
 }

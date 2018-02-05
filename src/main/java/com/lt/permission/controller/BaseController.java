@@ -26,4 +26,18 @@ public class BaseController {
 			return null;
 		}
 	}
+
+	/**
+	 * 代表页码总数
+	 * 
+	 * @param count总记录数
+	 * @param rows每页显示行数
+	 * @return
+	 */
+	public Integer getTotal(Integer count, String rows) {
+		Integer total = 0;
+		total = count % Integer.parseInt(rows) == 0 ? count
+				/ Integer.parseInt(rows) : 1 + count / Integer.parseInt(rows);
+		return total;
+	}
 }

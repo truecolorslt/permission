@@ -64,7 +64,7 @@ public class DictController extends BaseController {
 			DictVo dictVo = dictService.findDictsByPage(queryDto);
 			if (dictVo != null) {
 				List<Dict> dictList = (List<Dict>) dictVo.getResultList();
-				Integer dictCount = dictVo.getTotalCount();
+				Integer count = dictVo.getTotalCount();
 
 				List<Map<String, Object>> mapList = null;
 				if (dictList != null && dictList.size() > 0) {
@@ -84,14 +84,11 @@ public class DictController extends BaseController {
 
 					jo.put("rows", this.toJSONArray(mapList));
 					// json中代表页码总数
-					jo.put("total",
-							dictCount % Integer.parseInt(rows) == 0 ? dictCount
-									/ Integer.parseInt(rows) : 1 + dictCount
-									/ Integer.parseInt(rows));
+					jo.put("total", this.getTotal(count, rows));
 					// json中代表当前页码
 					jo.put("page", page);
 					// json中代表数据行总数
-					jo.put("records", dictCount);
+					jo.put("records", count);
 				} else {
 					jo.put("total", "0");
 					jo.put("page", "1");

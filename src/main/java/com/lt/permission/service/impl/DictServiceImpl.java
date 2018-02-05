@@ -34,7 +34,7 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page",
-				(queryDto.getCurrentPage() - 1) * queryDto.getPageSize());
+				queryDto.getPage());
 		map.put("pageSize", queryDto.getPageSize());
 		if (!StringUtils.isEmpty(queryDto.getDcode())) {
 			map.put("dcode", queryDto.getDcode());

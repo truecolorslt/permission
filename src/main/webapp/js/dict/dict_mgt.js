@@ -1,7 +1,7 @@
 var pdid;
 $(document).ready(function() {
 	// 初始化表格
-	initDictsTable();
+	initTable();
 	// 初始化按钮
 	initButton();
 	// 初始化数据字典验证规则
@@ -13,27 +13,6 @@ $(document).ready(function() {
 		reloadDetailGrid();
 	});
 
-	// 新增按钮
-	$("#btn_add_detail").click(function() {
-		$("#detail_name_add").val("");
-		$("#detail_key_add").val("");
-		$("#detail_value_add").val("");
-		$("#detail_sort_add").val("");
-		$("#detail_remark_add").val("");
-		$(".mblack").html("");
-		$("#dictDetailAddModalLabel").text("新增数据字典属性");
-		$('#dictDetailAddModal').modal();
-	});
-
-	// 新增保存按钮
-	$("#btn_save_detail").click(function() {
-		// 初始化新增form校验规则
-		if (validateDictDetailForm().form()) {
-			// 验证成功
-			var l = Ladda.create(this);
-			addDictDetail(l);
-		}
-	});
 });
 
 // 上次选择row_id
@@ -42,7 +21,7 @@ var lastsel = 0;
 /**
  * 初始化表格
  */
-function initDictsTable() {
+function initTable() {
 	$.jgrid.defaults.styleUI = 'Bootstrap';
 	$("#table_list")
 			.jqGrid(
@@ -250,6 +229,28 @@ function initButton() {
 			// 验证成功
 			var l = Ladda.create(this);
 			addDict(l);
+		}
+	});
+
+	// 新增属性按钮
+	$("#btn_add_detail").click(function() {
+		$("#detail_name_add").val("");
+		$("#detail_key_add").val("");
+		$("#detail_value_add").val("");
+		$("#detail_sort_add").val("");
+		$("#detail_remark_add").val("");
+		$(".mblack").html("");
+		$("#dictDetailAddModalLabel").text("新增数据字典属性");
+		$('#dictDetailAddModal').modal();
+	});
+
+	// 新增属性保存按钮
+	$("#btn_save_detail").click(function() {
+		// 初始化新增form校验规则
+		if (validateDictDetailForm().form()) {
+			// 验证成功
+			var l = Ladda.create(this);
+			addDictDetail(l);
 		}
 	});
 }
