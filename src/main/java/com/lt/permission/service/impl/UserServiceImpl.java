@@ -17,6 +17,7 @@ import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IUserService;
+import com.lt.permission.util.MD5Util;
 import com.lt.permission.vo.UserVo;
 
 @Service("userService")
@@ -62,7 +63,7 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 			u.setUid(uid);
 			u.setDid(dto.getDid());
 			u.setUsername(dto.getUsername());
-			u.setPassword(dto.getPassword());
+			u.setPassword(MD5Util.getMD5(dto.getPassword()));
 			u.setRealName(dto.getRealName());
 			u.setRemark(dto.getRemark());
 			u.setNickName(dto.getNickName());
