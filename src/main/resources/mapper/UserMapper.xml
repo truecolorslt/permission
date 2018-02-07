@@ -256,4 +256,23 @@
 		where is_delete=0
 		<include refid="findUsersCondition"></include>
 	</select>
+
+	<select id="getUserByUsername" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where is_delete=0
+		and username=#{username}
+	</select>
+
+	<select id="getUserByUsernameAndPwd" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where is_delete=0
+		and username=#{username}
+		and
+		password=#{password}
+	</select>
 </mapper>

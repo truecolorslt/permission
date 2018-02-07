@@ -3,7 +3,6 @@ package com.lt.permission.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.lt.permission.model.Dict;
 import com.lt.permission.model.User;
 
 public interface UserDao {
@@ -22,4 +21,8 @@ public interface UserDao {
 	public List<User> findUsersByPage(Map<String, Object> map);
 
 	public int findUsersCount(Map<String, Object> map);
+
+	public User getUserByUsername(String username);
+
+	public User getUserByUsernameAndPwd(Map<String, String> map);
 }

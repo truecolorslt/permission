@@ -26,7 +26,7 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
-	<!-- 字符编码过滤器 -->
+	<!-- post字符编码过滤器 start -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -43,6 +43,7 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!-- post字符编码过滤器 end -->
 
 	<!-- 连接池 启用 Web 监控统计功能 start -->
 	<!-- 访问监控页面： http://ip:port/projectName/druid/index.html -->
@@ -67,8 +68,8 @@
 		<url-pattern> / druid /* </url-pattern>
 	</servlet-mapping>
 	<!-- 连接池 启用 Web 监控统计功能 end -->
-	
-	<!-- springMVC分发处理器  start-->
+
+	<!-- springMVC分发处理器 start -->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -82,5 +83,24 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<!-- springMVC分发处理器  end-->
+	<!-- springMVC分发处理器 end -->
+
+	<!-- shiro的filter start -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>targetBeanName</param-name>
+			<param-value>shiroFilter</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- shiro的filter end -->
 </web-app>

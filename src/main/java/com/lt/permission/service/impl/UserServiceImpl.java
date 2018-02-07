@@ -3,6 +3,7 @@ package com.lt.permission.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dao.UserDao;
+import com.lt.permission.dto.LoginDto;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.User;
@@ -75,4 +78,40 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 		return i;
 	}
 
+	@Override
+	public JSONObject checkLogin(LoginDto dto) {
+		JSONObject json = new JSONObject();
+		// 判断用户名是否存在
+		User userExist = userDao.getUserByUsername(dto.getUsername());
+		if (userExist == null) {
+			json.put("msg", "该用户帐号不存在！");
+			json.put("result", false);
+		} else {
+			// 判断用户帐号密码是否有效
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("username", dto.getUsername());
+			map.put("password", dto.getPassword());
+			User userValid = userDao.getUserByUsernameAndPwd(map);
+			if (userValid == null) {
+				json.put("msg", "该用户帐号/密码错误！");
+				json.put("result", false);
+			} else {
+				json.put("result", true);
+			}
+		}
+		return json;
+	}
+
+
+	@Override
+	public User getUserByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<String> getRolesByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
