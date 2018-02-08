@@ -1,8 +1,17 @@
 ﻿<%@ page language="java" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
+<%@include file="/common/constants.jsp"%>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <head>
-<%@include file="/common/include.jsp"%>
+<link rel="stylesheet"
+	href="<%=path%>/static/js/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=path%>/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="<%=path%>/static/css/index.css">
+<link rel="stylesheet" href="<%=path%>/static/css/skins/_all-skins.css">
+<!-- 动画css -->
+<link rel="stylesheet" href="<%=path%>/static/css/animate.css">
 <title>管理系统</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini"
@@ -51,7 +60,7 @@
 								<li><a href="javascript:void();"><i
 										class="fa fa-paint-brush"></i>皮肤设置</a></li>
 								<li class="divider"></li>
-								<li><a href="~/Login/OutLogin"><i
+								<li><a href="#" id="logout"><i
 										class="ace-icon fa fa-power-off"></i>安全退出</a></li>
 							</ul>
 						</li>
@@ -129,6 +138,11 @@
 </body>
 </html>
 
-<script src="<%=path%>/static/js/jquery/jQuery-2.2.0.min.js"></script>
-<script src="<%=path%>/static/js/bootstrap/js/bootstrap.min.js"></script>
-<script src="<%=path%>/static/js/main.js"></script>
+<script type="text/javascript"
+	src="<%=path%>/static/js/jquery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript"
+	src="<%=path%>/static/js/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/main.js"></script>
+<!-- 操作弹框提醒 -->
+<script type="text/javascript"
+	src="<%=path%>/static/js/bootstrap/bootstrap-notify/bootstrap-notify.min.js"></script>

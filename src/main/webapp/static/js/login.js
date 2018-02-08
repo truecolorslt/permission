@@ -90,7 +90,7 @@ function initButton() {
 							// settings
 							type : "success",
 							placement : {
-								from : "bottom",
+								from : "top",
 								align : "right"
 							}
 						});

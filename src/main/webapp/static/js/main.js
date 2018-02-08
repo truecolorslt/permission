@@ -578,5 +578,24 @@
 		$.learunindex.loadMenu();
 		// 初始化tab页签
 		$.learuntab.init();
+
+		// 登出
+		$("#logout").click(function() {
+			$.notify({
+				// options
+				icon : "glyphicon glyphicon-ok",
+				message : "退出成功",
+			}, {
+				// settings
+				type : "success",
+				placement : {
+					from : "top",
+					align : "right"
+				}
+			});
+			setTimeout(function() {
+				window.location.href = 'logout';
+			}, 1000);
+		});
 	});
 })(jQuery);

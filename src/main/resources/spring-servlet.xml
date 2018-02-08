@@ -62,4 +62,6 @@
 			</list>
 		</property>
 	</bean>
+	<bean name="springContextUtil" class="com.lt.permission.util.SpringContextUtil"
+		scope="singleton"></bean>
 </beans>
