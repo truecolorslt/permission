@@ -1,25 +1,8 @@
+<%@ page language="java" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-
-<link rel="stylesheet"
-	href="../static/js/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../static/css/font-awesome.min.css" />
-<link rel="stylesheet" href="../static/css/animate.css">
-
-<link rel="stylesheet" href="../static/css/bootstrapStyle/bootstrapStyle.css">
-<link rel="stylesheet" href="../static/css/index.css">
-
-<!-- 防止按钮重复提交ladda -->
-<link rel="stylesheet"
-	href="../static/css/plugins/ladda/ladda-themeless.min.css" />
-<!-- 弹框sweetalert -->
-<link rel="stylesheet"
-	href="../static/css/plugins/sweetalert/sweetalert2.min.css" />
-
+<%@include file="/common/include.jsp"%>
 <title>功能菜单管理</title>
 </head>
 <body style="background-color: transparent">
@@ -216,22 +199,11 @@
 	</div>
 </body>
 </html>
-<!-- 全局js -->
-<script src="../static/js/jquery/jquery-3.2.1.min.js"></script>
-<script src="../static/js/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- js插件 -->
 <!-- 树形菜单ztree -->
-<script src="../static/js/plugins/ztree/jquery.ztree.core.js"></script>
-<script src="../static/js/plugins/ztree/jquery.ztree.excheck.js"></script>
-<script src="../static/js/plugins/ztree/jquery.ztree.exedit.js"></script>
-<!-- 防止按钮重复提交ladda -->
-<script src="../static/js/plugins/ladda/spin.min.js"></script>
-<script src="../static/js/plugins/ladda/ladda.min.js"></script>
-<!-- 表单验证validate -->
-<script src="../static/js/plugins/validate/jquery.validate.min.js"></script>
-<script src="../static/js/plugins/validate/messages_zh.min.js"></script>
-<!-- 弹框sweetalert -->
-<script src="../static/js/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="<%=path%>/static/js/plugins/ztree/jquery.ztree.core.js"></script>
+<script src="<%=path%>/static/js/plugins/ztree/jquery.ztree.excheck.js"></script>
+<script src="<%=path%>/static/js/plugins/ztree/jquery.ztree.exedit.js"></script>
 
 <!-- 自定义js -->
-<script src="../static/js/function/function_mgt.js"></script>
+<script src="<%=path%>/static/js/function/function_mgt.js"></script>

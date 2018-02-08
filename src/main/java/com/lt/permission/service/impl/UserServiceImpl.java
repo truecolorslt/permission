@@ -79,34 +79,17 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	}
 
 	@Override
-	public JSONObject checkLogin(LoginDto dto) {
-		JSONObject json = new JSONObject();
-		// 判断用户名是否存在
-		User userExist = userDao.getUserByUsername(dto.getUsername());
-		if (userExist == null) {
-			json.put("msg", "该用户帐号不存在！");
-			json.put("result", false);
-		} else {
-			// 判断用户帐号密码是否有效
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("username", dto.getUsername());
-			map.put("password", dto.getPassword());
-			User userValid = userDao.getUserByUsernameAndPwd(map);
-			if (userValid == null) {
-				json.put("msg", "该用户帐号/密码错误！");
-				json.put("result", false);
-			} else {
-				json.put("result", true);
-			}
-		}
-		return json;
+	public User getUserByUsernameAndPwd(String username, String password) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("username", username);
+		map.put("password", password);
+		User user = userDao.getUserByUsernameAndPwd(map);
+		return user;
 	}
-
 
 	@Override
 	public User getUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUserByUsername(username);
 	}
 
 	@Override

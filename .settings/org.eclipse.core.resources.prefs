@@ -1,5 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/lt/permission/dto/BaseDto.java=UTF-8
 encoding//src/main/java/com/lt/permission/vo/BaseVo.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/dict/dict_mgt.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/function/function_mgt.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/role/role_mgt.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/user/user_mgt.jsp=UTF-8
 encoding//src/main/webapp/css/style.css=UTF-8
+encoding//src/main/webapp/login.jsp=UTF-8
 encoding/<project>=UTF-8

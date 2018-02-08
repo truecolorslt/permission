@@ -8,6 +8,8 @@
 
 	<!-- 自定义域realm -->
 	<bean id="shiroRealm" class="com.lt.permission.shiro.ShiroRealm"></bean>
+	<!-- 配置缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
 	<!-- 安全管理器 ref对象 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroRealm" />
@@ -18,7 +20,7 @@
 		<!-- 安全管理器必须的 -->
 		<property name="securityManager" ref="securityManager" />
 		<!-- 身份认证失败 认证提交的地址(登陆页面) -->
-		<property name="loginUrl" value="/login.html" />
+		<property name="loginUrl" value="/login.jsp" />
 		<!-- 权限认证失败 没有权限认证提交的地址 -->
 		<property name="unauthorizedUrl" value="/unauthorized.jsp" />
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
@@ -26,19 +28,16 @@
 		<property name="filterChainDefinitions">
 			<value>
 				<!-- 对静态资源设置匿名访问 -->
-				/login = anon
+				/login.jsp = anon
 				<!-- /** = authc 所有url都必须认证通过才可以访问 -->
 				/main = authc
 			</value>
 		</property>
 	</bean>
 	<!-- Shiro生命周期处理器 -->
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	<bean
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
-	<!-- 配置缓存管理器 -->
-	<!-- 缓存管理 -->
-	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
 </beans>

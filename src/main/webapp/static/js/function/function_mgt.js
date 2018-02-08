@@ -294,7 +294,7 @@ function deleteFunction(treeId, treeNode) {
 						swal(
 					      '删除菜单失败!',
 					      '',
-					      'success'
+					      'error'
 					    );
 					},
 					success : function(data) { // 请求成功后处理函数。
@@ -303,7 +303,7 @@ function deleteFunction(treeId, treeNode) {
 							swal(
 						      '删除菜单成功!',
 						      '',
-						      'error'
+						      'success'
 						    );
 							initFunctionTrees();
 						} else {

@@ -1,13 +1,9 @@
-﻿<!DOCTYPE html>
+﻿<%@ page language="java" pageEncoding="utf-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<%@include file="/common/include.jsp"%>
 <title>管理系统</title>
-<link rel="stylesheet" href="static/js/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="static/css/font-awesome.min.css">
-<link rel="stylesheet" href="static/css/index.css">
-<link rel="stylesheet" href="static/css/skins/_all-skins.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini"
 	style="overflow:hidden;">
@@ -29,15 +25,18 @@
 						<li class="dropdown messages-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
 								class="fa fa-envelope-o "></i> <span class="label label-success">4</span>
-						</a></li>
+						</a>
+						</li>
 						<li class="dropdown notifications-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
 								class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
-						</a></li>
+						</a>
+						</li>
 						<li class="dropdown tasks-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
 								class="fa fa-flag-o"></i> <span class="label label-danger">9</span>
-						</a></li>
+						</a>
+						</li>
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="static/img/user2-160x160.jpg" class="user-image"
@@ -48,16 +47,14 @@
 									href="/SystemManage/User/Info"><i class="fa fa-user"></i>个人信息</a>
 								</li>
 								<li><a href="javascript:void();"><i
-										class="fa fa-trash-o"></i>清空缓存</a>
-								</li>
+										class="fa fa-trash-o"></i>清空缓存</a></li>
 								<li><a href="javascript:void();"><i
-										class="fa fa-paint-brush"></i>皮肤设置</a>
-								</li>
+										class="fa fa-paint-brush"></i>皮肤设置</a></li>
 								<li class="divider"></li>
 								<li><a href="~/Login/OutLogin"><i
-										class="ace-icon fa fa-power-off"></i>安全退出</a>
-								</li>
-							</ul></li>
+										class="ace-icon fa fa-power-off"></i>安全退出</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</nav>
@@ -107,8 +104,7 @@
 						页签操作<i class="fa fa-caret-down" style="padding-left: 3px;"></i>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a class="tabReload" href="javascript:void();">刷新当前</a>
-						</li>
+						<li><a class="tabReload" href="javascript:void();">刷新当前</a></li>
 						<li><a class="tabCloseCurrent" href="javascript:void();">关闭当前</a>
 						</li>
 						<li><a class="tabCloseAll" href="javascript:void();">全部关闭</a>
@@ -130,8 +126,9 @@
 			</div>
 		</div>
 	</div>
-	<script src="static/js/jquery/jQuery-2.2.0.min.js"></script>
-	<script src="static/js/bootstrap/js/bootstrap.min.js"></script>
-	<script src="static/js/main.js"></script>
 </body>
 </html>
+
+<script src="<%=path%>/static/js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="<%=path%>/static/js/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=path%>/static/js/main.js"></script>

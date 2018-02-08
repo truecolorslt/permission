@@ -33,7 +33,7 @@ public interface IUserService {
 	 * @param dto
 	 * @return
 	 */
-	public JSONObject checkLogin(LoginDto dto);
+	public User getUserByUsernameAndPwd(String username, String password);
 
 	/**
 	 * 根据用户帐号获取角色
