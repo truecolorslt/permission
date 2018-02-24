@@ -45,7 +45,7 @@ function initTable() {
 									name : 'sex',
 									index : 'sex',
 									editable : false,
-									width : 80
+									width : 50
 								},
 								{
 									label : '部门',
@@ -73,7 +73,7 @@ function initTable() {
 									label : '操作',
 									name : 'operate',
 									index : 'operate',
-									width : 100,
+									width : 150,
 									fixed : true,
 									sortable : false,
 									resize : false,
@@ -91,7 +91,12 @@ function initTable() {
 										// 调用删除方法
 										var deleteFunction = "deleteUser('"
 												+ rowObject.uid + "')";
-										var actions = '<a href="#" class="btn btn-info" onclick="'
+										var actions = '<a href="#" class="btn btn-success" onclick="'
+												+ deleteFunction
+												+ '" title="重置密码">'
+												+ '<i class="fa fa-key" aria-hidden="true"></i></a>';
+										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
+										actions += '<a href="#" class="btn btn-info" onclick="'
 												+ detailFunction
 												+ '" title="编辑用户">'
 												+ '<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
