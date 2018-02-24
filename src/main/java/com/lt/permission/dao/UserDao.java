@@ -25,4 +25,6 @@ public interface UserDao {
 	public User getUserByUsername(String username);
 
 	public User getUserByUsernameAndPwd(Map<String, String> map);
+
+	public int logicDeleteUser(String uid);
 }

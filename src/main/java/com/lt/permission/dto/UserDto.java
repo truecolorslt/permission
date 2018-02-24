@@ -7,13 +7,31 @@ public class UserDto extends BaseDto {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String uid;
 	private String username;
 	private String password;
 	private String realName;
 	private String did;
+	private String dname;
 	private String remark;
 	private String nickName;
 	private String sex;
+
+	public String getDname() {
+		return dname;
+	}
+
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public String getSex() {
 		return sex;

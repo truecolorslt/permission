@@ -45,6 +45,16 @@ public class UserController extends BaseController {
 		return "/user/user_mgt";
 	}
 
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param username
+	 * @param realName
+	 * @param did
+	 * @return
+	 */
 	@RequestMapping(value = "/findUsers")
 	@ResponseBody
 	public String findUsers(
@@ -104,6 +114,12 @@ public class UserController extends BaseController {
 		return jsonStr;
 	}
 
+	/**
+	 * 新增用户
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@RequestMapping(value = "/addUser")
 	@ResponseBody
 	public String addUser(@RequestBody UserDto dto) {
@@ -111,6 +127,59 @@ public class UserController extends BaseController {
 		try {
 			int i = userService.addUser(dto);
 			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * 逻辑删除用户
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteUser")
+	@ResponseBody
+	public String deleteUser(
+			@RequestParam(value = "uid", required = true) String uid) {
+		String rtnStr = "";
+		try {
+			int i = userService.deleteUser(uid);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	@RequestMapping(value = "/updateUser")
+	@ResponseBody
+	public String updateUser(@RequestBody UserDto dto) {
+		String rtnStr = "";
+		try {
+			JSONObject jo = new JSONObject();
+			// UserDto dto = new UserDto();
+			// dto.setUid(uid);
+			// dto.setRealName(realName);
+			// dto.setDname(dname);
+			// dto.setDid(did);
+			// dto.setNickName(nickName);
+			// dto.setSex(sex);
+			// dto.setRemark(remark);
+			int i = userService.updateUser(dto);
 			if (i > 0) {
 				jo.put("result", true);
 			} else {

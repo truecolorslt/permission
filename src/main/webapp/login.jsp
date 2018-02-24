@@ -21,7 +21,7 @@
 						<form id="loginForm" method="post" class="form-signin">
 							<div class="form-group">
 								<label>用户账号</label> <input type="text" class="form-control"
-									name="username" id="username" placeholder="用户账号" />
+									name="username" id="username" placeholder="用户账号" autofocus/>
 								<!-- required autofocus -->
 							</div>
 							<div class="form-group">

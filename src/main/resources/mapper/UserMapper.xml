@@ -275,4 +275,14 @@
 		and
 		password=#{password}
 	</select>
+	
+	
+	<update id="logicDeleteUser">
+		update t_user
+		set
+		is_delete = 1,
+		modified_time=now()
+		where uid =
+		#{uid,jdbcType=VARCHAR}
+	</update>
 </mapper>

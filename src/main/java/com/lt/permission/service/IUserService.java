@@ -2,8 +2,6 @@ package com.lt.permission.service;
 
 import java.util.Set;
 
-import com.alibaba.fastjson.JSONObject;
-import com.lt.permission.dto.LoginDto;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.User;
@@ -49,4 +47,20 @@ public interface IUserService {
 	 * @return
 	 */
 	public User getUserByUsername(String username);
+
+	/**
+	 * 逻辑删除用户
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public int deleteUser(String uid);
+
+	/**
+	 * 编辑用户
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public int updateUser(UserDto dto);
 }

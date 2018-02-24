@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dao.UserDao;
-import com.lt.permission.dto.LoginDto;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.User;
@@ -96,5 +94,29 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	public Set<String> getRolesByUsername(String username) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int deleteUser(String uid) {
+		return userDao.logicDeleteUser(uid);
+	}
+
+	@Override
+	public int updateUser(UserDto dto) {
+		int i = 0;
+		if (dto != null) {
+			// 封装user对象
+			User u = new User();
+			u.setUid(dto.getUid());
+			u.setRealName(dto.getRealName());
+			u.setDname(dto.getDname());
+			u.setDid(dto.getDid());
+			u.setNickName(dto.getNickName());
+			u.setSex(dto.getSex());
+			u.setRemark(dto.getRemark());
+			u.setModifier(dto.getOperatorName());
+			i = userDao.updateByPrimaryKeySelective(u);
+		}
+		return i;
 	}
 }

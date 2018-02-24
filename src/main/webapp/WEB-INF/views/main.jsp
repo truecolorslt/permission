@@ -102,7 +102,7 @@
 				<nav class="page-tabs menuTabs">
 					<div class="page-tabs-content" style="margin-left: 0px;">
 						<a href="javascript:;" class="menuTab active"
-							data-id="/Home/Default">欢迎首页</a>
+							data-id="welcome">欢迎首页</a>
 					</div>
 				</nav>
 				<button class="roll-nav roll-right tabRight">

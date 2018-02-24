@@ -1,5 +1,6 @@
 $(document).ready(function() {
-	Ladda.bind('input[type=button]');
+	$("#username").val("lantian")
+	$("#password").val("lantian")
 	// 初始化登录验证规则
 	initValidateForm();
 

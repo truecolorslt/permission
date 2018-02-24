@@ -100,4 +100,14 @@ public class LoginController extends BaseController {
 		return "/welcome";
 	}
 
+	/**
+	 * 进入登录画面
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "/login.jsp";
+	}
+
 }
