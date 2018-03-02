@@ -19,6 +19,7 @@ import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IUserService;
+import com.lt.permission.util.MD5Util;
 import com.lt.permission.vo.UserVo;
 
 /**
@@ -190,5 +191,38 @@ public class UserController extends BaseController {
 			e.printStackTrace();
 		}
 		return rtnStr;
+	}
+
+	/**
+	 * 重置密码
+	 * 
+	 * @param uid
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value = "/resetPwd")
+	@ResponseBody
+	public String resetPwd(
+			@RequestParam(value = "uid", required = true) String uid,
+			@RequestParam(value = "password", required = true) String password) {
+		String rtnStr = "";
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		JSONObject jo = new JSONObject();
+		UserDto dto = new UserDto();
+		dto.setUid(uid);
+		dto.setPassword(MD5Util.getMD5(password));
+		int i = userService.updateUser(dto);
+		if (i > 0) {
+			jo.put("result", true);
+		} else {
+			jo.put("result", false);
+		}
+		rtnStr = jo.toString();
+		return rtnStr;
+
 	}
 }

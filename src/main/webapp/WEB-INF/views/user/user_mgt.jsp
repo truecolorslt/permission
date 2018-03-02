@@ -242,6 +242,65 @@
 		</div>
 	</div>
 
+	<!-- 重置密码div -->
+	<div class="modal fade" id="pwdUpdateModal" tabindex="-1" role="dialog"
+		aria-labelledby="pwdUpdateModalLabel">
+		<div class="modal-dialog" role="document" style="width: 60%;height: 60%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="pwdUpdateModalLabel">重置密码</h4>
+				</div>
+				<div class="modal-body">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<form class="form-horizontal m-t" id="updatePwdForm">
+								<input type="hidden" name="uid_pwd" id="uid_pwd">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">用户姓名：</label>
+									<div class="col-sm-2">
+										<p class="form-control-static text-muted">
+											<font size="2"><strong><span
+													id="realName_pwd"></span> </strong> </font>
+										</p>
+									</div>
+									<label class="col-sm-3 control-label">用户账号：</label>
+									<div class="col-sm-3">
+										<p class="form-control-static text-muted">
+											<font size="2"><strong><span
+													id="username_pwd"></span> </strong> </font>
+										</p>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span
+										class="text-danger">*</span>新密码：</label>
+									<div class="col-sm-6">
+										<input id="password_pwd" name="password_pwd" type="text"
+											class="form-control" placeholder="新密码（必填项）">
+									</div>
+									<div class="col-sm-2 mblack"></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="btn_pwd_update" class="btn btn-primary ladda-button"
+						data-style="zoom-in">
+						<span class="glyphicon glyphicon-floppy-disk ladda-label">保存</span>
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 <!-- js插件 -->

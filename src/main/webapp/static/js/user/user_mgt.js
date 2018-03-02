@@ -3,8 +3,8 @@ $(document).ready(function() {
 	initTable();
 	// 初始化按钮
 	initButton();
-	// 初始化用户验证规则
-	validateUserForm();
+	// 初始化验证规则
+	initValidateRule();
 });
 
 /**
@@ -79,6 +79,7 @@ function initTable() {
 									resize : false,
 									formatter : function(cellvalue, options,
 											rowObject) {
+										//编辑用户
 										var detailFunction = "viewUser('"
 												+ rowObject.uid + "','"
 												+ rowObject.username + "','"
@@ -91,8 +92,13 @@ function initTable() {
 										// 调用删除方法
 										var deleteFunction = "deleteUser('"
 												+ rowObject.uid + "')";
+										// 重置密码
+										var resetFunction = "resetPwdView('"
+												+ rowObject.uid + "','"
+												+ rowObject.username + "','"
+												+ rowObject.realName + "')";
 										var actions = '<a href="#" class="btn btn-success" onclick="'
-												+ deleteFunction
+												+ resetFunction
 												+ '" title="重置密码">'
 												+ '<i class="fa fa-key" aria-hidden="true"></i></a>';
 										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -208,6 +214,17 @@ function initButton() {
 			updateUser(l);
 		}
 	});
+	
+	//重置密码按钮
+	$("#btn_pwd_update").click(function() {
+		// 初始化新增form校验规则
+		if ($("#updatePwdForm").validate().form()) {
+			// 验证成功
+			var l = Ladda.create(this);
+			resetPwd(l);
+		}
+	});
+	
 }
 
 /**
@@ -243,6 +260,78 @@ function validateUserForm() {
 					password_add : "请输入密码",
 					realName_add : "请输入姓名",
 					did_add : "请选择部门"
+				},
+				// the errorPlacement has to take the table layout into account
+				errorPlacement : function(error, element) {
+					if (element.is(":radio")) {
+						error.appendTo(element.parent().next());
+					} else if (element.is(":checkbox")) {
+						error.appendTo(element.next());
+					} else {
+						error.appendTo(element.parent().next());
+					}
+				},
+				// set this class to error-labels to indicate valid fields
+				success : function(label) {
+					// set &nbsp; as text for IE
+					label.html("&nbsp;").addClass("checked");
+					// label.addClass("valid").text("Ok!")
+				},
+				highlight : function(element, errorClass) {
+					$(element).parent().next().find("." + errorClass)
+							.removeClass("checked");
+				}
+			});
+}
+
+/**
+ * 校验新增用户的form规则
+ */
+function validateUpdateUserForm() {
+	$("#updateUserForm").validate(
+			{
+				rules : {
+					realName_update : "required",
+					did_update : "required"
+				},
+				messages : {
+					realName_update : "请输入姓名",
+					did_update : "请选择部门"
+				},
+				// the errorPlacement has to take the table layout into account
+				errorPlacement : function(error, element) {
+					if (element.is(":radio")) {
+						error.appendTo(element.parent().next());
+					} else if (element.is(":checkbox")) {
+						error.appendTo(element.next());
+					} else {
+						error.appendTo(element.parent().next());
+					}
+				},
+				// set this class to error-labels to indicate valid fields
+				success : function(label) {
+					// set &nbsp; as text for IE
+					label.html("&nbsp;").addClass("checked");
+					// label.addClass("valid").text("Ok!")
+				},
+				highlight : function(element, errorClass) {
+					$(element).parent().next().find("." + errorClass)
+							.removeClass("checked");
+				}
+			});
+}
+
+/**
+ * 校验新增用户的form规则
+ */
+function validateUpdatePwdForm() {
+	$("#updatePwdForm").validate(
+			{
+				rules : {
+					password_pwd : "required"
+				},
+				messages : {
+					password_pwd : "请输入新密码"
 				},
 				// the errorPlacement has to take the table layout into account
 				errorPlacement : function(error, element) {
@@ -374,6 +463,23 @@ function viewUser(uid, username, realName, dname, did, nickName, sex, remark) {
 	$("#nickName_update").val(nickName);
 	$("#sex_update").val(sex);
 	$("#remark_update").val(remark);
+	$(".mblack").html("");
+}
+
+/**
+ * 重置密码
+ * @param uid
+ * @param username
+ */
+function resetPwdView(uid,username,realName) {
+	$("#pwdUpdateModalLabel").text("重置密码");
+	$("#pwdUpdateModal").modal();
+
+	$("#realName_pwd").html(realName);
+	$("#username_pwd").html(username);
+	$("#uid_pwd").val(uid);
+	$("#password_pwd").val("");
+	$(".mblack").html("");
 }
 
 /**
@@ -382,6 +488,7 @@ function viewUser(uid, username, realName, dname, did, nickName, sex, remark) {
  * @param uid
  */
 function updateUser(l) {
+	l.start();
 	var uid = $("#uid_update").val();
 	var realName = $("#realName_update").val();
 	var dname = $("#dname_update").val();
@@ -399,7 +506,6 @@ function updateUser(l) {
 		remark : remark
 	};
 
-	// 异步保存打分和得分
 	$.ajax({
 		type : "post",
 		dataType : "json",
@@ -423,5 +529,50 @@ function updateUser(l) {
 			l.stop();
 		}
 	});
+}
 
+/**
+ * 重置密码
+ * 
+ * @param uid
+ */
+function resetPwd(l) {
+	l.start();
+	var uid = $("#uid_pwd").val();
+	var password = $("#password_pwd").val();
+	var param = {
+		uid : uid,
+		password : password
+	};
+
+	$.ajax({
+		type : "post",
+		dataType : "json",
+		url : "resetPwd",
+		data : param,
+		success : function(data) { // 请求成功后处理函数。
+			var result = data.result;
+			if (result) {
+				swal('重置密码成功!', '', 'success');
+				$('#pwdUpdateModal').modal('hide');
+			} else {
+				swal('重置密码失败!', '', 'error');
+			}
+		},
+		error : function() {
+			swal('重置密码失败!', '', 'error');
+		},
+		complete : function() {
+			l.stop();
+		}
+	});
+}
+
+/**
+ * 初始化验证规则
+ */
+function initValidateRule() {
+	validateUserForm();
+	validateUpdateUserForm();
+	validateUpdatePwdForm();
 }
