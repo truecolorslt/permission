@@ -206,6 +206,12 @@ function addHoverDom(treeId, treeNode) {
 			$('#functionModal').modal();
 			$("#pFunctionName_add").html(treeNode.name);
 			$("#pfid_add").val(treeNode.id);
+			$("#fname_add").val("");
+			$("#fcode_add").val("");
+			$("#furl_add").val("");
+			$("#fsort_add").val("");
+			$("#ficon_add").val("");
+			$(".mblack").html("");
 			return false;
 		});
 }

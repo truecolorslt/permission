@@ -8,10 +8,6 @@ $(document).ready(function() {
 	validateNewDictForm();
 	// 初始化detail表格
 	initDictDetailTable();
-	// 刷新按钮
-	$("#btn_refresh").click(function() {
-		reloadDetailGrid();
-	});
 
 });
 
@@ -235,8 +231,8 @@ function initButton() {
 	// 新增属性按钮
 	$("#btn_add_detail").click(function() {
 		$("#detail_name_add").val("");
-		$("#detail_key_add").val("");
-		$("#detail_value_add").val("");
+		$("#detail_code_add").val("");
+		// $("#detail_value_add").val("");
 		$("#detail_sort_add").val("");
 		$("#detail_remark_add").val("");
 		$(".mblack").html("");
@@ -252,6 +248,11 @@ function initButton() {
 			var l = Ladda.create(this);
 			addDictDetail(l);
 		}
+	});
+	
+	// 刷新按钮
+	$("#btn_refresh").click(function() {
+		reloadDetailGrid();
 	});
 }
 
@@ -501,26 +502,18 @@ function initDictDetailTable() {
 						rowNum : -1,
 						colModel : [
 								{
+									label : '属性编码',
+									name : 'dcode',
+									index : 'dcode',
+									editable : false,
+									width : 150
+								},
+								{
 									label : '属性名称',
 									name : 'dname',
 									index : 'dname',
 									editable : true,
-									width : 120,
-									sortable : false
-								},
-								{
-									label : '属性键',
-									name : 'dkey',
-									index : 'dkey',
-									editable : false,
-									width : 120
-								},
-								{
-									label : '属性值',
-									name : 'dvalue',
-									index : 'dvalue',
-									editable : true,
-									width : 120,
+									width : 150,
 									sortable : false
 								},
 								{
@@ -528,20 +521,20 @@ function initDictDetailTable() {
 									name : 'dsort',
 									index : 'dsort',
 									editable : false,
-									width : 80
+									width : 100
 								},
 								{
 									label : '备注',
 									name : 'remark',
 									index : 'remark',
 									editable : false,
-									width : 150,
+									width : 200,
 								},
 								{
 									label : '操作',
 									name : 'operate',
 									index : 'operate',
-									width : 50,
+									width : 80,
 									fixed : true,
 									sortable : false,
 									resize : false,
@@ -660,14 +653,14 @@ function validateDictDetailForm() {
 			{
 				rules : {
 					detail_name_add : "required",
-					detail_key_add : "required",
-					detail_value_add : "required",
+					detail_code_add : "required",
+					// detail_value_add : "required",
 					detail_sort_add : "required"
 				},
 				messages : {
 					detail_name_add : "请输入属性名称！",
-					detail_key_add : "请输入属性键！",
-					detail_value_add : "请输入属性值！",
+					detail_code_add : "请输入属性编码！",
+					// detail_value_add : "请输入属性值！",
 					detail_sort_add : "请输入属性顺序！"
 				},
 				// the errorPlacement has to take the table layout into account
@@ -699,14 +692,14 @@ function validateDictDetailForm() {
 function addDictDetail(l) {
 	l.start();
 	var dname = $("#detail_name_add").val();
-	var dkey = $("#detail_key_add").val();
-	var dvalue = $("#detail_value_add").val();
+	var dcode = $("#detail_code_add").val();
+	// var dvalue = $("#detail_value_add").val();
 	var dsort = $("#detail_sort_add").val();
 	var remark = $("#detail_remark_add").val();
 	var data = {
 		"dname" : dname,
-		"dkey" : dkey,
-		"dvalue" : dvalue,
+		"dcode" : dcode,
+		// "dvalue" : dvalue,
 		"remark" : remark,
 		"dsort" : dsort,
 		"pdid" : pdid

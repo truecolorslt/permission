@@ -11,7 +11,11 @@ public class Department {
 
     private String pdid;
 
+    private Integer dsort;
+
     private String remark;
+
+    private String drelation;
 
     private Date createdTime;
 
@@ -57,12 +61,28 @@ public class Department {
         this.pdid = pdid == null ? null : pdid.trim();
     }
 
+    public Integer getDsort() {
+        return dsort;
+    }
+
+    public void setDsort(Integer dsort) {
+        this.dsort = dsort;
+    }
+
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getDrelation() {
+        return drelation;
+    }
+
+    public void setDrelation(String drelation) {
+        this.drelation = drelation == null ? null : drelation.trim();
     }
 
     public Date getCreatedTime() {

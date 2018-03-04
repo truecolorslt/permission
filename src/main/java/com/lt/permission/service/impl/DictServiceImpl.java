@@ -117,8 +117,7 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 			d.setDid(did);
 			d.setPdid(dto.getPdid());
 			d.setDname(dto.getDname());
-			d.setDkey(dto.getDkey());
-			d.setDvalue(dto.getDvalue());
+			d.setDcode(dto.getDcode());
 			d.setDsort(dto.getDsort() == null ? 0 : Integer.parseInt(dto
 					.getDsort()));
 			d.setRemark(dto.getRemark());

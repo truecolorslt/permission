@@ -208,8 +208,7 @@ public class DictController extends BaseController {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("did", d.getDid());
 					map.put("dname", d.getDname());
-					map.put("dkey", d.getDkey());
-					map.put("dvalue", d.getDvalue());
+					map.put("dcode", d.getDcode());
 					map.put("dsort", d.getDsort());
 					map.put("remark", d.getRemark());
 					mapList.add(map);

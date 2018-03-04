@@ -147,7 +147,7 @@
 										</p>
 									</div>
 								</div>
-								<div class="panel-body" style="height: 235px">
+								<div class="panel-body" style="height: 235px;width: 100%">
 									<div class="jqGrid_wrapper" style="">
 										<table id="table_detail_list" style=""></table>
 										<div id="pager_detail_list"></div>
@@ -191,30 +191,20 @@
 							<form class="form-horizontal m-t" id="dictDetailAddForm">
 								<div class="form-group">
 									<label class="col-sm-4 control-label"><span
+										class="text-danger">*</span>数据字典属性编码：</label>
+									<div class="col-sm-5">
+										<input id="detail_code_add" name="detail_code_add" type="text"
+											class="form-control" placeholder="数据字典属性编码（必填项）">
+									</div>
+									<div class="col-sm-2 mblack"></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-4 control-label"><span
 										class="text-danger">*</span>数据字典属性名称：</label>
 									<div class="col-sm-5">
 										<input id="detail_name_add" name="detail_name_add" type="text"
 											class="form-control" placeholder="数据字典属性名称（必填项）">
-									</div>
-									<div class="col-sm-2 mblack"></div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-sm-4 control-label"><span
-										class="text-danger">*</span>数据字典属性键(key)：</label>
-									<div class="col-sm-5">
-										<input id="detail_key_add" name="detail_key_add" type="text"
-											class="form-control" placeholder="数据字典属性键（必填项）">
-									</div>
-									<div class="col-sm-2 mblack"></div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-sm-4 control-label"><span
-										class="text-danger">*</span>数据字典属性值(value)：</label>
-									<div class="col-sm-5">
-										<input id="detail_value_add" name="detail_value_add"
-											type="text" class="form-control" placeholder="数据字典属性值（必填项）">
 									</div>
 									<div class="col-sm-2 mblack"></div>
 								</div>

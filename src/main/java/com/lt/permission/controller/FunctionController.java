@@ -33,6 +33,11 @@ public class FunctionController extends BaseController {
 	@Autowired
 	private IFunctionService functionService;
 
+	/**
+	 * 获取用户所拥有的功能菜单
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/findUserFunctionTrees")
 	@ResponseBody
 	public String findUserFunctionTrees() {
@@ -84,17 +89,16 @@ public class FunctionController extends BaseController {
 		String treesJson = "";
 		try {
 			List<Function> functionList = functionService
-					.findFunctionTrees(null);
+					.findAllFunctionTrees();
 			List<Map<String, Object>> mapList = null;
+			mapList = new ArrayList<Map<String, Object>>();
+			Map<String, Object> rootMap = new HashMap<String, Object>();
+			rootMap.put("id", "0");
+			rootMap.put("pId", null);
+			rootMap.put("name", "当前系统");
+			rootMap.put("open", true);
+			mapList.add(rootMap);
 			if (functionList != null && functionList.size() > 0) {
-				mapList = new ArrayList<Map<String, Object>>();
-				Map<String, Object> rootMap = new HashMap<String, Object>();
-				rootMap.put("id", "0");
-				rootMap.put("pId", null);
-				rootMap.put("name", "当前系统");
-				rootMap.put("open", true);
-				mapList.add(rootMap);
-
 				for (Function f : functionList) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("id", f.getFid());
@@ -105,8 +109,8 @@ public class FunctionController extends BaseController {
 					}
 					mapList.add(map);
 				}
-				treesJson = this.toJSONArray(mapList).toString();
 			}
+			treesJson = this.toJSONArray(mapList).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
