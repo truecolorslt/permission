@@ -1,3 +1,14 @@
+// ztree设置
+var setting;
+// ztree节点
+var zNodes;
+// ztree设置
+var settingAdd;
+// ztree设置
+var settingUpdate;
+//ztree节点
+var zNodesOpt;
+
 $(document).ready(function() {
 	// 初始化表格
 	initTable();
@@ -5,6 +16,8 @@ $(document).ready(function() {
 	initButton();
 	// 初始化验证规则
 	initValidateRule();
+	// 初始化部门tree
+	initDeptTree();
 });
 
 /**
@@ -79,7 +92,7 @@ function initTable() {
 									resize : false,
 									formatter : function(cellvalue, options,
 											rowObject) {
-										//编辑用户
+										// 编辑用户
 										var detailFunction = "viewUser('"
 												+ rowObject.uid + "','"
 												+ rowObject.username + "','"
@@ -214,8 +227,8 @@ function initButton() {
 			updateUser(l);
 		}
 	});
-	
-	//重置密码按钮
+
+	// 重置密码按钮
 	$("#btn_pwd_update").click(function() {
 		// 初始化新增form校验规则
 		if ($("#updatePwdForm").validate().form()) {
@@ -224,7 +237,7 @@ function initButton() {
 			resetPwd(l);
 		}
 	});
-	
+
 }
 
 /**
@@ -468,10 +481,11 @@ function viewUser(uid, username, realName, dname, did, nickName, sex, remark) {
 
 /**
  * 重置密码
+ * 
  * @param uid
  * @param username
  */
-function resetPwdView(uid,username,realName) {
+function resetPwdView(uid, username, realName) {
 	$("#pwdUpdateModalLabel").text("重置密码");
 	$("#pwdUpdateModal").modal();
 
@@ -575,4 +589,214 @@ function initValidateRule() {
 	validateUserForm();
 	validateUpdateUserForm();
 	validateUpdatePwdForm();
+}
+
+/**
+ * 初始化部门tree
+ */
+function initDeptTree() {
+	setting = {
+		check : {
+			enable : false
+		},
+		view : {
+			dblClickExpand : false
+		},
+		data : {
+			simpleData : {
+				enable : true
+			}
+		},
+		callback : {
+			onClick : onClickNode
+		}
+	};
+	settingAdd = {
+		check : {
+			enable : false
+		},
+		view : {
+			dblClickExpand : false
+		},
+		data : {
+			simpleData : {
+				enable : true
+			}
+		},
+		callback : {
+			onClick : onClickNodeAdd
+		}
+	};
+	settingUpdate = {
+		check : {
+			enable : false
+		},
+		view : {
+			dblClickExpand : false
+		},
+		data : {
+			simpleData : {
+				enable : true
+			}
+		},
+		callback : {
+			onClick : onClickNodeUpdate
+		}
+	};
+
+	var param = {
+		src : "query"
+	};
+	$.ajax({
+		data : param,
+		async : false,
+		type : 'POST',
+		dataType : "json",
+		url : "../dept/findDepartmentTrees",// 请求的action路径
+		error : function() {// 请求失败处理函数
+			alert('树形菜单加载失败');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			zNodes = data; // 把后台封装好的简单Json格式赋给treeNodes
+		}
+	});
+	
+
+	var paramOpt = {
+		src : "opt"
+	};
+	$.ajax({
+		data : paramOpt,
+		async : false,
+		type : 'POST',
+		dataType : "json",
+		url : "../dept/findDepartmentTrees",// 请求的action路径
+		error : function() {// 请求失败处理函数
+			alert('树形菜单加载失败');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			zNodesOpt = data; // 把后台封装好的简单Json格式赋给treeNodes
+		}
+	});
+
+	$.fn.zTree.init($("#deptTree"), setting, zNodes);
+	$.fn.zTree.init($("#deptTreeAdd"), settingAdd, zNodesOpt);
+	$.fn.zTree.init($("#deptTreeUpdate"), settingUpdate, zNodesOpt);
+}
+
+/**
+ * 显示菜单
+ */
+function showMenu() {
+	$("#deptMenu").css({
+		left : "15px",
+		top : "34px"
+	}).slideDown("fast");
+
+	$("body").bind("mousedown", onBodyDown);
+}
+function showMenuAdd() {
+	$("#deptMenuAdd").css({
+		left : "15px",
+		top : "34px"
+	}).slideDown("fast");
+
+	$("body").bind("mousedown", onBodyDownAdd);
+}
+function showMenuUpdate() {
+	$("#deptMenuUpdate").css({
+		left : "15px",
+		top : "34px"
+	}).slideDown("fast");
+
+	$("body").bind("mousedown", onBodyDownUpdate);
+}
+
+/**
+ * 隐藏菜单
+ */
+function hideMenu() {
+	$("#deptMenu").fadeOut("fast");
+	$("body").unbind("mousedown", onBodyDown);
+}
+/**
+ * 隐藏菜单
+ */
+function hideMenuAdd() {
+	$("#deptMenuAdd").fadeOut("fast");
+	$("body").unbind("mousedown", onBodyDownAdd);
+}
+/**
+ * 隐藏菜单
+ */
+function hideMenuUpdate() {
+	$("#deptMenuUpdate").fadeOut("fast");
+	$("body").unbind("mousedown", onBodyDownUpdate);
+}
+
+function onBodyDown(event) {
+	if (!(event.target.id == "menuBtn" || event.target.id == "deptMenu"
+			|| event.target.id == "did" || $(event.target).parents("#deptMenu").length > 0)) {
+		hideMenu();
+	}
+}
+function onBodyDownAdd(event) {
+	if (!(event.target.id == "menuBtn" || event.target.id == "deptMenuAdd"
+			|| event.target.id == "did_add" || $(event.target).parents(
+			"#deptMenuAdd").length > 0)) {
+		hideMenuAdd();
+	}
+}
+function onBodyDownUpdate(event) {
+	if (!(event.target.id == "menuBtn" || event.target.id == "deptMenuUpdate"
+			|| event.target.id == "did_Update" || $(event.target).parents(
+			"#deptMenuUpdate").length > 0)) {
+		hideMenuUpdate();
+	}
+}
+
+/**
+ * 节点点击事件
+ */
+function onClickNode(e, treeId, treeNode) {
+	// $("#dname").val(getTreePath(treeNode));
+	$("#dname").val(treeNode.name);
+	$("#did").val(treeNode.id);
+	hideMenu();
+}
+/**
+ * 节点点击事件
+ */
+function onClickNodeAdd(e, treeId, treeNode) {
+	// $("#dname").val(getTreePath(treeNode));
+	$("#dname_add").val(treeNode.name);
+	$("#did_add").val(treeNode.id);
+	hideMenuAdd();
+}
+/**
+ * 节点点击事件
+ */
+function onClickNodeUpdate(e, treeId, treeNode) {
+	// $("#dname").val(getTreePath(treeNode));
+	$("#dname_update").val(treeNode.name);
+	$("#did_update").val(treeNode.id);
+	hideMenuUpdate();
+}
+
+/**
+ * 获取子节点，所有父节点的name的拼接字符串
+ * 
+ * @param treeObj
+ * @returns
+ */
+function getTreePath(treeObj) {
+	if (treeObj == null) {
+		return "";
+	}
+	var treename = treeObj.name;
+	var pNode = treeObj.getParentNode();
+	if (pNode != null) {
+		treename = getTreePath(pNode) + "|" + treename;
+	}
+	return treename;
 }

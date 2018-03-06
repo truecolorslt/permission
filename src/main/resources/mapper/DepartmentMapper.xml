@@ -218,4 +218,22 @@
 		where did =
 		#{did,jdbcType=VARCHAR}
 	</update>
+	
+	
+	<select id="getDeptsByPdid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_department
+		where is_delete=0 and pdid=#{pdid}
+		order by dsort
+	</select>
+	
+	
+	<select id="getDeptsByDrelation" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_department
+		where is_delete=0 and drelation like #{drelation}
+		order by dsort
+	</select>
 </mapper>

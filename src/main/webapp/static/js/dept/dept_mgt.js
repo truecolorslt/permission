@@ -50,7 +50,12 @@ function initDepartmentTrees() {
 // autoParam: ["id"]
 		}
 	};
+
+	var param = {
+		src : "owner"
+	};
 	$.ajax({
+		data : param,
 		async : false,
 		type : 'POST',
 		dataType : "json",

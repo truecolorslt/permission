@@ -18,10 +18,10 @@ public interface IFunctionService {
 	/**
 	 * 获取该节点下的子菜单
 	 * 
-	 * @param pfid
+	 * @param frelation
 	 * @return
 	 */
-	public List<Function> findFunctionTreesByPfid(String pfid);
+	public List<Function> findFunctionTreesByPfid(String frelation);
 
 	/**
 	 * 查询所有菜单

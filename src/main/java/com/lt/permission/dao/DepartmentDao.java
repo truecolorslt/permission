@@ -20,4 +20,8 @@ public interface DepartmentDao {
     public List<Department> getAllDepartment();
 
 	public int logicDeleteDepartment(String did);
+	
+	public List<Department> getDeptsByPdid(String pdid);
+	
+	public List<Department> getDeptsByDrelation(String drelation);
 }

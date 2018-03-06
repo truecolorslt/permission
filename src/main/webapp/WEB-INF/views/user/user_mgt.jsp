@@ -20,19 +20,34 @@
 				<div class="panel panel-default" style="height: 95%">
 					<form id="formSearch" class="form-horizontal">
 						<div class="form-group" style="margin-top:15px">
-							<label class="control-label col-sm-2" style="" for="realName">姓名</label>
+							<label class="control-label col-sm-1" style="" for="realName">姓名</label>
 							<div class="col-sm-2">
 								<input type="text" class="form-control" id="realName"
 									name="realName">
 							</div>
+
 							<label class="control-label col-sm-1 style=" " for="username">账号</label>
 							<div class="col-sm-2">
 								<input type="text" class="form-control" id="username"
 									name="username">
 							</div>
-							<label class="control-label col-sm-2" style="" for="did">部门</label>
-							<div class="col-sm-2">
-								<input type="text" class="form-control" id="did" name="did">
+
+							<label class="control-label col-sm-1" style="" for="dname">部门</label>
+							<div class="col-sm-3 has-feedback">
+								<span
+									class="glyphicon glyphicon-collapse-down form-control-feedback"
+									style="font-size: 18px"></span> <input type="text"
+									class="form-control" id="dname" name="dname" placeholder="全部"
+									onclick="showMenu()"
+									style="cursor:pointer;background-color: white;" readonly /> <input
+									type="hidden" id="did" name="did">
+								<div id="deptMenu" class="menuContent"
+									style="display:none;position: absolute;
+												width:87%;border:1px solid rgb(170,170,170);
+												z-index:1;background-color:white;overflow-y:auto;max-height: 270px;">
+									<ul id="deptTree" class="ztree"
+										style="margin-top:0; height:auto;"></ul>
+								</div>
 							</div>
 							<div class="col-sm-12" style="text-align:center;">&nbsp;</div>
 							<div class="col-sm-12" style="text-align:center;">
@@ -107,9 +122,21 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label"><span
 										class="text-danger">*</span>部门：</label>
-									<div class="col-sm-6">
-										<input id="did_add" name="did_add" type="text"
-											class="form-control" placeholder="部门（必填项）">
+									<div class="col-sm-6 has-feedback">
+										<span
+											class="glyphicon glyphicon-collapse-down form-control-feedback"
+											style="font-size: 18px"></span> <input type="text"
+											class="form-control" id="dname_add" name="dname_add"
+											placeholder="部门（必填项）" onclick="showMenuAdd()"
+											style="cursor:pointer;background-color: white;" readonly />
+										<input type="hidden" id="did_add" name="did_add">
+										<div id="deptMenuAdd" class="menuContent"
+											style="display:none;position: absolute;
+												width:87%;border:1px solid rgb(170,170,170);
+												z-index:1;background-color:white;overflow-y:auto;max-height: 270px;">
+											<ul id="deptTreeAdd" class="ztree"
+												style="margin-top:0; height:auto;"></ul>
+										</div>
 									</div>
 									<div class="col-sm-2 mblack"></div>
 								</div>
@@ -195,9 +222,21 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label"><span
 										class="text-danger">*</span>部门：</label>
-									<div class="col-sm-6">
-										<input id="did_update" name="did_update" type="text"
-											class="form-control" placeholder="部门（必填项）">
+									<div class="col-sm-6 has-feedback">
+										<span
+											class="glyphicon glyphicon-collapse-down form-control-feedback"
+											style="font-size: 18px"></span> <input type="text"
+											class="form-control" id="dname_update" name="dname_update"
+											placeholder="部门（必填项）" onclick="showMenuUpdate()"
+											style="cursor:pointer;background-color: white;" readonly />
+										<input type="hidden" id="did_update" name="did_update">
+										<div id="deptMenuUpdate" class="menuContent"
+											style="display:none;position: absolute;
+												width:87%;border:1px solid rgb(170,170,170);
+												z-index:1;background-color:white;overflow-y:auto;max-height: 270px;">
+											<ul id="deptTreeUpdate" class="ztree"
+												style="margin-top:0; height:auto;"></ul>
+										</div>
 									</div>
 									<div class="col-sm-2 mblack"></div>
 								</div>
@@ -245,7 +284,8 @@
 	<!-- 重置密码div -->
 	<div class="modal fade" id="pwdUpdateModal" tabindex="-1" role="dialog"
 		aria-labelledby="pwdUpdateModalLabel">
-		<div class="modal-dialog" role="document" style="width: 60%;height: 60%">
+		<div class="modal-dialog" role="document"
+			style="width: 60%;height: 60%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -309,6 +349,8 @@
 	src="<%=path%>/static/js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
 <script
 	src="<%=path%>/static/js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
+
+<script src="<%=path%>/static/assets/js/zTree/jquery.ztree.all-3.5.js"></script>
 
 <!-- 自定义js -->
 <script src="<%=path%>/static/js/user/user_mgt.js"></script>

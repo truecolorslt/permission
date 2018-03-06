@@ -43,8 +43,8 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 		if (!StringUtils.isEmpty(queryDto.getRealName())) {
 			map.put("realName", "%" + queryDto.getRealName() + "%");
 		}
-		if (!StringUtils.isEmpty(queryDto.getDid())) {
-			map.put("did", queryDto.getDid());
+		if (queryDto.getDidList() != null && queryDto.getDidList().size() > 0) {
+			map.put("didList", queryDto.getDidList());
 		}
 
 		List<User> userList = userDao.findUsersByPage(map);

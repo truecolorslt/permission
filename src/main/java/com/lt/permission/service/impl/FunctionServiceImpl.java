@@ -65,9 +65,9 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public List<Function> findFunctionTreesByPfid(String pfid) {
-		pfid = pfid + "|%";
-		List<Function> functionList = functionDao.findFunctionTreesByPfid(pfid);
+	public List<Function> findFunctionTreesByPfid(String frelation) {
+		frelation = frelation + "|%";
+		List<Function> functionList = functionDao.findFunctionTreesByPfid(frelation);
 		return functionList;
 	}
 

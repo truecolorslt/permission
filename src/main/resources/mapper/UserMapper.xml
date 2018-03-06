@@ -231,8 +231,12 @@
 		<if test="realName != null">
 			and real_name like #{realName}
 		</if>
-		<if test="did != null">
-			and did=#{did}
+		<if test="didList != null">
+			and did in
+			<foreach collection="didList" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
 		</if>
 	</sql>
 
@@ -275,8 +279,8 @@
 		and
 		password=#{password}
 	</select>
-	
-	
+
+
 	<update id="logicDeleteUser">
 		update t_user
 		set

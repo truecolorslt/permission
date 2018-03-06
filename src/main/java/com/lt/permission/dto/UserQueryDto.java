@@ -1,5 +1,7 @@
 package com.lt.permission.dto;
 
+import java.util.List;
+
 public class UserQueryDto extends BaseDto {
 
 	/**
@@ -10,6 +12,15 @@ public class UserQueryDto extends BaseDto {
 	private String realName;
 	private String dname;
 	private String did;
+	private List<String> didList;
+
+	public List<String> getDidList() {
+		return didList;
+	}
+
+	public void setDidList(List<String> didList) {
+		this.didList = didList;
+	}
 
 	public String getDid() {
 		return did;

@@ -41,4 +41,15 @@ public interface IDepartmentService {
 	 * @return
 	 */
 	public int updateDepartment(DepartmentDto dto);
+
+	/**
+	 * 根据父级ID获取子部门列表
+	 * 
+	 * @param pdid
+	 * @param isAllChild
+	 *            ：true-查询所有子部门列表；false-查询下一级子部门列表
+	 * @return
+	 */
+	public List<Department> findDepartmentTreesByPdid(String pdid,
+			boolean isAllChild);
 }

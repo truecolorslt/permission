@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
+import com.lt.permission.model.Department;
 import com.lt.permission.model.User;
+import com.lt.permission.service.IDepartmentService;
 import com.lt.permission.service.IUserService;
 import com.lt.permission.util.MD5Util;
 import com.lt.permission.vo.UserVo;
@@ -35,6 +38,9 @@ public class UserController extends BaseController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IUserService userService;
+
+	@Autowired
+	private IDepartmentService departmentService;
 
 	/**
 	 * 进入用户管理页面
@@ -70,7 +76,21 @@ public class UserController extends BaseController {
 			UserQueryDto queryDto = new UserQueryDto(page, rows);
 			queryDto.setUsername(username);
 			queryDto.setRealName(realName);
-			queryDto.setDid(did);
+			if (!StringUtils.isEmpty(did) && !"0".equals(did)) {
+				// 根据传入部门条件进行查询
+				List<String> didList = new ArrayList<String>();
+				didList.add(did);
+
+				// 获取子部门信息列表
+				List<Department> deptList = departmentService
+						.findDepartmentTreesByPdid(did, true);
+				if (deptList != null && deptList.size() > 0) {
+					for (Department d : deptList) {
+						didList.add(d.getDid());
+					}
+				}
+				queryDto.setDidList(didList);
+			}
 
 			UserVo userVo = userService.findUsersByPage(queryDto);
 			if (userVo != null) {

@@ -1,7 +1,10 @@
 package com.lt.permission.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import net.sf.json.JSONArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -72,5 +75,24 @@ public class DepartmentServiceImpl extends BaseServiceImpl implements
 			i = departmentDao.updateByPrimaryKeySelective(d);
 		}
 		return i;
+	}
+
+	@Override
+	public List<Department> findDepartmentTreesByPdid(String pdid,
+			boolean isAllChild) {
+		List<Department> deptList = null;
+		if (isAllChild) {
+			// 查询所有子部门列表
+			Department pdept = departmentDao.selectByPrimaryKey(pdid);
+			if (pdept != null) {
+				String drelation = pdept.getDrelation();
+				drelation = drelation + "|%";
+				deptList = departmentDao.getDeptsByDrelation(drelation);
+			}
+		} else {
+			// 查询下一级子部门列表
+			deptList = departmentDao.getDeptsByPdid(pdid);
+		}
+		return deptList;
 	}
 }

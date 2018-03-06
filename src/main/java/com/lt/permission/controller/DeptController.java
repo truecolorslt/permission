@@ -33,6 +33,19 @@ public class DeptController extends BaseController {
 
 	@Autowired
 	private IDepartmentService departmentService;
+	/**
+	 * 来源：部门维护画面的部门树形下拉框
+	 */
+	private static final String SRC_OWNER = "owner";
+
+	/**
+	 * 来源：查询画面的部门树形下拉框
+	 */
+	private static final String SRC_QUERY = "query";
+	/**
+	 * 来源：新增/修改画面的部门树形下拉框
+	 */
+	private static final String SRC_OPT = "opt";
 
 	/**
 	 * 进入部门管理页面
@@ -45,13 +58,68 @@ public class DeptController extends BaseController {
 	}
 
 	/**
-	 * 湖区部门树形数据
+	 * 全部部门树形数据
 	 * 
+	 * @param src
 	 * @return
 	 */
 	@RequestMapping(value = "/findDepartmentTrees")
 	@ResponseBody
-	public String findDepartmentTrees() {
+	public String findDepartmentTrees(
+			@RequestParam(value = "src", required = true) String src) {
+		String treesJson = "";
+		try {
+			List<Department> departmentList = departmentService
+					.findAllDepartmentTrees();
+			List<Map<String, Object>> mapList = null;
+			mapList = new ArrayList<Map<String, Object>>();
+			if (SRC_OWNER.equals(src)) {
+				// 全部部门树形数据
+				Map<String, Object> rootMap = new HashMap<String, Object>();
+				rootMap.put("id", "0");
+				rootMap.put("pId", null);
+				rootMap.put("name", "公司");
+				rootMap.put("open", true);
+				mapList.add(rootMap);
+			} else if (SRC_QUERY.equals(src)) {
+				// 查询画面的部门树形下拉框
+				Map<String, Object> rootMap = new HashMap<String, Object>();
+				rootMap.put("id", "0");
+				rootMap.put("pId", null);
+				rootMap.put("name", "全部");
+				rootMap.put("open", true);
+				mapList.add(rootMap);
+			}
+
+			if (departmentList != null && departmentList.size() > 0) {
+				for (Department d : departmentList) {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("id", d.getDid());
+					map.put("pId", d.getPdid());
+					map.put("name", d.getDname());
+					if (SRC_OWNER.equals(src)) {
+						if ("0".equals(d.getPdid())) {
+							map.put("open", true);
+						}
+					}
+					mapList.add(map);
+				}
+			}
+			treesJson = this.toJSONArray(mapList).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return treesJson;
+	}
+
+	/**
+	 * 用户具备的部门树形数据
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/findDepartmentTreesByUid")
+	@ResponseBody
+	public String findDepartmentTreesByUid() {
 		String treesJson = "";
 		try {
 			List<Department> departmentList = departmentService
@@ -61,7 +129,7 @@ public class DeptController extends BaseController {
 			Map<String, Object> rootMap = new HashMap<String, Object>();
 			rootMap.put("id", "0");
 			rootMap.put("pId", null);
-			rootMap.put("name", "公司");
+			rootMap.put("name", "全部");
 			rootMap.put("open", true);
 			mapList.add(rootMap);
 			if (departmentList != null && departmentList.size() > 0) {
@@ -70,9 +138,9 @@ public class DeptController extends BaseController {
 					map.put("id", d.getDid());
 					map.put("pId", d.getPdid());
 					map.put("name", d.getDname());
-					if ("0".equals(d.getPdid())) {
-						map.put("open", true);
-					}
+					// if ("0".equals(d.getPdid())) {
+					// map.put("open", true);
+					// }
 					mapList.add(map);
 				}
 			}

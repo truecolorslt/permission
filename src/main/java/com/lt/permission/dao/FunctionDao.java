@@ -19,7 +19,7 @@ public interface FunctionDao {
 
 	public List<Function> findFunctionTrees();
 
-	public List<Function> findFunctionTreesByPfid(String pfid);
+	public List<Function> findFunctionTreesByPfid(String frelation);
 
 	public int logicDeleteFunction(String fid);
 
