@@ -264,7 +264,6 @@
 		<include refid="Base_Column_List" />
 		from t_dict
 		where is_delete=0 and pdid =#{pdid,jdbcType=VARCHAR}
-		<include refid="findDictsCondition" />
 		order by dsort,dkey
 	</select>
 </mapper>

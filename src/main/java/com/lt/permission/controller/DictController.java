@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
@@ -188,6 +189,12 @@ public class DictController extends BaseController {
 		return true;
 	}
 
+	/**
+	 * 根据数据字典ID获取字典属性集合
+	 * 
+	 * @param did
+	 * @return
+	 */
 	@RequestMapping(value = "/findDictDetails")
 	@ResponseBody
 	public String findDictDetails(
@@ -236,6 +243,37 @@ public class DictController extends BaseController {
 				jo.put("result", false);
 			}
 			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * 根据数据字典编码获取属性
+	 * 
+	 * @param code
+	 * @return
+	 */
+	@RequestMapping(value = "/getDictAttrsByCode")
+	@ResponseBody
+	public String getDictAttrsByCode(
+			@RequestParam(value = "code", required = true) String code) {
+		String rtnStr = "";
+		JSONObject jo = null;
+		JSONArray ja = null;
+		try {
+			List<Dict> dictList = dictService.getDictAttrsByCode(code);
+			if (dictList != null && dictList.size() > 0) {
+				ja = new JSONArray();
+				for (Dict d : dictList) {
+					jo = new JSONObject();
+					jo.put("text", d.getDname());
+					jo.put("value", d.getDcode());
+					ja.add(jo);
+				}
+				rtnStr = ja.toString();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

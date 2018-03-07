@@ -5,11 +5,17 @@ import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lt.permission.common.DictConstants;
+import com.lt.permission.model.Dict;
+import com.lt.permission.service.IDictService;
 import com.lt.permission.util.JsonUtils;
 
 public class BaseController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	@Autowired
+	private IDictService dictService;
 
 	public JSONArray toJSONArray(Object obj) {
 		if (obj != null) {
@@ -39,5 +45,21 @@ public class BaseController {
 		total = count % Integer.parseInt(rows) == 0 ? count
 				/ Integer.parseInt(rows) : 1 + count / Integer.parseInt(rows);
 		return total;
+	}
+
+	/**
+	 * 根据数据字典编码和属性编码获取属性对象
+	 * 
+	 * @param code
+	 * @param key
+	 * @return
+	 */
+	public String getAttrValue(String code, String key) {
+		Dict d = dictService.getAttrByCodeAndKey(code, key);
+		String value = "";
+		if (d != null) {
+			value = d.getDname();
+		}
+		return value;
 	}
 }

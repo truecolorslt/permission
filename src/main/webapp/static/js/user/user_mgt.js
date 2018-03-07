@@ -18,6 +18,8 @@ $(document).ready(function() {
 	initValidateRule();
 	// 初始化部门tree
 	initDeptTree();
+	// 初始化下拉框
+	initSelect();
 });
 
 /**
@@ -101,6 +103,7 @@ function initTable() {
 												+ rowObject.did + "','"
 												+ rowObject.nickName + "','"
 												+ rowObject.sex + "','"
+												+ rowObject.sexCode + "','"
 												+ rowObject.remark + "')";
 										// 调用删除方法
 										var deleteFunction = "deleteUser('"
@@ -474,7 +477,8 @@ function deleteUser(uid) {
  * 
  * @param uid
  */
-function viewUser(uid, username, realName, dname, did, nickName, sex, remark) {
+function viewUser(uid, username, realName, dname, did, nickName, sex, sexCode,
+		remark) {
 	$("#userUpdateModalLabel").text("编辑用户");
 	$("#userUpdateModal").modal();
 	$("#username_update").html(username);
@@ -483,7 +487,7 @@ function viewUser(uid, username, realName, dname, did, nickName, sex, remark) {
 	$("#dname_update").val(dname);
 	$("#did_update").val(did);
 	$("#nickName_update").val(nickName);
-	$("#sex_update").val(sex);
+	$("#sex_update").val(sexCode);
 	$("#remark_update").val(remark);
 	$(".mblack").html("");
 }
@@ -767,8 +771,8 @@ function onBodyDownUpdate(event) {
  * 节点点击事件
  */
 function onClickNode(e, treeId, treeNode) {
-	// $("#dname").val(getTreePath(treeNode));
-	$("#dname").val(treeNode.name);
+	$("#dname").val(getTreePath(treeNode));
+	// $("#dname").val(treeNode.name);
 	$("#did").val(treeNode.id);
 	hideMenu();
 }
@@ -798,7 +802,7 @@ function onClickNodeUpdate(e, treeId, treeNode) {
  * @returns
  */
 function getTreePath(treeObj) {
-	if (treeObj == null) {
+	if (treeObj == null || treeObj.id == "0") {
 		return "";
 	}
 	var treename = treeObj.name;
@@ -806,5 +810,39 @@ function getTreePath(treeObj) {
 	if (pNode != null) {
 		treename = getTreePath(pNode) + "|" + treename;
 	}
+	if(treename.indexOf("|")==0) {
+		treename = treename.substring(1,treename.length);
+	}
 	return treename;
+}
+
+/**
+ * 初始化下拉菜单
+ */
+function initSelect() {
+	// 初始化数据字典：性别
+	var param = {
+		code : "sex"
+	};
+	$.ajax({
+		data : param,
+		type : 'POST',
+		url : "../dict/getDictAttrsByCode",
+		dataType : "json",
+		success : function(data) {
+			$.each(data, function(index, element) {
+				$("#sex_update").append(
+						"<option value=" + element.value + ">" + element.text
+								+ "</option>");
+				$("#sex_add").append(
+						"<option value=" + element.value + ">" + element.text
+								+ "</option>");
+
+			});
+		},
+
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("error");
+		}
+	});
 }

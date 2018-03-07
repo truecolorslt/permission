@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.lt.permission.dao.FunctionDao;
 import com.lt.permission.dto.FunctionDto;
@@ -54,7 +55,7 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 			f.setPfid(dto.getPfid());
 			f.setFicon(dto.getFicon());
 			f.setFurl(dto.getFurl());
-			f.setFsort(Integer.parseInt(dto.getFsort() == null ? "1" : dto
+			f.setFsort(Integer.parseInt(StringUtils.isEmpty(dto.getFsort()) ? "1" : dto
 					.getFsort()));
 			f.setFrelation(dto.getFrelation() + "|" + fid);
 			f.setCreator(dto.getOperatorName());

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.smartcardio.ATR;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,7 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 		DictVo dictVo = new DictVo();
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page",
-				queryDto.getPage());
+		map.put("page", queryDto.getPage());
 		map.put("pageSize", queryDto.getPageSize());
 		if (!StringUtils.isEmpty(queryDto.getDcode())) {
 			map.put("dcode", queryDto.getDcode());
@@ -126,5 +127,38 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 			i = dictDao.insert(d);
 		}
 		return i;
+	}
+
+	@Override
+	public List<Dict> getDictAttrsByCode(String code) {
+		List<Dict> dictList = null;
+		Dict dict = dictDao.getDictByCode(code);
+		if (dict != null) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("pdid", dict.getDid());
+			dictList = dictDao.getDictsByPdid(map);
+		}
+		return dictList;
+	}
+
+	@Override
+	public Dict getAttrByCodeAndKey(String code, String key) {
+		Dict attr = null;
+		List<Dict> attrList = null;
+		Dict dict = dictDao.getDictByCode(code);
+		if (dict != null) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("pdid", dict.getDid());
+			attrList = dictDao.getDictsByPdid(map);
+			if (attrList != null && attrList.size() > 0) {
+				for (Dict d : attrList) {
+					if (key.equals(d.getDcode())) {
+						attr = d;
+						break;
+					}
+				}
+			}
+		}
+		return attr;
 	}
 }

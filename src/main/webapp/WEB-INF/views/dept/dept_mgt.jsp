@@ -14,7 +14,7 @@
 			<div style="float: left; width: 35%;height: 100%">
 				<div class="panel panel-default" style="height: 95%">
 					<div class="panel-heading">
-						<i class="fa fa-tree" style="padding-right: 5px;"></i>部门树形菜单
+						<i class="fa fa-tree" style="padding-right: 5px;"></i>部门组织结构
 					</div>
 					<div class="panel-body" style="height:430px; overflow:auto;">
 						<ul id="departmentTree" class="ztree"></ul>

@@ -152,16 +152,17 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label">性别：</label>
 									<div class="col-sm-6">
-										<input id="sex_add" type="text" class="form-control"
-											name="sex_add" placeholder="性别">
+										<select class="form-control" id="sex_add" name="sex_add">
+											<option value="">请选择</option>
+										</select>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-sm-3 control-label">备注：</label>
 									<div class="col-sm-6">
-										<input id="remark_add" type="text" class="form-control"
-											name="remark_add" placeholder="备注">
+										<textarea class="form-control" rows="3" id="remark_add"
+											name="remark_add" placeholder="备注"></textarea>
 									</div>
 								</div>
 							</form>
@@ -252,16 +253,17 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label">性别：</label>
 									<div class="col-sm-6">
-										<input id="sex_update" type="text" class="form-control"
-											name="sex_update" placeholder="性别">
+										<select class="form-control" id="sex_update" name="sex_update">
+											<option value="">请选择</option>
+										</select>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-sm-3 control-label">备注：</label>
 									<div class="col-sm-6">
-										<input id="remark_update" type="text" class="form-control"
-											name="remark_update" placeholder="备注">
+										<textarea class="form-control" rows="3" id="remark_update"
+											name="remark_update" placeholder="备注"></textarea>
 									</div>
 								</div>
 							</form>

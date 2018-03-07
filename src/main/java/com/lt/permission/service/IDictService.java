@@ -70,4 +70,21 @@ public interface IDictService {
 	 * @return
 	 */
 	public int addDictDetail(DictDto dto);
+
+	/**
+	 * 根据数据字典编码查询子集合
+	 * 
+	 * @param pdid
+	 * @return
+	 */
+	public List<Dict> getDictAttrsByCode(String code);
+
+	/**
+	 * 根据数据字典编码和属性编码获取属性对象
+	 * 
+	 * @param code
+	 * @param key
+	 * @return
+	 */
+	public Dict getAttrByCodeAndKey(String code, String key);
 }

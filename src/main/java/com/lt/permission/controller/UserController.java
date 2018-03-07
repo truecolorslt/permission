@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.Department;
@@ -107,7 +108,9 @@ public class UserController extends BaseController {
 						map.put("username", u.getUsername());
 						map.put("realName", u.getRealName());
 						map.put("nickName", u.getNickName());
-						map.put("sex", u.getSex());
+						map.put("sex", this.getAttrValue(
+								DictConstants.DICT_CODE_SEX, u.getSex()));
+						map.put("sexCode", u.getSex());
 						map.put("dname", u.getDname());
 						map.put("did", u.getDid());
 						map.put("remark", u.getRemark());
