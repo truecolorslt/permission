@@ -63,6 +63,7 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 			String uid = UUID.randomUUID().toString().toLowerCase();
 			u.setUid(uid);
 			u.setDid(dto.getDid());
+			u.setDname(dto.getDname());
 			u.setUsername(dto.getUsername());
 			u.setPassword(MD5Util.getMD5(dto.getPassword()));
 			u.setRealName(dto.getRealName());

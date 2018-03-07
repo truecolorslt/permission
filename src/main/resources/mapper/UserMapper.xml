@@ -179,12 +179,6 @@
 			<if test="remark != null">
 				remark = #{remark,jdbcType=VARCHAR},
 			</if>
-			<if test="createdTime != null">
-				created_time = #{createdTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="creator != null">
-				creator = #{creator,jdbcType=VARCHAR},
-			</if>
 			modified_time = now(),
 			<if test="modifier != null">
 				modifier = #{modifier,jdbcType=VARCHAR},
@@ -247,7 +241,7 @@
 		from t_user
 		where is_delete=0
 		<include refid="findUsersCondition" />
-		order by username
+		order by created_time desc
 		limit
 		#{page},#{pageSize}
 	</select>

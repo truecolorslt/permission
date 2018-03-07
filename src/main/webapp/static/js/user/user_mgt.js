@@ -6,7 +6,7 @@ var zNodes;
 var settingAdd;
 // ztree设置
 var settingUpdate;
-//ztree节点
+// ztree节点
 var zNodesOpt;
 
 $(document).ready(function() {
@@ -43,7 +43,7 @@ function initTable() {
 									name : 'realName',
 									index : 'realName',
 									editable : true,
-									width : 85,
+									width : 80,
 									sortable : false
 								},
 								{
@@ -58,14 +58,14 @@ function initTable() {
 									name : 'sex',
 									index : 'sex',
 									editable : false,
-									width : 50
+									width : 30
 								},
 								{
 									label : '部门',
 									name : 'dname',
 									index : 'dname',
 									editable : false,
-									width : 80,
+									width : 100,
 								},
 								{
 									label : '昵称',
@@ -110,16 +110,18 @@ function initTable() {
 												+ rowObject.uid + "','"
 												+ rowObject.username + "','"
 												+ rowObject.realName + "')";
-										var actions = '<a href="#" class="btn btn-success" onclick="'
-												+ resetFunction
-												+ '" title="重置密码">'
-												+ '<i class="fa fa-key" aria-hidden="true"></i></a>';
-										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
-										actions += '<a href="#" class="btn btn-info" onclick="'
+										var actions = '<a href="#" class="btn btn-info" onclick="'
 												+ detailFunction
 												+ '" title="编辑用户">'
 												+ '<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
 										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
+
+										actions += '<a href="#" class="btn btn-success" onclick="'
+												+ resetFunction
+												+ '" title="重置密码">'
+												+ '<i class="fa fa-key" aria-hidden="true"></i></a>';
+										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
+
 										actions += '<a href="#" class="btn btn-danger" onclick="'
 												+ deleteFunction
 												+ '" title="删除用户">'
@@ -179,6 +181,7 @@ function initTable() {
 			$("#username_add").val("");
 			$("#password_add").val("");
 			$("#did_add").val("");
+			$("#dname_add").val("");
 			$("#realName_add").val("");
 			$("#nickName_add").val("");
 			$("#sex_add").val("");
@@ -266,13 +269,15 @@ function validateUserForm() {
 					username_add : "required",
 					password_add : "required",
 					realName_add : "required",
-					did_add : "required"
+					did_add : "required",
+					dname_add : "required",
 				},
 				messages : {
 					username_add : "请输入账号",
 					password_add : "请输入密码",
 					realName_add : "请输入姓名",
-					did_add : "请选择部门"
+					did_add : "请选择部门",
+					dname_add : "请选择部门"
 				},
 				// the errorPlacement has to take the table layout into account
 				errorPlacement : function(error, element) {
@@ -305,11 +310,13 @@ function validateUpdateUserForm() {
 			{
 				rules : {
 					realName_update : "required",
-					did_update : "required"
+					did_update : "required",
+					dname_update : "required"
 				},
 				messages : {
 					realName_update : "请输入姓名",
-					did_update : "请选择部门"
+					did_update : "请选择部门",
+					dname_update : "请选择部门"
 				},
 				// the errorPlacement has to take the table layout into account
 				errorPlacement : function(error, element) {
@@ -379,6 +386,7 @@ function addUser(l) {
 	var password_add = $("#password_add").val();
 	var realName_add = $("#realName_add").val();
 	var did_add = $("#did_add").val();
+	var dname_add = $("#dname_add").val();
 	var nickName_add = $("#nickName_add").val();
 	var sex_add = $("#sex_add").val();
 	var remark = $("#remark_add").val();
@@ -387,6 +395,7 @@ function addUser(l) {
 		"password" : password_add,
 		"realName" : realName_add,
 		"did" : did_add,
+		"dname" : dname_add,
 		"nickName" : nickName_add,
 		"sex" : sex_add,
 		"remark" : remark
@@ -660,7 +669,6 @@ function initDeptTree() {
 			zNodes = data; // 把后台封装好的简单Json格式赋给treeNodes
 		}
 	});
-	
 
 	var paramOpt = {
 		src : "opt"
@@ -768,8 +776,8 @@ function onClickNode(e, treeId, treeNode) {
  * 节点点击事件
  */
 function onClickNodeAdd(e, treeId, treeNode) {
-	// $("#dname").val(getTreePath(treeNode));
-	$("#dname_add").val(treeNode.name);
+	$("#dname_add").val(getTreePath(treeNode));
+	// $("#dname_add").val(treeNode.name);
 	$("#did_add").val(treeNode.id);
 	hideMenuAdd();
 }
@@ -777,8 +785,8 @@ function onClickNodeAdd(e, treeId, treeNode) {
  * 节点点击事件
  */
 function onClickNodeUpdate(e, treeId, treeNode) {
-	// $("#dname").val(getTreePath(treeNode));
-	$("#dname_update").val(treeNode.name);
+	$("#dname_update").val(getTreePath(treeNode));
+	// $("#dname_update").val(treeNode.name);
 	$("#did_update").val(treeNode.id);
 	hideMenuUpdate();
 }

@@ -103,7 +103,7 @@
 									<label class="col-sm-3 control-label"><span
 										class="text-danger">*</span>密码：</label>
 									<div class="col-sm-6">
-										<input id="password_add" name="password_add" type="text"
+										<input id="password_add" name="password_add" type="password"
 											class="form-control" placeholder="密码（必填项）">
 									</div>
 									<div class="col-sm-2 mblack"></div>
@@ -320,7 +320,7 @@
 									<label class="col-sm-3 control-label"><span
 										class="text-danger">*</span>新密码：</label>
 									<div class="col-sm-6">
-										<input id="password_pwd" name="password_pwd" type="text"
+										<input id="password_pwd" name="password_pwd" type="password"
 											class="form-control" placeholder="新密码（必填项）">
 									</div>
 									<div class="col-sm-2 mblack"></div>
