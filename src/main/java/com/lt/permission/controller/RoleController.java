@@ -1,9 +1,26 @@
 package com.lt.permission.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.dto.DictDto;
+import com.lt.permission.dto.RoleDto;
+import com.lt.permission.dto.RoleQueryDto;
+import com.lt.permission.model.Role;
+import com.lt.permission.service.IRoleService;
+import com.lt.permission.vo.RoleVo;
 
 /**
  * 角色控制器
@@ -16,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RoleController extends BaseController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	@Autowired
+	private IRoleService roleService;
 
 	/**
 	 * 进入角色管理页面
@@ -25,5 +44,143 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/roleMgt")
 	public String roleMgt() {
 		return "/role/role_mgt";
+	}
+
+	/**
+	 * 查询角色列表
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param rname
+	 * @param rcode
+	 * @return
+	 */
+	@RequestMapping(value = "/findRoles")
+	@ResponseBody
+	public String findRoles(
+			@RequestParam(value = "page", defaultValue = "1") String page,
+			@RequestParam(value = "rows", defaultValue = "10") String rows,
+			@RequestParam(value = "rname", required = false) String rname,
+			@RequestParam(value = "rcode", required = false) String rcode) {
+		String jsonStr = "";
+		JSONObject jo = new JSONObject();
+		try {
+			RoleQueryDto queryDto = new RoleQueryDto(page, rows);
+			queryDto.setRname(rname);
+			queryDto.setRcode(rcode);
+
+			RoleVo vo = roleService.findRolesByPage(queryDto);
+			if (vo != null) {
+				List<Role> list = (List<Role>) vo.getResultList();
+				Integer count = vo.getTotalCount();
+
+				List<Map<String, Object>> mapList = null;
+				if (list != null && list.size() > 0) {
+					mapList = new ArrayList<Map<String, Object>>();
+
+					for (Role r : list) {
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("rid", r.getRid());
+						map.put("rname", r.getRname());
+						map.put("rcode", r.getRcode());
+						map.put("remark", r.getRemark());
+						mapList.add(map);
+					}
+
+					jo.put("rows", this.toJSONArray(mapList));
+					// json中代表页码总数
+					jo.put("total", this.getTotal(count, rows));
+					// json中代表当前页码
+					jo.put("page", page);
+					// json中代表数据行总数
+					jo.put("records", count);
+				} else {
+					jo.put("total", "0");
+					jo.put("page", "1");
+					jo.put("records", "0");
+					jo.put("rows", "");
+				}
+				jsonStr = this.toJSONObject(jo).toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonStr;
+	}
+
+	/**
+	 * 新增角色
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	@RequestMapping(value = "/addRole")
+	@ResponseBody
+	public String addRole(@RequestBody RoleDto dto) {
+		String rtnStr = "";
+		try {
+			int i = roleService.addRole(dto);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * 编辑角色
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	@RequestMapping(value = "/updateRole")
+	@ResponseBody
+	public String updateRole(@RequestBody RoleDto dto) {
+		String rtnStr = "";
+		try {
+			int i = roleService.updateRole(dto);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * 逻辑删除
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteRole")
+	@ResponseBody
+	public String deleteRole(
+			@RequestParam(value = "rid", required = true) String rid) {
+		String rtnStr = "";
+		try {
+			int i = roleService.deleteRole(rid);
+			JSONObject jo = new JSONObject();
+			if (i > 0) {
+				jo.put("result", true);
+			} else {
+				jo.put("result", false);
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
 	}
 }

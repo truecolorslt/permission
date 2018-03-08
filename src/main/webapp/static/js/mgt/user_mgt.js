@@ -209,6 +209,7 @@ function initButton() {
 	// 重置按钮事件
 	$("#resetBtn").click(function() {
 		$("#did").val("");
+		$("#dname").val("");
 		$("#username").val("");
 		$("#realName").val("");
 		return false;
