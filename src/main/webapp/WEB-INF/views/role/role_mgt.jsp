@@ -58,6 +58,10 @@
 </body>
 
 <!-- js插件 -->
+<!-- 树形菜单ztree -->
+<script src="<%=path%>/static/js/plugins/ztree/jquery.ztree.core.js"></script>
+<script src="<%=path%>/static/js/plugins/ztree/jquery.ztree.excheck.js"></script>
+<script src="<%=path%>/static/js/plugins/ztree/jquery.ztree.exedit.js"></script>
 <!-- jqGrid表格 -->
 <script
 	src="<%=path%>/static/js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>

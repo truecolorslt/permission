@@ -58,12 +58,18 @@ function initTable() {
 									resize : false,
 									formatter : function(cellvalue, options,
 											rowObject) {
+										// 编辑角色
 										var editFunction = "viewRole('"
 												+ rowObject.rid + "','"
 												+ rowObject.rname + "','"
 												+ rowObject.rcode + "','"
 												+ rowObject.remark + "')";
-										var setFunction = "";
+										// 设置权限
+										var setFunction = "viewRoleFunction('"
+												+ rowObject.rid + "','"
+												+ rowObject.rname + "','"
+												+ rowObject.rcode + "')";
+										// 删除角色
 										var deleteFunction = "deleteRole('"
 												+ rowObject.rid + "')";
 										var actions = '<a href="#" class="btn btn-info" onclick="'
@@ -410,4 +416,73 @@ function deleteRole(rid) {
 		}
 	});
 	return false;
+}
+
+/**
+ * 显示权限设置div
+ * 
+ * @param rid
+ * @param rname
+ * @param rcode
+ */
+function viewRoleFunction(rid, rname, rcode) {
+	$("#roleSetModalLabel").text("设置权限");
+	$("#roleSetModal").modal();
+	$("#rid_set").val(rid);
+	$("#rname_set").html(rname);
+	$("#rcode_set").html(rcode);
+	initFunctionTrees();
+}
+// ztree设置
+var setting;
+// ztree节点
+var treeNodes;
+/**
+ * 初始化树形菜单
+ */
+function initFunctionTrees() {
+	setting = {
+		treeId : "function_tree",
+		view : {
+			// addHoverDom : addHoverDom,
+			// removeHoverDom : removeHoverDom,
+			selectedMulti : false
+		},
+		check : {
+			enable : false
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pIdKey : "pId",
+				rootPId : 0
+			}
+		},
+		edit : {
+		// enable : true,
+		// showRenameBtn : false,
+		// removeTitle : "删除功能菜单",
+		// showRemoveBtn : setRemoveBtn,
+		},
+		callback : {
+		// onClick : getFunction,
+		// beforeRemove: deleteFunction,
+		// beforeClick : isRootNode
+		}
+	};
+
+	$.ajax({
+		async : false,
+		type : 'POST',
+		dataType : "json",
+		url : "../function/findFunctionTrees",// 请求的action路径
+		error : function() {// 请求失败处理函数
+			alert('树形菜单加载失败');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			treeNodes = data; // 把后台封装好的简单Json格式赋给treeNodes
+		}
+	});
+	$.fn.zTree.init($("#functionTree"), setting, treeNodes);
 }

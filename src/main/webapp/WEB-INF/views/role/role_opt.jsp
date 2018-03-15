@@ -119,3 +119,64 @@
 		</div>
 	</div>
 </div>
+
+<!-- 设置权限div -->
+<div class="modal fade" id="roleSetModal" tabindex="-1" role="dialog"
+	aria-labelledby="roleSetModalLabel">
+	<div class="modal-dialog" role="document" style="">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="roleSetModalLabel">新增</h4>
+			</div>
+			<div class="modal-body">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="roleSetForm">
+							<input type="hidden" id="rid_set" name="rid_set">
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="control-label">角色名称：</label>
+									<p class="form-control-static text-muted" style="margin-left: 20px">
+										<font size="2"><strong><span id="rname_set"></span>
+										</strong> </font>
+									</p>
+									<label class="control-label">角色编码：</label>
+									<p class="form-control-static text-muted" style="margin-left: 20px">
+										<font size="2"><strong><span id="rcode_set"></span>
+										</strong> </font>
+									</p>
+								</div>
+								<div class="col-sm-8">
+									<div style="float: left; width: 80%;height: 70%">
+										<div class="panel panel-default" style="height: 70%">
+											<div class="panel-body" style="height:300px; overflow:auto;">
+												<ul id="functionTree" class="ztree"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="btn_save_set" class="btn btn-primary ladda-button"
+					data-style="zoom-in">
+					<span class="glyphicon glyphicon-floppy-disk ladda-label">保存</span>
+				</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
