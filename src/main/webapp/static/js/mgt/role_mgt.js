@@ -187,6 +187,19 @@ function initButton() {
 			updateRole(l);
 		}
 	});
+
+	// 设置权限按钮
+	$("#btn_save_set").click(function() {
+		setRoleFunction();
+	});
+
+	//刷新按钮
+	$("#btn_refresh").click(function() {
+		initFunctionTrees();
+	});
+	
+	
+
 }
 
 /**
@@ -449,7 +462,7 @@ function initFunctionTrees() {
 			selectedMulti : false
 		},
 		check : {
-			enable : false
+			enable : true
 		},
 		data : {
 			simpleData : {
@@ -472,11 +485,16 @@ function initFunctionTrees() {
 		}
 	};
 
+	var rid = $("#rid_set").val();
+	var param = {
+		rid : rid
+	};
 	$.ajax({
 		async : false,
 		type : 'POST',
 		dataType : "json",
-		url : "../function/findFunctionTrees",// 请求的action路径
+		data : param,
+		url : "getRoleFunction",// 请求的action路径
 		error : function() {// 请求失败处理函数
 			alert('树形菜单加载失败');
 		},
@@ -485,4 +503,46 @@ function initFunctionTrees() {
 		}
 	});
 	$.fn.zTree.init($("#functionTree"), setting, treeNodes);
+}
+
+/**
+ * 设置权限
+ */
+function setRoleFunction() {
+	var treeObj = $.fn.zTree.getZTreeObj("functionTree");
+	var nodes = treeObj.getCheckedNodes(true);
+	if (nodes.length == 0) {
+		swal('请选择功能菜单!','', 'warning');
+		return;
+	}
+
+	var array = "";
+	for ( var i = 0; i < nodes.length; i++) {
+		array += nodes[i].id + "|";
+	}
+	var rid = $("#rid_set").val();
+	var param = {
+		rid : rid,
+		nodes : array
+	};
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		// contentType : 'application/json;charset=utf-8',
+		url : "setRoleFunction",// 请求的action路径
+		data : param,
+		error : function() {// 请求失败处理函数
+			swal('设置角色权限失败!', '', 'error');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			var result = data.result;
+			if (result) {
+				swal('设置角色权限成功!', '', 'success');
+				$('#roleSetModal').modal('hide');
+			} else {
+				var msg = data.msg;
+				swal('设置角色权限失败!', msg, 'error');
+			}
+		}
+	});
 }

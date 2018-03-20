@@ -83,6 +83,11 @@ public class FunctionController extends BaseController {
 		return treesJson;
 	}
 
+	/**
+	 * 获取所有功能菜单树
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/findFunctionTrees")
 	@ResponseBody
 	public String findFunctionTrees() {
@@ -97,6 +102,7 @@ public class FunctionController extends BaseController {
 			rootMap.put("pId", null);
 			rootMap.put("name", "当前系统");
 			rootMap.put("open", true);
+			rootMap.put("nocheck",true);
 			mapList.add(rootMap);
 			if (functionList != null && functionList.size() > 0) {
 				for (Function f : functionList) {
@@ -117,6 +123,12 @@ public class FunctionController extends BaseController {
 		return treesJson;
 	}
 
+	/**
+	 * 获取菜单明细
+	 * 
+	 * @param param
+	 * @return
+	 */
 	@RequestMapping(value = "/getFunction")
 	@ResponseBody
 	public String getFunction(@RequestBody String param) {
@@ -205,6 +217,12 @@ public class FunctionController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 删除菜单
+	 * 
+	 * @param param
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteFunction")
 	@ResponseBody
 	public String deleteFunction(@RequestBody String param) {
@@ -232,6 +250,12 @@ public class FunctionController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 根据父节点，获取所有子节点菜单
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/findFunctionTreesByPfid")
 	@ResponseBody
 	public String findFunctionTreesByPfid(String id) {

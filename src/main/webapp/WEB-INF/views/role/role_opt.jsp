@@ -140,18 +140,17 @@
 							<div class="row">
 								<div class="col-sm-4">
 									<label class="control-label">角色名称：</label>
-									<p class="form-control-static text-muted" style="margin-left: 20px">
-										<font size="2"><strong><span id="rname_set"></span>
-										</strong> </font>
+									<p class="form-control-static text-muted" style="margin-left: 30px">
+										<font size="2"><span id="rname_set"></span></font>
 									</p>
 									<label class="control-label">角色编码：</label>
-									<p class="form-control-static text-muted" style="margin-left: 20px">
-										<font size="2"><strong><span id="rcode_set"></span>
-										</strong> </font>
+									<p class="form-control-static text-muted" style="margin-left: 30px">
+										<font size="2"><span id="rcode_set"></span></font>
 									</p>
 								</div>
 								<div class="col-sm-8">
 									<div style="float: left; width: 80%;height: 70%">
+												<label class="control-label">功能菜单：</label>
 										<div class="panel panel-default" style="height: 70%">
 											<div class="panel-body" style="height:300px; overflow:auto;">
 												<ul id="functionTree" class="ztree"></ul>
@@ -160,10 +159,6 @@
 									</div>
 								</div>
 							</div>
-
-
-
-
 						</form>
 					</div>
 				</div>
@@ -172,6 +167,9 @@
 				<button id="btn_save_set" class="btn btn-primary ladda-button"
 					data-style="zoom-in">
 					<span class="glyphicon glyphicon-floppy-disk ladda-label">保存</span>
+				</button>
+				<button id="btn_refresh" class="btn btn-info" data-style="zoom-in">
+					<i class="fa fa-refresh" aria-hidden="true"></i> 刷新
 				</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭

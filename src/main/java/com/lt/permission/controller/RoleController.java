@@ -9,16 +9,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.RoleDto;
 import com.lt.permission.dto.RoleQueryDto;
+import com.lt.permission.model.Function;
 import com.lt.permission.model.Role;
+import com.lt.permission.model.RoleFunction;
 import com.lt.permission.service.IRoleService;
 import com.lt.permission.vo.RoleVo;
 
@@ -182,5 +186,83 @@ public class RoleController extends BaseController {
 			e.printStackTrace();
 		}
 		return rtnStr;
+	}
+
+	/**
+	 * 设置角色权限
+	 * 
+	 * @param rid
+	 * @return
+	 */
+	@RequestMapping(value = "/setRoleFunction")
+	@ResponseBody
+	public String setRoleFunction(
+			@RequestParam(value = "rid", required = true) String rid,
+			@RequestParam(value = "nodes", required = true) String nodes) {
+		String rtnStr = "";
+		try {
+			JSONObject jo = new JSONObject();
+			if (StringUtils.isEmpty(nodes)) {
+				jo.put("result", false);
+				jo.put("msg", "请选择功能菜单");
+			} else {
+				String[] fids = nodes.split("[|]");
+				int i = roleService.setFunctionForRole(rid, fids);
+				if (i > 0) {
+					jo.put("result", true);
+				} else {
+					jo.put("result", false);
+				}
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
+
+	/**
+	 * 获取角色菜单
+	 * 
+	 * @param rid
+	 * @return
+	 */
+	@RequestMapping(value = "/getRoleFunction")
+	@ResponseBody
+	public String getRoleFunction(
+			@RequestParam(value = "rid", required = true) String rid) {
+		String treesJson = "";
+		try {
+			List<Map<String, Object>> listMap = roleService
+					.getFunctionByRole(rid);
+			List<Map<String, Object>> mapList = null;
+			mapList = new ArrayList<Map<String, Object>>();
+			Map<String, Object> rootMap = new HashMap<String, Object>();
+			rootMap.put("id", "0");
+			rootMap.put("pId", null);
+			rootMap.put("name", "当前系统");
+			rootMap.put("open", true);
+			rootMap.put("nocheck", true);
+			mapList.add(rootMap);
+			if (listMap != null && listMap.size() > 0) {
+				for (Map<String, Object> f : listMap) {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("id", f.get("functionId"));
+					map.put("pId", f.get("pfid"));
+					map.put("name", f.get("fname"));
+					if ("0".equals(f.get("pfid"))) {
+						map.put("open", true);
+					}
+					if (!StringUtils.isEmpty(f.get("fid"))) {
+						map.put("checked", true);
+					}
+					mapList.add(map);
+				}
+			}
+			treesJson = this.toJSONArray(mapList).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return treesJson;
 	}
 }

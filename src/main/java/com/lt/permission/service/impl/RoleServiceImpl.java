@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.lt.permission.dao.RoleDao;
+import com.lt.permission.dao.RoleFunctionDao;
 import com.lt.permission.dto.RoleDto;
 import com.lt.permission.dto.RoleQueryDto;
 import com.lt.permission.model.Role;
-import com.lt.permission.model.User;
+import com.lt.permission.model.RoleFunction;
 import com.lt.permission.service.IRoleService;
 import com.lt.permission.vo.RoleVo;
 
@@ -24,6 +25,10 @@ public class RoleServiceImpl extends BaseServiceImpl implements IRoleService {
 	@Autowired
 	@Qualifier("roleDao")
 	private RoleDao roleDao;
+
+	@Autowired
+	@Qualifier("roleFunctionDao")
+	private RoleFunctionDao roleFunctionDao;
 
 	@Override
 	public RoleVo findRolesByPage(RoleQueryDto queryDto) {
@@ -83,6 +88,30 @@ public class RoleServiceImpl extends BaseServiceImpl implements IRoleService {
 	@Override
 	public int deleteRole(String rid) {
 		return roleDao.logicDeleteRole(rid);
+	}
+
+	@Override
+	public int setFunctionForRole(String rid, String[] fids) {
+		if (fids != null && fids.length >= 0) {
+			roleFunctionDao.deleteByRid(rid);
+			int i = 0;
+			for (String fid : fids) {
+				RoleFunction rf = new RoleFunction();
+				String rfid = UUID.randomUUID().toString().toLowerCase();
+				rf.setRfid(rfid);
+				rf.setFid(fid);
+				rf.setRid(rid);
+				i += roleFunctionDao.insert(rf);
+			}
+			return i;
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public List<Map<String,Object>> getFunctionByRole(String rid) {
+		return roleFunctionDao.getRoleFunctionByRole(rid);
 	}
 
 }
