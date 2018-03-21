@@ -274,8 +274,8 @@
 <div class="modal fade" id="roleUpdateModal" tabindex="-1" role="dialog"
 	aria-labelledby="roleUpdateModalLabel">
 	<div class="modal-dialog" role="document"
-		style="width: 80%;height: 460px;"  >
-		<div class="modal-content" >
+		style="width: 80%;height: 460px;">
+		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
@@ -307,8 +307,7 @@
 							<!-- 页面结构 -->
 							<div class="ue-container">
 								<select multiple="multiple" name="doublebox" size="6"
-									style="height:180px"
-									id="roleSelect">
+									style="height:180px" id="roleSelect">
 								</select>
 							</div>
 						</form>
@@ -319,6 +318,9 @@
 				<button id="btn_role_update" class="btn btn-primary ladda-button"
 					data-style="zoom-in">
 					<span class="glyphicon glyphicon-floppy-disk ladda-label">保存</span>
+				</button>
+				<button id="btn_refresh" class="btn btn-info" data-style="zoom-in">
+					<i class="fa fa-refresh" aria-hidden="true"></i> 刷新
 				</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭

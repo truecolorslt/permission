@@ -33,9 +33,9 @@
       modified_time, modifier, is_delete, 
       version)
     values (#{urid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
-      #{modifiedTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
-      #{version,jdbcType=INTEGER})
+      #{remark,jdbcType=VARCHAR}, now(), #{creator,jdbcType=VARCHAR}, 
+      now(), #{modifier,jdbcType=VARCHAR}, 0, 
+      1)
   </insert>
   <insert id="insertSelective" parameterType="com.lt.permission.model.UserRole">
     insert into t_user_role
@@ -150,4 +150,9 @@
       version = #{version,jdbcType=INTEGER}
     where urid = #{urid,jdbcType=VARCHAR}
   </update>
+  
+  <delete id="deleteByUid" parameterType="java.lang.String">
+    update t_user_role set is_delete=1,modified_time=now()
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
 </mapper>

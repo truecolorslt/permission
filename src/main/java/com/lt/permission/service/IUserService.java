@@ -63,4 +63,13 @@ public interface IUserService {
 	 * @return
 	 */
 	public int updateUser(UserDto dto);
+
+	/**
+	 * 给用户设置角色
+	 * 
+	 * @param uid
+	 * @param rids
+	 * @return
+	 */
+	public int setUserRole(String uid, String[] rids);
 }

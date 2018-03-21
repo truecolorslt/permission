@@ -290,4 +290,37 @@ public class UserController extends BaseController {
 		rtnStr = rtnJson.toJSONString();
 		return rtnStr;
 	}
+	
+	/**
+	 * 设置用户角色权限
+	 * 
+	 * @param rid
+	 * @return
+	 */
+	@RequestMapping(value = "/setUserRole")
+	@ResponseBody
+	public String setUserRole(
+			@RequestParam(value = "uid", required = true) String uid,
+			@RequestParam(value = "roles", required = true) String roles) {
+		String rtnStr = "";
+		try {
+			JSONObject jo = new JSONObject();
+			if (StringUtils.isEmpty(roles)) {
+				jo.put("result", false);
+				jo.put("msg", "请选择角色");
+			} else {
+				String[] rids = roles.split("[|]");
+				int i = userService.setUserRole(uid, rids);
+				if (i > 0) {
+					jo.put("result", true);
+				} else {
+					jo.put("result", false);
+				}
+			}
+			rtnStr = jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnStr;
+	}
 }

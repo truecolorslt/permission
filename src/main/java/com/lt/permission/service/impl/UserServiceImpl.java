@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.lt.permission.dao.UserDao;
+import com.lt.permission.dao.UserRoleDao;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
+import com.lt.permission.model.RoleFunction;
 import com.lt.permission.model.User;
+import com.lt.permission.model.UserRole;
 import com.lt.permission.service.IUserService;
 import com.lt.permission.util.MD5Util;
 import com.lt.permission.vo.UserVo;
@@ -29,6 +32,10 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	@Autowired
 	@Qualifier("userDao")
 	private UserDao userDao;
+
+	@Autowired
+	@Qualifier("userRoleDao")
+	private UserRoleDao userRoleDao;
 
 	@Override
 	public UserVo findUsersByPage(UserQueryDto queryDto) {
@@ -119,5 +126,24 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 			i = userDao.updateByPrimaryKeySelective(u);
 		}
 		return i;
+	}
+
+	@Override
+	public int setUserRole(String uid, String[] rids) {
+		if (rids != null && rids.length >= 0) {
+			userRoleDao.deleteByUid(uid);
+			int i = 0;
+			for (String rid : rids) {
+				UserRole ur = new UserRole();
+				String urid = UUID.randomUUID().toString().toLowerCase();
+				ur.setUrid(urid);
+				ur.setUid(uid);
+				ur.setRid(rid);
+				i += userRoleDao.insert(ur);
+			}
+			return i;
+		} else {
+			return 0;
+		}
 	}
 }

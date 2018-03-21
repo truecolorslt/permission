@@ -259,6 +259,17 @@ function initButton() {
 		}
 	});
 
+	// 设置权限按钮
+	$("#btn_role_update").click(function() {
+		var l = Ladda.create(this);
+		setUserRole(l);
+	});
+
+	// 刷新按钮
+	$("#btn_refresh").click(function() {
+		initRoleSelect();
+	});
+
 }
 
 /**
@@ -537,6 +548,11 @@ function roleView(uid, username, realName) {
 	$("#realName_role").html(realName);
 	$("#username_role").html(username);
 	$("#uid_role").val(uid);
+	initRoleSelect();
+}
+
+function initRoleSelect() {
+	var uid = $("#uid_role").val();
 	var param = {
 		uid : uid
 	};
@@ -556,7 +572,7 @@ function roleView(uid, username, realName) {
 			selectedList = data.selectedList;
 		}
 	});
-	$("#roleSelect").empty(); 
+	$("#roleSelect").empty();
 	$('#roleSelect').doublebox({
 		nonSelectedListLabel : '选择角色',
 		selectedListLabel : '授权用户角色',
@@ -905,6 +921,49 @@ function initSelect() {
 
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("error");
+		}
+	});
+}
+
+/**
+ * 设置用户角色
+ */
+function setUserRole(l) {
+	var uid = $("#uid_role").val();
+	var roles = "";
+	$("#roleSelect option:selected").each(function() {
+		roles += $(this).val() + "|";
+	});
+	if (roles == "") {
+		swal('请选择角色!', '', 'warning');
+		return;
+	}
+
+	var param = {
+		uid : uid,
+		roles : roles
+	};
+	l.start();
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		// contentType : 'application/json;charset=utf-8',
+		url : "setUserRole",// 请求的action路径
+		data : param,
+		error : function() {// 请求失败处理函数
+			swal('设置用户角色失败!', '', 'error');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			var result = data.result;
+			if (result) {
+				swal('设置用户角色成功!', '', 'success');
+			} else {
+				var msg = data.msg;
+				swal('设置用户角色失败!', msg, 'error');
+			}
+		},
+		complete : function() {
+			l.stop();
 		}
 	});
 }
