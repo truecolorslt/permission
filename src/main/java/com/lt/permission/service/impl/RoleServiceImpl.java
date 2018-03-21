@@ -110,8 +110,19 @@ public class RoleServiceImpl extends BaseServiceImpl implements IRoleService {
 	}
 
 	@Override
-	public List<Map<String,Object>> getFunctionByRole(String rid) {
+	public List<Map<String, Object>> getFunctionByRole(String rid) {
 		return roleFunctionDao.getRoleFunctionByRole(rid);
+	}
+
+	@Override
+	public List<Role> getRoleByUid(String uid, Boolean hasRole) {
+		List<Role> roleList = null;
+		if (hasRole) {
+			roleList = roleDao.getRoleByUid(uid);
+		} else {
+			roleList = roleDao.getNonRoleByUid(uid);
+		}
+		return roleList;
 	}
 
 }

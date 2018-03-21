@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
 import com.lt.permission.model.Department;
+import com.lt.permission.model.Role;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IDepartmentService;
+import com.lt.permission.service.IRoleService;
 import com.lt.permission.service.IUserService;
 import com.lt.permission.util.MD5Util;
 import com.lt.permission.vo.UserVo;
@@ -42,6 +45,9 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private IDepartmentService departmentService;
+
+	@Autowired
+	private IRoleService roleService;
 
 	/**
 	 * 进入用户管理页面
@@ -229,11 +235,6 @@ public class UserController extends BaseController {
 			@RequestParam(value = "uid", required = true) String uid,
 			@RequestParam(value = "password", required = true) String password) {
 		String rtnStr = "";
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		JSONObject jo = new JSONObject();
 		UserDto dto = new UserDto();
 		dto.setUid(uid);
@@ -246,6 +247,47 @@ public class UserController extends BaseController {
 		}
 		rtnStr = jo.toString();
 		return rtnStr;
+	}
 
+	/**
+	 * 获取用户角色list
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping(value = "/getRoleList")
+	@ResponseBody
+	public String getRoleList(
+			@RequestParam(value = "uid", required = true) String uid) {
+		String rtnStr = "";
+		// 未拥有的角色
+		List<Role> nonSelectedList = roleService.getRoleByUid(uid, false);
+		// 已经拥有的角色；
+		List<Role> selectedList = roleService.getRoleByUid(uid, true);
+		
+		List<Map<String, Object>> mapList1 = new ArrayList<Map<String,Object>>();
+		if(nonSelectedList!=null && nonSelectedList.size()>0) {
+			for(Role r:nonSelectedList) {
+				Map<String, Object> map1 = new HashMap<String, Object>();
+				map1.put("roleId", r.getRid());
+				map1.put("roleName", r.getRname());
+				mapList1.add(map1);
+			}
+		}
+		List<Map<String, Object>> mapList2 = new ArrayList<Map<String,Object>>();
+		if(selectedList!=null && selectedList.size()>0) {
+			for(Role r:selectedList) {
+				Map<String, Object> map2 = new HashMap<String, Object>();
+				map2.put("roleId", r.getRid());
+				map2.put("roleName", r.getRname());
+				mapList2.add(map2);
+			}
+		}
+		
+		JSONObject rtnJson = new JSONObject();
+		rtnJson.put("nonSelectedList", mapList1);
+		rtnJson.put("selectedList", mapList2);
+		rtnStr = rtnJson.toJSONString();
+		return rtnStr;
 	}
 }

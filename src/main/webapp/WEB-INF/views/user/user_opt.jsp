@@ -269,3 +269,61 @@
 		</div>
 	</div>
 </div>
+
+<!-- 设置角色div -->
+<div class="modal fade" id="roleUpdateModal" tabindex="-1" role="dialog"
+	aria-labelledby="roleUpdateModalLabel">
+	<div class="modal-dialog" role="document"
+		style="width: 80%;height: 460px;"  >
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="roleUpdateModalLabel">设置角色</h4>
+			</div>
+			<div class="modal-body">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="updateRoleForm">
+							<input type="hidden" name="uid_role" id="uid_role">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">用户姓名：</label>
+								<div class="col-sm-2">
+									<p class="form-control-static text-muted">
+										<font size="2"><strong><span
+												id="realName_role"></span> </strong> </font>
+									</p>
+								</div>
+								<label class="col-sm-3 control-label">用户账号：</label>
+								<div class="col-sm-3">
+									<p class="form-control-static text-muted">
+										<font size="2"><strong><span
+												id="username_role"></span> </strong> </font>
+									</p>
+								</div>
+							</div>
+							<!-- 页面结构 -->
+							<div class="ue-container">
+								<select multiple="multiple" name="doublebox" size="6"
+									style="height:180px"
+									id="roleSelect">
+								</select>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="btn_role_update" class="btn btn-primary ladda-button"
+					data-style="zoom-in">
+					<span class="glyphicon glyphicon-floppy-disk ladda-label">保存</span>
+				</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

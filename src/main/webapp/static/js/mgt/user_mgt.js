@@ -37,6 +37,7 @@ function initTable() {
 						datatype : "json",
 						autowidth : true,
 						shrinkToFit : true,
+						autoScroll : true,
 						rowNum : 10,
 						rowList : [ 10, 20, 50 ],
 						colModel : [
@@ -45,7 +46,7 @@ function initTable() {
 									name : 'realName',
 									index : 'realName',
 									editable : true,
-									width : 80,
+									width : 120,
 									sortable : false
 								},
 								{
@@ -53,42 +54,42 @@ function initTable() {
 									name : 'username',
 									index : 'username',
 									editable : false,
-									width : 80
+									width : 120
 								},
 								{
 									label : '性别',
 									name : 'sex',
 									index : 'sex',
 									editable : false,
-									width : 30
+									width : 60
 								},
 								{
 									label : '部门',
 									name : 'dname',
 									index : 'dname',
 									editable : false,
-									width : 100,
+									width : 200
 								},
 								{
 									label : '昵称',
 									name : 'nickName',
 									index : 'nickName',
 									editable : false,
-									width : 80,
+									width : 120
 								},
 								{
 									label : '备注',
 									name : 'remark',
 									index : 'remark',
 									editable : true,
-									width : 80,
-									sortable : false,
+									width : 120,
+									sortable : false
 								},
 								{
 									label : '操作',
 									name : 'operate',
 									index : 'operate',
-									width : 150,
+									width : 220,
 									fixed : true,
 									sortable : false,
 									resize : false,
@@ -113,10 +114,21 @@ function initTable() {
 												+ rowObject.uid + "','"
 												+ rowObject.username + "','"
 												+ rowObject.realName + "')";
+										// 设置角色
+										var roleFunction = "roleView('"
+												+ rowObject.uid + "','"
+												+ rowObject.username + "','"
+												+ rowObject.realName + "')";
 										var actions = '<a href="#" class="btn btn-info" onclick="'
 												+ detailFunction
 												+ '" title="编辑用户">'
 												+ '<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
+
+										actions += '<a href="#" class="btn btn-warning" onclick="'
+												+ roleFunction
+												+ '" title="设置角色">'
+												+ '<i class="fa fa-user-md" aria-hidden="true"></i></a>';
 										actions += '&nbsp;&nbsp;&nbsp;&nbsp;';
 
 										actions += '<a href="#" class="btn btn-success" onclick="'
@@ -154,6 +166,8 @@ function initTable() {
 							}
 						}
 					});
+
+	$("#table_list").jqGrid('setFrozenColumns');
 
 	// 自应高度
 	var newHeight = $(window).height() - 265;
@@ -511,6 +525,53 @@ function resetPwdView(uid, username, realName) {
 }
 
 /**
+ * 设置角色
+ * 
+ * @param uid
+ * @param username
+ */
+function roleView(uid, username, realName) {
+	$("#roleUpdateModalLabel").text("设置角色");
+	$("#roleUpdateModal").modal();
+
+	$("#realName_role").html(realName);
+	$("#username_role").html(username);
+	$("#uid_role").val(uid);
+	var param = {
+		uid : uid
+	};
+	var nonSelectedList;
+	var selectedList;
+	$.ajax({
+		data : param,
+		async : false,
+		type : 'POST',
+		dataType : "json",
+		url : "getRoleList",// 请求的action路径
+		error : function() {// 请求失败处理函数
+			alert('角色加载失败');
+		},
+		success : function(data) { // 请求成功后处理函数。
+			nonSelectedList = data.nonSelectedList;
+			selectedList = data.selectedList;
+		}
+	});
+	$("#roleSelect").empty(); 
+	$('#roleSelect').doublebox({
+		nonSelectedListLabel : '选择角色',
+		selectedListLabel : '授权用户角色',
+		preserveSelectionOnMove : 'moved',
+		moveOnSelect : false,
+		filterPlaceHolder : "请输入角色名称",
+		nonSelectedList : nonSelectedList,
+		selectedList : selectedList,
+		optionValue : "roleId",
+		optionText : "roleName",
+		doubleMove : true,
+	});
+}
+
+/**
  * 编辑用户信息
  * 
  * @param uid
@@ -811,8 +872,8 @@ function getTreePath(treeObj) {
 	if (pNode != null) {
 		treename = getTreePath(pNode) + "|" + treename;
 	}
-	if(treename.indexOf("|")==0) {
-		treename = treename.substring(1,treename.length);
+	if (treename.indexOf("|") == 0) {
+		treename = treename.substring(1, treename.length);
 	}
 	return treename;
 }

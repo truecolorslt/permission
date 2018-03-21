@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.lt.permission.dto.RoleDto;
 import com.lt.permission.dto.RoleQueryDto;
-import com.lt.permission.model.RoleFunction;
+import com.lt.permission.model.Role;
 import com.lt.permission.vo.RoleVo;
 
 public interface IRoleService {
@@ -58,4 +58,12 @@ public interface IRoleService {
 	 * @return
 	 */
 	public List<Map<String,Object>> getFunctionByRole(String rid);
+	
+	/**
+	 * 根据用户ID获取角色集合
+	 * @param uid
+	 * @param hasRole	true-已经拥有的角色；false-未拥有的角色
+	 * @return
+	 */
+	public List<Role> getRoleByUid(String uid,Boolean hasRole);
 }

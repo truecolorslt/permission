@@ -24,5 +24,9 @@ public interface RoleDao {
 	public int findRolesCount(Map<String, Object> map);
 
 	public int logicDeleteRole(String rid);
-
+	
+	public List<Role> getRoleByUid(String uid);
+	
+	public List<Role> getNonRoleByUid(String uid);
+	
 }

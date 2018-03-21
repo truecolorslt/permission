@@ -203,4 +203,21 @@
 		where rid =
 		#{rid,jdbcType=VARCHAR}
 	</update>
+	
+	<select id="getRoleByUid" resultMap="BaseResultMap">
+		select r.rid, r.rname, r.rcode, r.remark
+		from t_role r left join t_user_role ur
+		on r.rid=ur.rid
+		where ur.uid=#{uid,jdbcType=VARCHAR} 
+		and r.is_delete=0 and ur.is_delete=0 
+		order by r.created_time
+	</select>
+	<select id="getNonRoleByUid" resultMap="BaseResultMap">
+		select r.rid, r.rname, r.rcode, r.remark
+		from t_role r left join t_user_role ur
+		on r.rid=ur.rid and ur.uid=#{uid,jdbcType=VARCHAR} and ur.is_delete=0 
+		where ur.rid is null
+		and r.is_delete=0 
+		order by r.created_time
+	</select>
 </mapper>

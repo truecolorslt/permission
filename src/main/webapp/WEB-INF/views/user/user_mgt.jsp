@@ -6,10 +6,22 @@
 
 <link rel="stylesheet" href="<%=path%>/static/css/table.css">
 <link rel="stylesheet" href="<%=path%>/static/css/modal.css">
-
+<!-- jqgrid表格css -->
 <link rel="stylesheet"
-	href="<%=path%>/static/css/plugins/jqgrid/ui.jqgrid.css?0820">
-
+	href="<%=path%>/static/css/plugins/jqgrid/ui.jqgrid.css">
+<!-- 双向选择css -->
+<link rel="stylesheet"
+	href="<%=path%>/static/css/plugins/doublebox/doublebox-bootstrap.css">
+<style>
+  .ue-container {
+	   width: 90%;
+	   margin: 0 auto;
+	   margin-top: 1%;
+	   padding: 20px 40px;
+	   border: 1px solid #ddd;
+	   background: #fff;
+   }
+	</style>
 <title>用户管理</title>
 </head>
 <body style="background-color: transparent;">
@@ -74,6 +86,7 @@
 	</div>
 	<!-- 新增、编辑div -->
 	<%@ include file="user_opt.jsp"%>
+	
 </body>
 
 <!-- js插件 -->
@@ -84,6 +97,8 @@
 	src="<%=path%>/static/js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
 <!-- ztree树形菜单 -->
 <script src="<%=path%>/static/assets/js/zTree/jquery.ztree.all-3.5.js"></script>
-
+<!-- 双向表格js -->
+<script
+	src="<%=path%>/static/js/plugins/doublebox/doublebox-bootstrap.js"></script>
 <!-- 自定义js -->
 <script src="<%=path%>/static/js/mgt/user_mgt.js"></script>
