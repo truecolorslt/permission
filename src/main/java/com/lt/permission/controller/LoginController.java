@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.annotation.Log;
 import com.lt.permission.dto.LoginDto;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IUserService;
@@ -109,5 +110,4 @@ public class LoginController extends BaseController {
 	public String login() {
 		return "/login.jsp";
 	}
-
 }

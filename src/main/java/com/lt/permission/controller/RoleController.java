@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.annotation.Log;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.RoleDto;
 import com.lt.permission.dto.RoleQueryDto;
@@ -170,6 +171,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteRole")
 	@ResponseBody
+	@Log(operationType = "delete操作:", operationName = "删除角色")
 	public String deleteRole(
 			@RequestParam(value = "rid", required = true) String rid) {
 		String rtnStr = "";

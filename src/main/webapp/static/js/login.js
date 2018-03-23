@@ -110,7 +110,7 @@ function initButton() {
 							// settings
 							type : "danger",
 							placement : {
-								from : "bottom",
+								from : "top",
 								align : "right"
 							}
 						});
