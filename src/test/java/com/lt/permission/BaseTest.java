@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring-application.xml" })
+@ContextConfiguration(locations = { "classpath:spring-application.xml","classpath:spring-mvc.xml" })
 @Transactional(transactionManager = "transactionManager")
 public class BaseTest {
 

@@ -7,8 +7,6 @@ import com.lt.permission.BaseTest;
 
 public class LoginControllerTest extends BaseTest {
 	@Autowired
-	LoginController loginController;
-	@Autowired
 	RoleController roleController;
 	@Test
 	 public void testAOP1(){

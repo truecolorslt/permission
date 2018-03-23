@@ -37,6 +37,7 @@ public class LoginController extends BaseController {
 	private IUserService userService;
 
 	@RequestMapping(value = "/doLogin")
+	@Log(operationType = "login操作:", operationName = "用户登录")
 	@ResponseBody
 	public String doLogin(@RequestBody LoginDto dto) {
 		dto.setPassword(MD5Util.getMD5(dto.getPassword()));

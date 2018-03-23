@@ -171,7 +171,6 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteRole")
 	@ResponseBody
-	@Log(operationType = "delete操作:", operationName = "删除角色")
 	public String deleteRole(
 			@RequestParam(value = "rid", required = true) String rid) {
 		String rtnStr = "";

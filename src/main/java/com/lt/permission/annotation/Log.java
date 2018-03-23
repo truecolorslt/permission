@@ -6,9 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-//@Target({ ElementType.PARAMETER, ElementType.METHOD })
+@Target({ ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD )
 @Documented
 public @interface Log {
 	/** 要执行的操作类型比如：add操作 **/

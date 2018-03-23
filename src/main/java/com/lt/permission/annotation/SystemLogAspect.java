@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -38,7 +36,9 @@ public class SystemLogAspect {
 			.getLogger(SystemLogAspect.class);
 
 	// Controller层切点
-	@Pointcut("execution (* com.lt.permission.controller..*.*(..))")
+	// @Pointcut("execution (* com.lt.permission.controller..*.*(..))")
+	@Pointcut("execution (* com.lt.permission.controller..*.*(..)) "
+			+ "&& @annotation(com.lt.permission.annotation.Log)")
 	public void controllerAspect() {
 	}
 
@@ -58,11 +58,12 @@ public class SystemLogAspect {
 
 	// 配置controller环绕通知,使用在方法aspect()上注册的切入点
 	@Around("controllerAspect()")
-	public void around(JoinPoint joinPoint) {
+	public Object around(JoinPoint joinPoint) {
+		Object object = null;
 		System.out.println("==========开始执行controller环绕通知===============");
 		long start = System.currentTimeMillis();
 		try {
-			((ProceedingJoinPoint) joinPoint).proceed();
+			object = ((ProceedingJoinPoint) joinPoint).proceed();
 			long end = System.currentTimeMillis();
 			if (logger.isInfoEnabled()) {
 				logger.info("around " + joinPoint + "\tUse time : "
@@ -77,6 +78,7 @@ public class SystemLogAspect {
 						+ e.getMessage());
 			}
 		}
+		return object;
 	}
 
 	/**
