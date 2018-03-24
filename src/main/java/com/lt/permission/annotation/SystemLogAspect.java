@@ -132,68 +132,12 @@ public class SystemLogAspect {
 
 	/**
 	 * 记录系统日志：操作日志+业务日志
+	 * 
+	 * @throws ClassNotFoundException
 	 **/
 	private void saveSystemLog(JoinPoint joinPoint)
 			throws ClassNotFoundException {
-		String params = "";
-		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-			for (int i = 0; i < joinPoint.getArgs().length; i++) {
-				params += JsonUtils.toJSONString(joinPoint.getArgs()[i]) + ";";
-			}
-		}
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest();
-		HttpSession session = request.getSession();
-
-		// 读取session中的用户
-		// User user = (User) session.getAttribute("user");
-		// 请求的IP
-		String ip = request.getRemoteAddr();
-		User user = new User();
-		user.setUid("1");
-		user.setRealName("张三");
-
-		String targetName = joinPoint.getTarget().getClass().getName();
-		String methodName = joinPoint.getSignature().getName();
-		Object[] arguments = joinPoint.getArgs();
-		Class targetClass = Class.forName(targetName);
-		Method[] methods = targetClass.getMethods();
-		String operationType = "";
-		String operationName = "";
-		for (Method method : methods) {
-			if (method.getName().equals(methodName)) {
-				Class[] clazzs = method.getParameterTypes();
-				if (clazzs.length == arguments.length) {
-					operationType = method.getAnnotation(Log.class).logType();
-					operationName = method.getAnnotation(Log.class).logDesc();
-					break;
-				}
-			}
-		}
-		// *========控制台输出=========*//
-		logger.info("请求方法:"
-				+ (joinPoint.getTarget().getClass().getName() + "."
-						+ joinPoint.getSignature().getName() + "()"));
-		logger.info("方法描述:" + operationName);
-		logger.info("请求人:" + user.getRealName());
-		logger.info("请求IP:" + ip);
-		// *========数据库日志=========*//
-		SystemLog log = new SystemLog();
-		log.setLid(UUID.randomUUID().toString());
-		log.setDescription(operationName);
-		log.setMethod((joinPoint.getTarget().getClass().getName() + "."
-				+ joinPoint.getSignature().getName() + "()"));
-		log.setLogType(operationType);
-		log.setRequestIp(ip);
-		log.setExceptionCode(null);
-		log.setExceptionDetail(null);
-		log.setParams(params);
-		log.setCreator(user.getRealName());
-		log.setUid(user.getUid());
-		log.setCreatedTime(new Date());
-		// 保存数据库
-		systemLogService.insert(log);
-
+		this.saveLog(joinPoint, null);
 	}
 
 	/**
@@ -203,6 +147,18 @@ public class SystemLogAspect {
 	 * @throws ClassNotFoundException
 	 */
 	private void saveExceptionLog(JoinPoint joinPoint, Throwable e)
+			throws ClassNotFoundException {
+		this.saveLog(joinPoint, e);
+	}
+
+	/**
+	 * 保存日志
+	 * 
+	 * @param joinPoint
+	 * @param e
+	 * @throws ClassNotFoundException
+	 */
+	private void saveLog(JoinPoint joinPoint, Throwable e)
 			throws ClassNotFoundException {
 		String params = "";
 		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
@@ -218,7 +174,6 @@ public class SystemLogAspect {
 		String ip = request.getRemoteAddr();
 
 		// 获取用户请求方法的参数并序列化为JSON格式字符串
-
 		User user = new User();
 		user.setUid("1");
 		user.setRealName("张三");
@@ -241,9 +196,7 @@ public class SystemLogAspect {
 			}
 		}
 		/* ========控制台输出========= */
-		logger.info("异常代码:" + e.getClass().getName());
-		logger.info("异常信息:" + e.getMessage());
-		logger.info("异常方法:"
+		logger.info("请求方法:"
 				+ (joinPoint.getTarget().getClass().getName() + "."
 						+ joinPoint.getSignature().getName() + "()"));
 		logger.info("方法描述:" + operationName);
@@ -254,9 +207,18 @@ public class SystemLogAspect {
 		SystemLog log = new SystemLog();
 		log.setLid(UUID.randomUUID().toString());
 		log.setDescription(operationName);
-		log.setExceptionCode(e.getClass().getName());
+		if (e != null) {
+			log.setExceptionCode(e.getClass().getName());
+			log.setExceptionDetail(e.getMessage());
+			/* ==========记录本地异常日志========== */
+			logger.info("异常代码:" + e.getClass().getName());
+			logger.info("异常信息:" + e.getMessage());
+			logger.error("异常方法:{}异常代码:{}异常信息:{}参数:{}", joinPoint.getTarget()
+					.getClass().getName()
+					+ joinPoint.getSignature().getName(), e.getClass()
+					.getName(), e.getMessage(), params);
+		}
 		log.setLogType(operationType);
-		log.setExceptionDetail(e.getMessage());
 		log.setMethod((joinPoint.getTarget().getClass().getName() + "."
 				+ joinPoint.getSignature().getName() + "()"));
 		log.setParams(params);
@@ -264,12 +226,10 @@ public class SystemLogAspect {
 		log.setUid(user.getUid());
 		log.setCreatedTime(new Date());
 		log.setRequestIp(ip);
+		log.setRelationFunctionCode("");
+		log.setRelationFunctionDetail("");
 		// 保存数据库
 		systemLogService.insert(log);
-		/* ==========记录本地异常日志========== */
-		logger.error("异常方法:{}异常代码:{}异常信息:{}参数:{}", joinPoint.getTarget()
-				.getClass().getName()
-				+ joinPoint.getSignature().getName(), e.getClass().getName(),
-				e.getMessage(), params);
+
 	}
 }
