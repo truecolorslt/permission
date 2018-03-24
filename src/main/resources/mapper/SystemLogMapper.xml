@@ -7,15 +7,18 @@
     <result column="method" jdbcType="VARCHAR" property="method" />
     <result column="log_type" jdbcType="VARCHAR" property="logType" />
     <result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
+    <result column="relation_function_code" jdbcType="VARCHAR" property="relationFunctionCode" />
+    <result column="relation_function_detail" jdbcType="VARCHAR" property="relationFunctionDetail" />
     <result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
     <result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
     <result column="params" jdbcType="VARCHAR" property="params" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
   </resultMap>
   <sql id="Base_Column_List">
-    lid, description, method, log_type, request_ip, exception_code, exception_detail, 
-    params, created_time, creator
+    lid, description, method, log_type, request_ip, relation_function_code, relation_function_detail, 
+    exception_code, exception_detail, params, created_time, creator, uid
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -29,13 +32,15 @@
   </delete>
   <insert id="insert" parameterType="com.lt.permission.model.SystemLog">
     insert into t_system_log (lid, description, method, 
-      log_type, request_ip, exception_code, 
+      log_type, request_ip, relation_function_code, 
+      relation_function_detail, exception_code, 
       exception_detail, params, created_time, 
-      creator)
+      creator, uid)
     values (#{lid,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
-      #{logType,jdbcType=VARCHAR}, #{requestIp,jdbcType=VARCHAR}, #{exceptionCode,jdbcType=VARCHAR}, 
-      #{exceptionDetail,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, now(), 
-      #{creator,jdbcType=VARCHAR})
+      #{logType,jdbcType=VARCHAR}, #{requestIp,jdbcType=VARCHAR}, #{relationFunctionCode,jdbcType=VARCHAR}, 
+      #{relationFunctionDetail,jdbcType=VARCHAR}, #{exceptionCode,jdbcType=VARCHAR}, 
+      #{exceptionDetail,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lt.permission.model.SystemLog">
     insert into t_system_log
@@ -55,6 +60,12 @@
       <if test="requestIp != null">
         request_ip,
       </if>
+      <if test="relationFunctionCode != null">
+        relation_function_code,
+      </if>
+      <if test="relationFunctionDetail != null">
+        relation_function_detail,
+      </if>
       <if test="exceptionCode != null">
         exception_code,
       </if>
@@ -69,6 +80,9 @@
       </if>
       <if test="creator != null">
         creator,
+      </if>
+      <if test="uid != null">
+        uid,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -87,6 +101,12 @@
       <if test="requestIp != null">
         #{requestIp,jdbcType=VARCHAR},
       </if>
+      <if test="relationFunctionCode != null">
+        #{relationFunctionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="relationFunctionDetail != null">
+        #{relationFunctionDetail,jdbcType=VARCHAR},
+      </if>
       <if test="exceptionCode != null">
         #{exceptionCode,jdbcType=VARCHAR},
       </if>
@@ -101,6 +121,9 @@
       </if>
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -119,6 +142,12 @@
       <if test="requestIp != null">
         request_ip = #{requestIp,jdbcType=VARCHAR},
       </if>
+      <if test="relationFunctionCode != null">
+        relation_function_code = #{relationFunctionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="relationFunctionDetail != null">
+        relation_function_detail = #{relationFunctionDetail,jdbcType=VARCHAR},
+      </if>
       <if test="exceptionCode != null">
         exception_code = #{exceptionCode,jdbcType=VARCHAR},
       </if>
@@ -134,6 +163,9 @@
       <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
       </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
     </set>
     where lid = #{lid,jdbcType=VARCHAR}
   </update>
@@ -143,11 +175,14 @@
       method = #{method,jdbcType=VARCHAR},
       log_type = #{logType,jdbcType=VARCHAR},
       request_ip = #{requestIp,jdbcType=VARCHAR},
+      relation_function_code = #{relationFunctionCode,jdbcType=VARCHAR},
+      relation_function_detail = #{relationFunctionDetail,jdbcType=VARCHAR},
       exception_code = #{exceptionCode,jdbcType=VARCHAR},
       exception_detail = #{exceptionDetail,jdbcType=VARCHAR},
       params = #{params,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR}
+      creator = #{creator,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=VARCHAR}
     where lid = #{lid,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.annotation.Log;
+import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.LoginDto;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IUserService;
@@ -36,8 +37,14 @@ public class LoginController extends BaseController {
 	@Autowired
 	private IUserService userService;
 
+	/**
+	 * 用户登录
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@RequestMapping(value = "/doLogin")
-	@Log(operationType = "login操作:", operationName = "用户登录")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "用户登录")
 	@ResponseBody
 	public String doLogin(@RequestBody LoginDto dto) {
 		dto.setPassword(MD5Util.getMD5(dto.getPassword()));

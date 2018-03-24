@@ -13,6 +13,10 @@ public class SystemLog {
 
     private String requestIp;
 
+    private String relationFunctionCode;
+
+    private String relationFunctionDetail;
+
     private String exceptionCode;
 
     private String exceptionDetail;
@@ -22,6 +26,8 @@ public class SystemLog {
     private Date createdTime;
 
     private String creator;
+
+    private String uid;
 
     public String getLid() {
         return lid;
@@ -63,6 +69,22 @@ public class SystemLog {
         this.requestIp = requestIp == null ? null : requestIp.trim();
     }
 
+    public String getRelationFunctionCode() {
+        return relationFunctionCode;
+    }
+
+    public void setRelationFunctionCode(String relationFunctionCode) {
+        this.relationFunctionCode = relationFunctionCode == null ? null : relationFunctionCode.trim();
+    }
+
+    public String getRelationFunctionDetail() {
+        return relationFunctionDetail;
+    }
+
+    public void setRelationFunctionDetail(String relationFunctionDetail) {
+        this.relationFunctionDetail = relationFunctionDetail == null ? null : relationFunctionDetail.trim();
+    }
+
     public String getExceptionCode() {
         return exceptionCode;
     }
@@ -101,5 +123,13 @@ public class SystemLog {
 
     public void setCreator(String creator) {
         this.creator = creator == null ? null : creator.trim();
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid == null ? null : uid.trim();
     }
 }

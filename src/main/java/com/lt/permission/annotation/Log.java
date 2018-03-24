@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Log {
-	/** 要执行的操作类型比如：add操作 **/
-	public String operationType() default "";
+	/** 日志类型，比如：01-操作日志； 02-业务日志； 03-异常日志 **/
+	public String logType() default "";
 
-	/** 要执行的具体操作比如：添加用户 **/
-	public String operationName() default "";
+	/** 日志描述，比如：添加用户 **/
+	public String logDesc() default "";
 }
