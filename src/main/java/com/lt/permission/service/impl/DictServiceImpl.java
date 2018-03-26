@@ -161,4 +161,9 @@ public class DictServiceImpl extends BaseServiceImpl implements IDictService {
 		}
 		return attr;
 	}
+
+	@Override
+	public List<Dict> getAllDicts() {
+		return dictDao.getAllDicts();
+	}
 }

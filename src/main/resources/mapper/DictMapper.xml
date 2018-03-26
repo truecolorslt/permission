@@ -266,4 +266,12 @@
 		where is_delete=0 and pdid =#{pdid,jdbcType=VARCHAR}
 		order by dsort,dkey
 	</select>
+	
+	<select id="getAllDicts" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dict
+		where is_delete=0 and pdid is null
+		order by dsort,dkey
+	</select>
 </mapper>

@@ -27,4 +27,6 @@ public interface DictDao {
 	public Dict getDictByCode(String dcode);
 	
 	public List<Dict> getDictsByPdid(Map<String, Object> map);
+	
+	public List<Dict> getAllDicts();
 }

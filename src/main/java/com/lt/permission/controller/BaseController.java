@@ -1,5 +1,7 @@
 package com.lt.permission.controller;
 
+import java.util.List;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lt.permission.common.DictConstants;
+import com.lt.permission.init.LoadInfo;
 import com.lt.permission.model.Dict;
 import com.lt.permission.service.IDictService;
 import com.lt.permission.util.JsonUtils;
@@ -55,7 +58,18 @@ public class BaseController {
 	 * @return
 	 */
 	public String getAttrValue(String code, String key) {
-		Dict d = dictService.getAttrByCodeAndKey(code, key);
+		Dict d = null;
+		List<Dict> list = (List<Dict>) LoadInfo.initDictInfo.get(code);
+		if (list != null && list.size() > 0) {
+			for (Dict d1 : list) {
+				if (d1.getDcode().equals(key)) {
+					d = d1;
+					break;
+				}
+			}
+		} else {
+			d = dictService.getAttrByCodeAndKey(code, key);
+		}
 		String value = "";
 		if (d != null) {
 			value = d.getDname();

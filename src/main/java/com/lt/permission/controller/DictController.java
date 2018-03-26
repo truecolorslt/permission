@@ -20,6 +20,7 @@ import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
+import com.lt.permission.init.LoadInfo;
 import com.lt.permission.model.Dict;
 import com.lt.permission.service.IDictService;
 import com.lt.permission.util.DateUtil;
@@ -306,7 +307,10 @@ public class DictController extends BaseController {
 		JSONObject jo = null;
 		JSONArray ja = null;
 		try {
-			List<Dict> dictList = dictService.getDictAttrsByCode(code);
+			List<Dict> dictList = (List<Dict>) LoadInfo.initDictInfo.get(code);
+			if (dictList == null || dictList.size() == 0) {
+				dictList = dictService.getDictAttrsByCode(code);
+			}
 			if (dictList != null && dictList.size() > 0) {
 				ja = new JSONArray();
 				for (Dict d : dictList) {

@@ -95,10 +95,10 @@ public class SystemLogAspect {
 	 */
 	@After("controllerAspect()")
 	public void after(JoinPoint joinPoint) {
-		logger.info("=====controller后置通知开始=====");
 		try {
+			// logger.info("=====controller后置通知开始=====");
 			this.saveSystemLog(joinPoint);
-			logger.info("=====controller后置通知结束=====");
+			// logger.info("=====controller后置通知结束=====");
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 记录本地异常日志
@@ -206,11 +206,11 @@ public class SystemLogAspect {
 			}
 		}
 		/* ========控制台输出========= */
-		logger.info("请求方法:" + (targetName + "." + methodName + "()"));
-		logger.info("方法描述:" + logDesc);
-		logger.info("请求人:" + user.getRealName());
-		logger.info("请求IP:" + ip);
-		logger.info("请求参数:" + params);
+		// logger.info("请求方法:" + (targetName + "." + methodName + "()"));
+		// logger.info("方法描述:" + logDesc);
+		// logger.info("请求人:" + user.getRealName());
+		// logger.info("请求IP:" + ip);
+		// logger.info("请求参数:" + params);
 		/* ==========数据库日志========= */
 		SystemLog log = new SystemLog();
 		log.setLid(UUID.randomUUID().toString());
@@ -242,7 +242,7 @@ public class SystemLogAspect {
 			} else {
 				String key = functionController.replace("Controller", "")
 						.toLowerCase();
-				Function f = (Function) LoadInfo.initInfo.get(key);
+				Function f = (Function) LoadInfo.initFunctionInfo.get(key);
 				if (f != null) {
 					log.setRelationFunctionCode(f.getFid());
 					log.setRelationFunctionDetail(f.getFname() + "（"

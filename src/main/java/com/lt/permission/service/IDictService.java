@@ -87,4 +87,11 @@ public interface IDictService {
 	 * @return
 	 */
 	public Dict getAttrByCodeAndKey(String code, String key);
+
+	/**
+	 * 查询所有有效数据字典信息
+	 * 
+	 * @return
+	 */
+	public List<Dict> getAllDicts();
 }
