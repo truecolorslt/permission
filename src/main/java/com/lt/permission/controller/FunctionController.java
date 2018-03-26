@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.annotation.Log;
+import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.FunctionDto;
 import com.lt.permission.model.Function;
 import com.lt.permission.service.IFunctionService;
@@ -89,6 +91,7 @@ public class FunctionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findFunctionTrees")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询功能列表")
 	@ResponseBody
 	public String findFunctionTrees() {
 		String treesJson = "";
@@ -102,7 +105,7 @@ public class FunctionController extends BaseController {
 			rootMap.put("pId", null);
 			rootMap.put("name", "当前系统");
 			rootMap.put("open", true);
-			rootMap.put("nocheck",true);
+			rootMap.put("nocheck", true);
 			mapList.add(rootMap);
 			if (functionList != null && functionList.size() > 0) {
 				for (Function f : functionList) {
@@ -130,6 +133,7 @@ public class FunctionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getFunction")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询功能明细")
 	@ResponseBody
 	public String getFunction(@RequestBody String param) {
 		String rtnStr = "";
@@ -166,6 +170,7 @@ public class FunctionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addFunction")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增功能信息")
 	@ResponseBody
 	public String addFunction(@RequestBody FunctionDto dto) {
 		String rtnStr = "";
@@ -199,6 +204,7 @@ public class FunctionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateFunction")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "修改功能信息")
 	@ResponseBody
 	public String updateFunction(@RequestBody FunctionDto dto) {
 		String rtnStr = "";
@@ -224,6 +230,7 @@ public class FunctionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/deleteFunction")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "删除功能信息")
 	@ResponseBody
 	public String deleteFunction(@RequestBody String param) {
 		String rtnStr = "";

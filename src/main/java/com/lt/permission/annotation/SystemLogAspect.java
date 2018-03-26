@@ -2,6 +2,8 @@ package com.lt.permission.annotation;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.lt.permission.init.LoadInfo;
+import com.lt.permission.model.Function;
 import com.lt.permission.model.SystemLog;
 import com.lt.permission.model.User;
 import com.lt.permission.service.ISystemLogService;
@@ -162,9 +167,14 @@ public class SystemLogAspect {
 			throws ClassNotFoundException {
 		String params = "";
 		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
+			Object[] paramValues = joinPoint.getArgs();
+			String[] paramNames = ((CodeSignature) joinPoint.getSignature())
+					.getParameterNames();
+			Map<String, Object> paramMap = new HashMap<String, Object>();
 			for (int i = 0; i < joinPoint.getArgs().length; i++) {
-				params += JsonUtils.toJSONString(joinPoint.getArgs()[i]) + ";";
+				paramMap.put(paramNames[i], paramValues[i]);
 			}
+			params = JsonUtils.toJSONString(paramMap);
 		}
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes()).getRequest();
@@ -183,30 +193,28 @@ public class SystemLogAspect {
 		Object[] arguments = joinPoint.getArgs();
 		Class targetClass = Class.forName(targetName);
 		Method[] methods = targetClass.getMethods();
-		String operationType = "";
-		String operationName = "";
+		String logType = "";
+		String logDesc = "";
 		for (Method method : methods) {
 			if (method.getName().equals(methodName)) {
 				Class[] clazzs = method.getParameterTypes();
 				if (clazzs.length == arguments.length) {
-					operationType = method.getAnnotation(Log.class).logType();
-					operationName = method.getAnnotation(Log.class).logDesc();
+					logType = method.getAnnotation(Log.class).logType();
+					logDesc = method.getAnnotation(Log.class).logDesc();
 					break;
 				}
 			}
 		}
 		/* ========控制台输出========= */
-		logger.info("请求方法:"
-				+ (joinPoint.getTarget().getClass().getName() + "."
-						+ joinPoint.getSignature().getName() + "()"));
-		logger.info("方法描述:" + operationName);
+		logger.info("请求方法:" + (targetName + "." + methodName + "()"));
+		logger.info("方法描述:" + logDesc);
 		logger.info("请求人:" + user.getRealName());
 		logger.info("请求IP:" + ip);
 		logger.info("请求参数:" + params);
 		/* ==========数据库日志========= */
 		SystemLog log = new SystemLog();
 		log.setLid(UUID.randomUUID().toString());
-		log.setDescription(operationName);
+		log.setDescription(logDesc);
 		if (e != null) {
 			log.setExceptionCode(e.getClass().getName());
 			log.setExceptionDetail(e.getMessage());
@@ -218,16 +226,30 @@ public class SystemLogAspect {
 					+ joinPoint.getSignature().getName(), e.getClass()
 					.getName(), e.getMessage(), params);
 		}
-		log.setLogType(operationType);
-		log.setMethod((joinPoint.getTarget().getClass().getName() + "."
-				+ joinPoint.getSignature().getName() + "()"));
+		log.setLogType(logType);
+		log.setMethod(targetName + "." + methodName + "()");
 		log.setParams(params);
 		log.setCreator(user.getRealName());
 		log.setUid(user.getUid());
 		log.setCreatedTime(new Date());
 		log.setRequestIp(ip);
-		log.setRelationFunctionCode("");
-		log.setRelationFunctionDetail("");
+		String[] functionArr = targetName.split("[.]");
+		if (functionArr != null && functionArr.length > 0) {
+			String functionController = functionArr[functionArr.length - 1];
+			if ("LoginController".equals(functionController)) {
+				log.setRelationFunctionCode("LOGIN");
+				log.setRelationFunctionDetail("用户登录");
+			} else {
+				String key = functionController.replace("Controller", "")
+						.toLowerCase();
+				Function f = (Function) LoadInfo.initInfo.get(key);
+				if (f != null) {
+					log.setRelationFunctionCode(f.getFid());
+					log.setRelationFunctionDetail(f.getFname() + "（"
+							+ f.getFcode() + "）");
+				}
+			}
+		}
 		// 保存数据库
 		systemLogService.insert(log);
 

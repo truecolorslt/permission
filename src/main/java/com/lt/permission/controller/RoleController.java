@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.annotation.Log;
+import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.RoleDto;
 import com.lt.permission.dto.RoleQueryDto;
@@ -61,6 +62,7 @@ public class RoleController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findRoles")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询角色列表")
 	@ResponseBody
 	public String findRoles(
 			@RequestParam(value = "page", defaultValue = "1") String page,
@@ -120,6 +122,7 @@ public class RoleController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addRole")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增角色信息")
 	@ResponseBody
 	public String addRole(@RequestBody RoleDto dto) {
 		String rtnStr = "";
@@ -145,6 +148,7 @@ public class RoleController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateRole")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增编辑信息")
 	@ResponseBody
 	public String updateRole(@RequestBody RoleDto dto) {
 		String rtnStr = "";
@@ -170,6 +174,7 @@ public class RoleController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/deleteRole")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "删除编辑信息")
 	@ResponseBody
 	public String deleteRole(
 			@RequestParam(value = "rid", required = true) String rid) {
@@ -196,6 +201,7 @@ public class RoleController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/setRoleFunction")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "设置角色权限信息")
 	@ResponseBody
 	public String setRoleFunction(
 			@RequestParam(value = "rid", required = true) String rid,

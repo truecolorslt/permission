@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.UserDto;
 import com.lt.permission.dto.UserQueryDto;
@@ -70,6 +71,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findUsers")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询用户列表")
 	@ResponseBody
 	public String findUsers(
 			@RequestParam(value = "page", defaultValue = "1") String page,
@@ -151,6 +153,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addUser")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增用户信息")
 	@ResponseBody
 	public String addUser(@RequestBody UserDto dto) {
 		String rtnStr = "";
@@ -176,6 +179,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/deleteUser")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "删除用户信息")
 	@ResponseBody
 	public String deleteUser(
 			@RequestParam(value = "uid", required = true) String uid) {
@@ -195,7 +199,14 @@ public class UserController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 编辑用户信息
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@RequestMapping(value = "/updateUser")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "编辑用户信息")
 	@ResponseBody
 	public String updateUser(@RequestBody UserDto dto) {
 		String rtnStr = "";
@@ -230,6 +241,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/resetPwd")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "重置密码")
 	@ResponseBody
 	public String resetPwd(
 			@RequestParam(value = "uid", required = true) String uid,
@@ -264,33 +276,33 @@ public class UserController extends BaseController {
 		List<Role> nonSelectedList = roleService.getRoleByUid(uid, false);
 		// 已经拥有的角色；
 		List<Role> selectedList = roleService.getRoleByUid(uid, true);
-		
-		List<Map<String, Object>> mapList1 = new ArrayList<Map<String,Object>>();
-		if(nonSelectedList!=null && nonSelectedList.size()>0) {
-			for(Role r:nonSelectedList) {
+
+		List<Map<String, Object>> mapList1 = new ArrayList<Map<String, Object>>();
+		if (nonSelectedList != null && nonSelectedList.size() > 0) {
+			for (Role r : nonSelectedList) {
 				Map<String, Object> map1 = new HashMap<String, Object>();
 				map1.put("roleId", r.getRid());
 				map1.put("roleName", r.getRname());
 				mapList1.add(map1);
 			}
 		}
-		List<Map<String, Object>> mapList2 = new ArrayList<Map<String,Object>>();
-		if(selectedList!=null && selectedList.size()>0) {
-			for(Role r:selectedList) {
+		List<Map<String, Object>> mapList2 = new ArrayList<Map<String, Object>>();
+		if (selectedList != null && selectedList.size() > 0) {
+			for (Role r : selectedList) {
 				Map<String, Object> map2 = new HashMap<String, Object>();
 				map2.put("roleId", r.getRid());
 				map2.put("roleName", r.getRname());
 				mapList2.add(map2);
 			}
 		}
-		
+
 		JSONObject rtnJson = new JSONObject();
 		rtnJson.put("nonSelectedList", mapList1);
 		rtnJson.put("selectedList", mapList2);
 		rtnStr = rtnJson.toJSONString();
 		return rtnStr;
 	}
-	
+
 	/**
 	 * 设置用户角色权限
 	 * 
@@ -298,6 +310,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/setUserRole")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "设置用户角色权限")
 	@ResponseBody
 	public String setUserRole(
 			@RequestParam(value = "uid", required = true) String uid,

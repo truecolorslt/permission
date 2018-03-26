@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.annotation.Log;
+import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.DictDto;
 import com.lt.permission.dto.DictQueryDto;
 import com.lt.permission.model.Dict;
@@ -48,7 +50,17 @@ public class DictController extends BaseController {
 		return "/dict/dict_mgt";
 	}
 
+	/**
+	 * 查询字典列表
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param dname
+	 * @param dcode
+	 * @return
+	 */
 	@RequestMapping(value = "/findDicts")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询字典列表")
 	@ResponseBody
 	public String findDicts(
 			@RequestParam(value = "page", defaultValue = "1") String page,
@@ -104,7 +116,14 @@ public class DictController extends BaseController {
 		return dictsJson;
 	}
 
+	/**
+	 * 删除字典信息
+	 * 
+	 * @param did
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteDict")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "删除字典信息")
 	@ResponseBody
 	public String deleteDict(
 			@RequestParam(value = "did", required = true) String did) {
@@ -124,7 +143,16 @@ public class DictController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 更新字典信息
+	 * 
+	 * @param did
+	 * @param dname
+	 * @param remark
+	 * @return
+	 */
 	@RequestMapping(value = "/editDict")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "更新字典信息")
 	@ResponseBody
 	public String editDict(
 			@RequestParam(value = "did", required = true) String did,
@@ -156,7 +184,14 @@ public class DictController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 新增字典信息
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@RequestMapping(value = "/addDict")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增字典信息")
 	@ResponseBody
 	public String addDict(@RequestBody DictDto dto) {
 		String rtnStr = "";
@@ -196,6 +231,7 @@ public class DictController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findDictDetails")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询字典属性列表")
 	@ResponseBody
 	public String findDictDetails(
 			@RequestParam(value = "did", required = true) String did) {
@@ -230,7 +266,14 @@ public class DictController extends BaseController {
 		return dictsJson;
 	}
 
+	/**
+	 * 新增字典属性信息
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@RequestMapping(value = "/addDictDetail")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增字典属性信息")
 	@ResponseBody
 	public String addDictDetail(@RequestBody DictDto dto) {
 		String rtnStr = "";

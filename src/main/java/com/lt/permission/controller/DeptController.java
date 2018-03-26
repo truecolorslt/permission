@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lt.permission.annotation.Log;
+import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.DepartmentDto;
 import com.lt.permission.model.Department;
 import com.lt.permission.service.IDepartmentService;
@@ -64,6 +66,7 @@ public class DeptController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findDepartmentTrees")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询部门列表")
 	@ResponseBody
 	public String findDepartmentTrees(
 			@RequestParam(value = "src", required = true) String src) {
@@ -164,6 +167,7 @@ public class DeptController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addDepartment")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增部门信息")
 	@ResponseBody
 	public String addDepartment(@RequestBody DepartmentDto dto) {
 		String rtnStr = "";
@@ -190,7 +194,14 @@ public class DeptController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 删除部门
+	 * 
+	 * @param did
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteDepartment")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "删除部门信息")
 	@ResponseBody
 	public String deleteDepartment(
 			@RequestParam(value = "did", required = true) String did) {
@@ -210,7 +221,14 @@ public class DeptController extends BaseController {
 		return rtnStr;
 	}
 
+	/**
+	 * 查询部门明细
+	 * 
+	 * @param did
+	 * @return
+	 */
 	@RequestMapping(value = "/getDepartment")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询部门明细")
 	@ResponseBody
 	public String getDepartment(
 			@RequestParam(value = "did", required = true) String did) {
@@ -227,12 +245,13 @@ public class DeptController extends BaseController {
 	}
 
 	/**
-	 * 修改
+	 * 修改部门
 	 * 
 	 * @param dto
 	 * @return
 	 */
 	@RequestMapping(value = "/updateDepartment")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "修改部门信息")
 	@ResponseBody
 	public String updateDepartment(@RequestBody DepartmentDto dto) {
 		String rtnStr = "";

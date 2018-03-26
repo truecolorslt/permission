@@ -25,6 +25,12 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
+	
+	<!--  系统(WEB)初始化 -->
+    <listener>
+        <description>web startup</description>
+        <listener-class>com.lt.permission.init.WebStartup</listener-class>
+    </listener>
 
 	<!-- post字符编码过滤器 start -->
 	<filter>
