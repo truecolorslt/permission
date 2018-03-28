@@ -309,7 +309,9 @@ public class DictController extends BaseController {
 		try {
 			List<Dict> dictList = (List<Dict>) LoadInfo.initDictInfo.get(code);
 			if (dictList == null || dictList.size() == 0) {
+				// 若内存中不存在数据字典数据，则从数据库中获取，并存入至内存
 				dictList = dictService.getDictAttrsByCode(code);
+				this.updateLoadDictInfo(code, dictList);
 			}
 			if (dictList != null && dictList.size() > 0) {
 				ja = new JSONArray();

@@ -1,188 +1,253 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lt.permission.dao.SystemLogDao">
-  <resultMap id="BaseResultMap" type="com.lt.permission.model.SystemLog">
-    <id column="lid" jdbcType="VARCHAR" property="lid" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="method" jdbcType="VARCHAR" property="method" />
-    <result column="log_type" jdbcType="VARCHAR" property="logType" />
-    <result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
-    <result column="relation_function_code" jdbcType="VARCHAR" property="relationFunctionCode" />
-    <result column="relation_function_detail" jdbcType="VARCHAR" property="relationFunctionDetail" />
-    <result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
-    <result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
-    <result column="params" jdbcType="VARCHAR" property="params" />
-    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="creator" jdbcType="VARCHAR" property="creator" />
-    <result column="uid" jdbcType="VARCHAR" property="uid" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    lid, description, method, log_type, request_ip, relation_function_code, relation_function_detail, 
-    exception_code, exception_detail, params, created_time, creator, uid
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_system_log
-    where lid = #{lid,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from t_system_log
-    where lid = #{lid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.lt.permission.model.SystemLog">
-    insert into t_system_log (lid, description, method, 
-      log_type, request_ip, relation_function_code, 
-      relation_function_detail, exception_code, 
-      exception_detail, params, created_time, 
-      creator, uid)
-    values (#{lid,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
-      #{logType,jdbcType=VARCHAR}, #{requestIp,jdbcType=VARCHAR}, #{relationFunctionCode,jdbcType=VARCHAR}, 
-      #{relationFunctionDetail,jdbcType=VARCHAR}, #{exceptionCode,jdbcType=VARCHAR}, 
-      #{exceptionDetail,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{creator,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.lt.permission.model.SystemLog">
-    insert into t_system_log
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="lid != null">
-        lid,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="method != null">
-        method,
-      </if>
-      <if test="logType != null">
-        log_type,
-      </if>
-      <if test="requestIp != null">
-        request_ip,
-      </if>
-      <if test="relationFunctionCode != null">
-        relation_function_code,
-      </if>
-      <if test="relationFunctionDetail != null">
-        relation_function_detail,
-      </if>
-      <if test="exceptionCode != null">
-        exception_code,
-      </if>
-      <if test="exceptionDetail != null">
-        exception_detail,
-      </if>
-      <if test="params != null">
-        params,
-      </if>
-      <if test="createdTime != null">
-        created_time,
-      </if>
-      <if test="creator != null">
-        creator,
-      </if>
-      <if test="uid != null">
-        uid,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="lid != null">
-        #{lid,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="method != null">
-        #{method,jdbcType=VARCHAR},
-      </if>
-      <if test="logType != null">
-        #{logType,jdbcType=VARCHAR},
-      </if>
-      <if test="requestIp != null">
-        #{requestIp,jdbcType=VARCHAR},
-      </if>
-      <if test="relationFunctionCode != null">
-        #{relationFunctionCode,jdbcType=VARCHAR},
-      </if>
-      <if test="relationFunctionDetail != null">
-        #{relationFunctionDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="exceptionCode != null">
-        #{exceptionCode,jdbcType=VARCHAR},
-      </if>
-      <if test="exceptionDetail != null">
-        #{exceptionDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="params != null">
-        #{params,jdbcType=VARCHAR},
-      </if>
-      <if test="createdTime != null">
-        #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creator != null">
-        #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lt.permission.model.SystemLog">
-    update t_system_log
-    <set>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="method != null">
-        method = #{method,jdbcType=VARCHAR},
-      </if>
-      <if test="logType != null">
-        log_type = #{logType,jdbcType=VARCHAR},
-      </if>
-      <if test="requestIp != null">
-        request_ip = #{requestIp,jdbcType=VARCHAR},
-      </if>
-      <if test="relationFunctionCode != null">
-        relation_function_code = #{relationFunctionCode,jdbcType=VARCHAR},
-      </if>
-      <if test="relationFunctionDetail != null">
-        relation_function_detail = #{relationFunctionDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="exceptionCode != null">
-        exception_code = #{exceptionCode,jdbcType=VARCHAR},
-      </if>
-      <if test="exceptionDetail != null">
-        exception_detail = #{exceptionDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="params != null">
-        params = #{params,jdbcType=VARCHAR},
-      </if>
-      <if test="createdTime != null">
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creator != null">
-        creator = #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="uid != null">
-        uid = #{uid,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where lid = #{lid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.lt.permission.model.SystemLog">
-    update t_system_log
-    set description = #{description,jdbcType=VARCHAR},
-      method = #{method,jdbcType=VARCHAR},
-      log_type = #{logType,jdbcType=VARCHAR},
-      request_ip = #{requestIp,jdbcType=VARCHAR},
-      relation_function_code = #{relationFunctionCode,jdbcType=VARCHAR},
-      relation_function_detail = #{relationFunctionDetail,jdbcType=VARCHAR},
-      exception_code = #{exceptionCode,jdbcType=VARCHAR},
-      exception_detail = #{exceptionDetail,jdbcType=VARCHAR},
-      params = #{params,jdbcType=VARCHAR},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
-      uid = #{uid,jdbcType=VARCHAR}
-    where lid = #{lid,jdbcType=VARCHAR}
-  </update>
+	<resultMap id="BaseResultMap" type="com.lt.permission.model.SystemLog">
+		<id column="lid" jdbcType="VARCHAR" property="lid" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="method" jdbcType="VARCHAR" property="method" />
+		<result column="log_type" jdbcType="VARCHAR" property="logType" />
+		<result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
+		<result column="relation_function_code" jdbcType="VARCHAR"
+			property="relationFunctionCode" />
+		<result column="relation_function_detail" jdbcType="VARCHAR"
+			property="relationFunctionDetail" />
+		<result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
+		<result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
+		<result column="params" jdbcType="VARCHAR" property="params" />
+		<result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="uid" jdbcType="VARCHAR" property="uid" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		lid, description, method, log_type, request_ip,
+		relation_function_code,
+		relation_function_detail,
+		exception_code,
+		exception_detail, params, created_time, creator, uid
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_system_log
+		where lid = #{lid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_system_log
+		where lid = #{lid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.lt.permission.model.SystemLog">
+		insert into t_system_log (lid,
+		description, method,
+		log_type, request_ip, relation_function_code,
+		relation_function_detail, exception_code,
+		exception_detail, params,
+		created_time,
+		creator, uid)
+		values (#{lid,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{method,jdbcType=VARCHAR},
+		#{logType,jdbcType=VARCHAR}, #{requestIp,jdbcType=VARCHAR},
+		#{relationFunctionCode,jdbcType=VARCHAR},
+		#{relationFunctionDetail,jdbcType=VARCHAR},
+		#{exceptionCode,jdbcType=VARCHAR},
+		#{exceptionDetail,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR},
+		#{createdTime,jdbcType=TIMESTAMP},
+		#{creator,jdbcType=VARCHAR},
+		#{uid,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lt.permission.model.SystemLog">
+		insert into t_system_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="lid != null">
+				lid,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="method != null">
+				method,
+			</if>
+			<if test="logType != null">
+				log_type,
+			</if>
+			<if test="requestIp != null">
+				request_ip,
+			</if>
+			<if test="relationFunctionCode != null">
+				relation_function_code,
+			</if>
+			<if test="relationFunctionDetail != null">
+				relation_function_detail,
+			</if>
+			<if test="exceptionCode != null">
+				exception_code,
+			</if>
+			<if test="exceptionDetail != null">
+				exception_detail,
+			</if>
+			<if test="params != null">
+				params,
+			</if>
+			<if test="createdTime != null">
+				created_time,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="uid != null">
+				uid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="lid != null">
+				#{lid,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				#{method,jdbcType=VARCHAR},
+			</if>
+			<if test="logType != null">
+				#{logType,jdbcType=VARCHAR},
+			</if>
+			<if test="requestIp != null">
+				#{requestIp,jdbcType=VARCHAR},
+			</if>
+			<if test="relationFunctionCode != null">
+				#{relationFunctionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="relationFunctionDetail != null">
+				#{relationFunctionDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="exceptionCode != null">
+				#{exceptionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="exceptionDetail != null">
+				#{exceptionDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="params != null">
+				#{params,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				#{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="uid != null">
+				#{uid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lt.permission.model.SystemLog">
+		update t_system_log
+		<set>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				method = #{method,jdbcType=VARCHAR},
+			</if>
+			<if test="logType != null">
+				log_type = #{logType,jdbcType=VARCHAR},
+			</if>
+			<if test="requestIp != null">
+				request_ip = #{requestIp,jdbcType=VARCHAR},
+			</if>
+			<if test="relationFunctionCode != null">
+				relation_function_code =
+				#{relationFunctionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="relationFunctionDetail != null">
+				relation_function_detail =
+				#{relationFunctionDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="exceptionCode != null">
+				exception_code = #{exceptionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="exceptionDetail != null">
+				exception_detail = #{exceptionDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="params != null">
+				params = #{params,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				created_time = #{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="uid != null">
+				uid = #{uid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where lid = #{lid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lt.permission.model.SystemLog">
+		update
+		t_system_log
+		set description = #{description,jdbcType=VARCHAR},
+		method =
+		#{method,jdbcType=VARCHAR},
+		log_type = #{logType,jdbcType=VARCHAR},
+		request_ip = #{requestIp,jdbcType=VARCHAR},
+		relation_function_code =
+		#{relationFunctionCode,jdbcType=VARCHAR},
+		relation_function_detail =
+		#{relationFunctionDetail,jdbcType=VARCHAR},
+		exception_code =
+		#{exceptionCode,jdbcType=VARCHAR},
+		exception_detail =
+		#{exceptionDetail,jdbcType=VARCHAR},
+		params =
+		#{params,jdbcType=VARCHAR},
+		created_time =
+		#{createdTime,jdbcType=TIMESTAMP},
+		creator =
+		#{creator,jdbcType=VARCHAR},
+		uid = #{uid,jdbcType=VARCHAR}
+		where lid =
+		#{lid,jdbcType=VARCHAR}
+	</update>
+
+	<sql id="findLogsCondition">
+		<if test="logType != null">
+			and log_type = #{logType}
+		</if>
+		<if test="creator != null">
+			and creator like #{creator}
+		</if>
+		<if test="startDate != null">
+			and created_time>= #{startDate}
+		</if>
+		<if test="endDate != null">
+			<![CDATA[ 
+			and created_time<= #{endDate}
+			]]>
+		</if>
+	</sql>
+
+	<select id="findLogsByPage" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_system_log
+		where 1=1
+		<include refid="findLogsCondition" />
+		order by created_time desc
+		limit
+		#{page},#{pageSize}
+	</select>
+
+	<select id="findLogsCount" parameterType="map" resultType="Integer">
+		select
+		count(1)
+		from
+		t_system_log
+		where 1=1
+		<include refid="findLogsCondition"></include>
+	</select>
 </mapper>

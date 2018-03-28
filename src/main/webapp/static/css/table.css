@@ -61,3 +61,10 @@ body {
 	color: #676a6c;
 	overflow-x: hidden;
 }
+
+.ui-jqgrid tr.jqgrow td {
+	white-space: normal !important;
+	vertical-align: center; height : auto;
+	/* padding-top: 2px;
+	height: auto; */
+}

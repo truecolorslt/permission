@@ -229,7 +229,7 @@ public class SystemLogAspect {
 		log.setLogType(logType);
 		log.setMethod(targetName + "." + methodName + "()");
 		log.setParams(params);
-		log.setCreator(user.getRealName());
+		log.setCreator(user.getRealName()+"（"+user.getUsername()+"）");
 		log.setUid(user.getUid());
 		log.setCreatedTime(new Date());
 		log.setRequestIp(ip);

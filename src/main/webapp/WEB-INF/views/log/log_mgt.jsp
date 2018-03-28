@@ -4,11 +4,16 @@
 <head>
 <%@include file="/common/include.jsp"%>
 
-<link rel="stylesheet" href="<%=path%>/static/css/table.css">
 
 <link rel="stylesheet"
 	href="<%=path%>/static/css/plugins/jqgrid/ui.jqgrid.css?0820">
-<title>数据字典管理</title>
+<link rel="stylesheet" href="<%=path%>/static/css/table.css">
+
+<!-- 日期控件 -->
+<link
+	href="<%=path%>/static/css/plugins/foundation/foundation-datepicker.css"
+	rel="stylesheet">
+<title>日志管理</title>
 </head>
 <body style="background-color: transparent;">
 	<div id="areascontent" style="height: 100%">
@@ -21,13 +26,25 @@
 				</div> -->
 					<form id="formSearch" class="form-horizontal">
 						<div class="form-group" style="margin-top:15px">
-							<label class="control-label col-sm-3" style="" for="dname">数据字典名称</label>
+							<label class="control-label col-sm-3" style="" for="logType">日志类型</label>
 							<div class="col-sm-2">
-								<input type="text" class="form-control" id="dname" name="dname">
+								<select class="form-control" id="logType" name="logType">
+									<option value="">请选择</option>
+								</select>
 							</div>
-							<label class="control-label col-sm-3" style="" for="dcode">数据字典编码</label>
+							<label class="control-label col-sm-3" style="" for="creator">操作人员名称</label>
 							<div class="col-sm-2">
-								<input type="text" class="form-control" id="dcode" name="dcode">
+								<input type="text" class="form-control" id="creator"
+									name="creator">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-3" style="" for="">操作日期</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" value="" id="startDate" placeholder="开始日期">
+							</div>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" value="" id="endDate" placeholder="结束日期">
 							</div>
 							<div class="col-sm-12" style="text-align:center;">&nbsp;</div>
 							<div class="col-sm-12" style="text-align:center;">
@@ -42,9 +59,9 @@
 						</div>
 					</form>
 					<hr>
-					<div class="panel-body" style="height: 100%">
-						<div class="jqGrid_wrapper" style="height: 100%">
-							<table id="table_list" style="height: 100%"></table>
+					<div class="panel-body" style="height: 100%;">
+						<div class="jqGrid_wrapper" style="height: 100%;overflow-x:scroll">
+							<table id="table_list" style="height: 100%;"></table>
 							<div id="pager_list"></div>
 						</div>
 					</div>
@@ -54,7 +71,7 @@
 	</div>
 
 	<!-- 新增、编辑div -->
-	<%@ include file="dict_opt.jsp"%>
+	<%@ include file="log_opt.jsp"%>
 </body>
 <!-- js插件 -->
 <!-- jqGrid表格 -->
@@ -62,6 +79,11 @@
 	src="<%=path%>/static/js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
 <script
 	src="<%=path%>/static/js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
+<!-- 日期控件js -->
+<script
+	src="<%=path%>/static/js/plugins/foundation/foundation-datepicker.js"></script>
+<script
+	src="<%=path%>/static/js/plugins/foundation/locales/foundation-datepicker.zh-CN.js"></script>
 
 <!-- 自定义js -->
-<script src="<%=path%>/static/js/mgt/dict_mgt.js"></script>
+<script src="<%=path%>/static/js/mgt/log_mgt.js"></script>

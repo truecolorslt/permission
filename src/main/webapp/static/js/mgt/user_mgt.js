@@ -39,6 +39,7 @@ function initTable() {
 						shrinkToFit : true,
 						autoScroll : true,
 						rowNum : 10,
+						width: 800,
 						rowList : [ 10, 20, 50 ],
 						colModel : [
 								{
@@ -89,7 +90,7 @@ function initTable() {
 									label : '操作',
 									name : 'operate',
 									index : 'operate',
-									width : 220,
+									width : 250,
 									fixed : true,
 									sortable : false,
 									resize : false,
@@ -900,7 +901,7 @@ function getTreePath(treeObj) {
 function initSelect() {
 	// 初始化数据字典：性别
 	var param = {
-		code : "sex"
+		code : "SEX"
 	};
 	$.ajax({
 		data : param,

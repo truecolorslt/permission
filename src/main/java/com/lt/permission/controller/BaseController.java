@@ -76,4 +76,14 @@ public class BaseController {
 		}
 		return value;
 	}
+
+	/**
+	 * 根据key更新内存中的数据字典数据
+	 * 
+	 * @param key
+	 * @param obj
+	 */
+	public void updateLoadDictInfo(String key, Object obj) {
+		LoadInfo.initDictInfo.put(key, obj);
+	}
 }
