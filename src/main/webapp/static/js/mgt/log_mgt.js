@@ -31,7 +31,7 @@ function initTable() {
 				rownumbers : true,
 				datatype : "json",
 				// height : 370,
-				width : 1180,
+				// width : 1180,
 				// autowidth : true,
 				viewrecords : true,
 				rowNum : 10,
@@ -88,6 +88,8 @@ function initTable() {
 				shrinkToFit : false,
 				autoScroll : true,
 				pager : "#pager_list",
+				// pagerpos : 'center',
+				// recordpos : 'right',
 				viewrecords : true,
 				hidegrid : false,
 				loadComplete : function() {
@@ -113,6 +115,7 @@ function initTable() {
 		var width = $('.jqGrid_wrapper').width();
 		$('#table_list').setGridWidth(width);
 	});
+
 }
 
 /**

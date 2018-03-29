@@ -66,7 +66,6 @@ public class DeptController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findDepartmentTrees")
-	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询部门列表")
 	@ResponseBody
 	public String findDepartmentTrees(
 			@RequestParam(value = "src", required = true) String src) {

@@ -92,7 +92,6 @@ public class FunctionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findFunctionTrees")
-	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询功能列表")
 	@ResponseBody
 	public String findFunctionTrees() {
 		String treesJson = "";

@@ -44,7 +44,7 @@ public class LoginController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/doLogin")
-	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "用户登录")
+	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_LOGIN, logDesc = "用户登录")
 	@ResponseBody
 	public String doLogin(@RequestBody LoginDto dto) {
 		dto.setPassword(MD5Util.getMD5(dto.getPassword()));

@@ -16,6 +16,10 @@ public class DictConstants {
 	 */
 	public static final String DICT_CODE_LOG_TYPE = "LOG_TYPE";
 	/**
+	 * 日志类型：01-登录日志
+	 */
+	public static final String DICT_CODE_LOG_TYPE_LOGIN = "00";
+	/**
 	 * 日志类型：01-操作日志
 	 */
 	public static final String DICT_CODE_LOG_TYPE_OPT = "01";
