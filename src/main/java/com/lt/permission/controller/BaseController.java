@@ -9,10 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lt.permission.common.DictConstants;
 import com.lt.permission.init.LoadInfo;
 import com.lt.permission.model.Dict;
+import com.lt.permission.model.User;
 import com.lt.permission.service.IDictService;
+import com.lt.permission.shiro.token.TokenManager;
 import com.lt.permission.util.JsonUtils;
 
 public class BaseController {
@@ -85,5 +86,35 @@ public class BaseController {
 	 */
 	public void updateLoadDictInfo(String key, Object obj) {
 		LoadInfo.initDictInfo.put(key, obj);
+	}
+
+	/**
+	 * 登录成功后，从session中获取登录用户信息
+	 * 
+	 * @return
+	 */
+	public User getUser() {
+		User user = TokenManager.getToken();
+		return user;
+	}
+
+	/**
+	 * 获取登录用户ID
+	 * 
+	 * @return
+	 */
+	public String getUid() {
+		User user = TokenManager.getToken();
+		return user.getUid();
+	}
+
+	/**
+	 * 获取登录用户账号
+	 * 
+	 * @return
+	 */
+	public String getUsername() {
+		User user = TokenManager.getToken();
+		return user.getUsername();
 	}
 }

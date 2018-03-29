@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 <%@include file="/common/constants.jsp"%>
+
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <head>
@@ -49,8 +51,9 @@
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="static/img/user2-160x160.jpg" class="user-image"
-								alt="User Image"> <span class="hidden-xs">administrator</span>
-						</a>
+								alt="User Image"> <span class="hidden-xs"><shiro:principal
+										property="realName" /> ( <shiro:principal property="username" />
+									)</span> </a>
 							<ul class="dropdown-menu pull-right">
 								<li><a class="menuItem" data-id="userInfo"
 									href="/SystemManage/User/Info"><i class="fa fa-user"></i>个人信息</a>
@@ -77,7 +80,12 @@
 							alt="User Image">
 					</div>
 					<div class="pull-left info">
-						<p>administrator</p>
+						<p>
+							<shiro:principal property="realName" />
+							(
+							<shiro:principal property="username" />
+							)
+						</p>
 						<a><i class="fa fa-circle text-success"></i>在线</a>
 					</div>
 				</div>
@@ -101,8 +109,7 @@
 				</button>
 				<nav class="page-tabs menuTabs">
 					<div class="page-tabs-content" style="margin-left: 0px;">
-						<a href="javascript:;" class="menuTab active"
-							data-id="welcome">欢迎首页</a>
+						<a href="javascript:;" class="menuTab active" data-id="welcome">欢迎首页</a>
 					</div>
 				</nav>
 				<button class="roll-nav roll-right tabRight">

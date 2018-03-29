@@ -18,6 +18,7 @@ import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
 import com.lt.permission.dto.FunctionDto;
 import com.lt.permission.model.Function;
+import com.lt.permission.model.User;
 import com.lt.permission.service.IFunctionService;
 
 /**
@@ -46,7 +47,7 @@ public class FunctionController extends BaseController {
 		String treesJson = "";
 		try {
 			List<Function> functionList = functionService
-					.findFunctionTrees(null);
+					.findFunctionTreesByUid(this.getUid());
 			List<Map<String, Object>> mapList = null;
 			if (functionList != null && functionList.size() > 0) {
 				mapList = new ArrayList<Map<String, Object>>();

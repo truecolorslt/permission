@@ -27,6 +27,7 @@ import com.lt.permission.model.Function;
 import com.lt.permission.model.SystemLog;
 import com.lt.permission.model.User;
 import com.lt.permission.service.ISystemLogService;
+import com.lt.permission.shiro.token.TokenManager;
 import com.lt.permission.util.JsonUtils;
 
 @Component
@@ -184,9 +185,7 @@ public class SystemLogAspect {
 		String ip = request.getRemoteAddr();
 
 		// 获取用户请求方法的参数并序列化为JSON格式字符串
-		User user = new User();
-		user.setUid("1");
-		user.setRealName("张三");
+		User user = TokenManager.getToken();
 
 		String targetName = joinPoint.getTarget().getClass().getName();
 		String methodName = joinPoint.getSignature().getName();
@@ -229,7 +228,7 @@ public class SystemLogAspect {
 		log.setLogType(logType);
 		log.setMethod(targetName + "." + methodName + "()");
 		log.setParams(params);
-		log.setCreator(user.getRealName()+"（"+user.getUsername()+"）");
+		log.setCreator(user.getRealName() + "（" + user.getUsername() + "）");
 		log.setUid(user.getUid());
 		log.setCreatedTime(new Date());
 		log.setRequestIp(ip);
@@ -238,7 +237,7 @@ public class SystemLogAspect {
 			String functionController = functionArr[functionArr.length - 1];
 			if ("LoginController".equals(functionController)) {
 				log.setRelationFunctionCode("LOGIN");
-				log.setRelationFunctionDetail("用户登录");
+				log.setRelationFunctionDetail("用户登录（LOGIN）");
 			} else {
 				String key = functionController.replace("Controller", "")
 						.toLowerCase();

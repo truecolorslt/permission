@@ -13,7 +13,7 @@ public interface IFunctionService {
 	 * @param uid
 	 * @return
 	 */
-	public List<Function> findFunctionTrees(String uid);
+	public List<Function> findFunctionTreesByUid(String uid);
 
 	/**
 	 * 获取该节点下的子菜单

@@ -1,6 +1,9 @@
 package com.lt.permission.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -11,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.lt.permission.dao.FunctionDao;
+import com.lt.permission.dao.RoleDao;
+import com.lt.permission.dao.UserRoleDao;
 import com.lt.permission.dto.FunctionDto;
 import com.lt.permission.model.Function;
+import com.lt.permission.model.Role;
 import com.lt.permission.service.IFunctionService;
 
 @Service("functionService")
@@ -24,9 +30,25 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 	@Qualifier("functionDao")
 	private FunctionDao functionDao;
 
+	@Autowired
+	@Qualifier("roleDao")
+	private RoleDao roleDao;
+
 	@Override
-	public List<Function> findFunctionTrees(String uid) {
-		List<Function> functionList = functionDao.findFunctionTrees();
+	public List<Function> findFunctionTreesByUid(String uid) {
+		// 根据用户ID获取该用户拥有的角色信息
+		List<Role> roleList = roleDao.getRoleByUid(uid);
+		List<Function> functionList = null;
+		if (roleList != null && roleList.size() > 0) {
+			List<String> roleIdList = new ArrayList<String>();
+			for (Role role : roleList) {
+				roleIdList.add(role.getRid());
+			}
+			Map<String, List<String>> map = new HashMap<String, List<String>>();
+			map.put("roleIdList", roleIdList);
+
+			functionList = functionDao.findFunctionTreesByRole(map);
+		}
 		return functionList;
 	}
 
@@ -55,8 +77,8 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 			f.setPfid(dto.getPfid());
 			f.setFicon(dto.getFicon());
 			f.setFurl(dto.getFurl());
-			f.setFsort(Integer.parseInt(StringUtils.isEmpty(dto.getFsort()) ? "1" : dto
-					.getFsort()));
+			f.setFsort(Integer.parseInt(StringUtils.isEmpty(dto.getFsort()) ? "1"
+					: dto.getFsort()));
 			f.setFrelation(dto.getFrelation() + "|" + fid);
 			f.setCreator(dto.getOperatorName());
 			f.setModifier(dto.getOperatorName());
@@ -68,7 +90,8 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 	@Override
 	public List<Function> findFunctionTreesByPfid(String frelation) {
 		frelation = frelation + "|%";
-		List<Function> functionList = functionDao.findFunctionTreesByPfid(frelation);
+		List<Function> functionList = functionDao
+				.findFunctionTreesByPfid(frelation);
 		return functionList;
 	}
 

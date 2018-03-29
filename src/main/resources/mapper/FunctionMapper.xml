@@ -294,4 +294,22 @@
 		where fid =
 		#{fid,jdbcType=VARCHAR}
 	</update>
+
+
+	<select id="findFunctionTreesByRole" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_function f
+		where f.is_delete=0
+		and exists(select 1 from
+		t_role_function rf
+		where rf.fid=f.fid and rf.rid in
+		<foreach collection="roleIdList" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		)
+		order by f.fsort
+	</select>
 </mapper>

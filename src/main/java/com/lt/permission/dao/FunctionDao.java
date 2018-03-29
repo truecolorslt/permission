@@ -1,6 +1,7 @@
 package com.lt.permission.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.lt.permission.model.Function;
 
@@ -22,5 +23,7 @@ public interface FunctionDao {
 	public List<Function> findFunctionTreesByPfid(String frelation);
 
 	public int logicDeleteFunction(String fid);
+
+	public List<Function> findFunctionTreesByRole(Map<String, List<String>> map);
 
 }

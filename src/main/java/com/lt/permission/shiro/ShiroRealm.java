@@ -1,5 +1,6 @@
 package com.lt.permission.shiro;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -9,6 +10,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +48,12 @@ public class ShiroRealm extends AuthorizingRealm {
 			User userValid = userService.getUserByUsernameAndPwd(username,
 					password);
 			if (userValid != null) {
+				// 设置session
+				// Session session = SecurityUtils.getSubject().getSession();
+				// session.setAttribute(username, userValid);
+
 				AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-						username, password, this.getName());
+						userValid, password, this.getName());
 				return authenticationInfo;
 			} else {
 				// 密码错误
