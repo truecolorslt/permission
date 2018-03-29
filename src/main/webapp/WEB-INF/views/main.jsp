@@ -89,13 +89,13 @@
 						<a><i class="fa fa-circle text-success"></i>在线</a>
 					</div>
 				</div>
-				<form action="#" method="get" class="sidebar-form">
+				<!-- <form action="#" method="get" class="sidebar-form">
 					<div class="input-group">
-						<input type="text" name="q" class="form-control"
+						<input type="text" name="functionName" class="form-control"
 							placeholder="Search..."> <span class="input-group-btn">
 							<a class="btn btn-flat"><i class="fa fa-search"></i> </a> </span>
 					</div>
-				</form>
+				</form> -->
 				<ul class="sidebar-menu" id="sidebar-menu">
 					<!--<li class="header">导航菜单</li>-->
 				</ul>

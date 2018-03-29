@@ -93,7 +93,6 @@ function initTable() {
 				viewrecords : true,
 				hidegrid : false,
 				loadComplete : function() {
-
 					var re_records = $("#table_list").getGridParam('records');
 					if (re_records == 0 || re_records == null) {
 						if ($(".norecords").html() == null) {
