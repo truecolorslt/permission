@@ -2,6 +2,7 @@ package com.lt.permission.shiro.token;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 
 import com.lt.permission.dto.LoginDto;
 import com.lt.permission.model.User;
@@ -41,11 +42,18 @@ public class TokenManager {
 	 * @param rememberMe
 	 * @return
 	 */
-	public static User login(LoginDto user, Boolean rememberMe) {
-		ShiroToken token = new ShiroToken(user.getUsername(),
-				user.getPassword());
-		token.setRememberMe(rememberMe);
-		SecurityUtils.getSubject().login(token);
+	public static User login(LoginDto dto, Boolean rememberMe) {
+		// 获取Subject单例对象
+		Subject subject = SecurityUtils.getSubject();
+		// 判断subject是否已经登录
+		if (!subject.isAuthenticated()) {
+			// 使用用户的登录信息创建令牌
+			ShiroToken token = new ShiroToken(dto.getUsername(),
+					dto.getPassword());
+			token.setRememberMe(rememberMe);
+
+			subject.login(token);
+		}
 		return getToken();
 	}
 

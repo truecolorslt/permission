@@ -72,4 +72,20 @@ public interface IUserService {
 	 * @return
 	 */
 	public int setUserRole(String uid, String[] rids);
+
+	/**
+	 * 根据uid获取用户信息
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public User getUserByUid(String uid);
+
+	/**
+	 * 重置密码
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public int resetPwd(UserDto dto);
 }

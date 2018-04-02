@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,6 +13,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,29 +42,37 @@ public class ShiroRealm extends AuthorizingRealm {
 		// credentials：证明 / 凭证，即只有主体知道的安全值，如密码 / 数字证书等。
 		ShiroToken token = (ShiroToken) authcToken;
 		String username = token.getUsername();
-		String password = token.getPwd();
 		// 判断用户账号是否存在
-		User userExist = userService.getUserByUsername(username);
-		if (userExist != null) {
+		User user = userService.getUserByUsername(username);
+		if (user != null) {
 			// 判断用户账号密码是否有效
-			User userValid = userService.getUserByUsernameAndPwd(username,
-					password);
-			if (userValid != null) {
-				// 设置session
-				// Session session = SecurityUtils.getSubject().getSession();
-				// session.setAttribute(username, userValid);
+			/*
+			 * User userValid = userService.getUserByUsernameAndPwd(username,
+			 * password); if (userValid != null) { // 设置session // Session
+			 * session = SecurityUtils.getSubject().getSession(); //
+			 * session.setAttribute(username, userValid);
+			 * 
+			 * AuthenticationInfo authenticationInfo = new
+			 * SimpleAuthenticationInfo( userValid, password, this.getName());
+			 * return authenticationInfo; } else { // 密码错误 throw new
+			 * IncorrectCredentialsException(); }
+			 */
+			String passwordDB = user.getPassword();
+			// AuthenticationInfo authenticationInfo = new
+			// SimpleAuthenticationInfo(
+			// user, passwordDB, this.getName());
 
-				AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-						userValid, password, this.getName());
-				return authenticationInfo;
-			} else {
-				// 密码错误
-				throw new IncorrectCredentialsException();
-			}
+			// 盐值加密
+			ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+			AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+					user, passwordDB, credentialsSalt, this.getName());
+			return authenticationInfo;
 		} else {
 			// 用户账号不存在
 			throw new UnknownAccountException();
 		}
+		// 账号锁定 LockedAccountException
+
 	}
 
 	/**

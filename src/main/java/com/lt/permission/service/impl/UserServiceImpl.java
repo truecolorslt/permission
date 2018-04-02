@@ -146,4 +146,23 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 			return 0;
 		}
 	}
+
+	@Override
+	public User getUserByUid(String uid) {
+		return userDao.selectByPrimaryKey(uid);
+	}
+
+	@Override
+	public int resetPwd(UserDto dto) {
+		int i = 0;
+		if (dto != null) {
+			// 封装user对象
+			User u = new User();
+			u.setUid(dto.getUid());
+			u.setPassword(dto.getPassword());
+			u.setModifier(dto.getOperatorName());
+			i = userDao.updateByPrimaryKeySelective(u);
+		}
+		return i;
+	}
 }

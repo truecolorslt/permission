@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
@@ -158,6 +158,7 @@ public class UserController extends BaseController {
 	public String addUser(@RequestBody UserDto dto) {
 		String rtnStr = "";
 		try {
+			dto.setPassword(MD5Util.getMD5(dto.getPassword(), dto.getUsername()));
 			int i = userService.addUser(dto);
 			JSONObject jo = new JSONObject();
 			if (i > 0) {
@@ -250,8 +251,11 @@ public class UserController extends BaseController {
 		JSONObject jo = new JSONObject();
 		UserDto dto = new UserDto();
 		dto.setUid(uid);
-		dto.setPassword(MD5Util.getMD5(password));
-		int i = userService.updateUser(dto);
+		User user = userService.getUserByUid(uid);
+		String username = user.getUsername();
+		dto.setPassword(MD5Util.getMD5(password, username));
+		// dto.setPassword(MD5Util.getMD5(password));
+		int i = userService.resetPwd(dto);
 		if (i > 0) {
 			jo.put("result", true);
 		} else {

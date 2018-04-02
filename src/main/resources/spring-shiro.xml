@@ -8,8 +8,17 @@
         http://www.springframework.org/schema/context/spring-context-4.3.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- 自定义域realm -->
-	<bean id="shiroRealm" class="com.lt.permission.shiro.ShiroRealm"></bean>
+	<!-- 自定义域realm，自定义加密算法为MD5 -->
+	<bean id="shiroRealm" class="com.lt.permission.shiro.ShiroRealm">
+		<property name="credentialsMatcher">
+			<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<!-- 加密算法 -->
+				<property name="hashAlgorithmName" value="MD5"></property>
+				<!-- 加密次数 -->
+				<!-- <property name="hashIterations" value="1"></property> -->
+			</bean>
+		</property>
+	</bean>
 	<!-- 配置缓存管理器 -->
 	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
 	<!-- 安全管理器 ref对象 -->

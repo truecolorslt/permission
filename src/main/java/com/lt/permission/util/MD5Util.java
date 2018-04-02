@@ -2,6 +2,8 @@ package com.lt.permission.util;
 
 import java.security.MessageDigest;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+
 public class MD5Util {
 
 	/**
@@ -53,5 +55,10 @@ public class MD5Util {
 			md5str.append(Integer.toHexString(digital));
 		}
 		return md5str.toString().toUpperCase();
+	}
+
+	public static String getMD5(String password, String salt) {
+		Object obj = new SimpleHash("MD5", password, salt);
+		return obj.toString();
 	}
 }
