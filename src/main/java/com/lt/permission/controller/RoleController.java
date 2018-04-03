@@ -26,6 +26,7 @@ import com.lt.permission.model.Function;
 import com.lt.permission.model.Role;
 import com.lt.permission.model.RoleFunction;
 import com.lt.permission.service.IRoleService;
+import com.lt.permission.shiro.service.ShiroManager;
 import com.lt.permission.vo.RoleVo;
 
 /**
@@ -41,6 +42,8 @@ public class RoleController extends BaseController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IRoleService roleService;
+	@Autowired
+	private ShiroManager shiroManager;
 
 	/**
 	 * 进入角色管理页面
@@ -221,6 +224,7 @@ public class RoleController extends BaseController {
 					jo.put("result", false);
 				}
 			}
+			shiroManager.reCreateFilterChains();
 			rtnStr = jo.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
