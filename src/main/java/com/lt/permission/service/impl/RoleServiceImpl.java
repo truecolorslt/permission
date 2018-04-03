@@ -3,6 +3,7 @@ package com.lt.permission.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +124,16 @@ public class RoleServiceImpl extends BaseServiceImpl implements IRoleService {
 			roleList = roleDao.getNonRoleByUid(uid);
 		}
 		return roleList;
+	}
+
+	@Override
+	public List<Role> getRolesByUsername(String username) {
+		return roleDao.getRolesByUsername(username);
+	}
+
+	@Override
+	public List<Role> getRolesByFid(String fid) {
+		return roleDao.getRolesByFid(fid);
 	}
 
 }

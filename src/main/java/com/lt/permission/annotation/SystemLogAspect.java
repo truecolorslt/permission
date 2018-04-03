@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
@@ -123,7 +124,7 @@ public class SystemLogAspect {
 	 * @param joinPoint
 	 * @param e
 	 */
-	// @AfterThrowing(pointcut = "controllerAspect()", throwing = "e")
+	@AfterThrowing(pointcut = "controllerAspect()", throwing = "e")
 	public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
 		logger.info("=====异常通知开始=====");
 		try {
@@ -228,8 +229,10 @@ public class SystemLogAspect {
 		log.setLogType(logType);
 		log.setMethod(targetName + "." + methodName + "()");
 		log.setParams(params);
-		log.setCreator(user.getRealName() + "（" + user.getUsername() + "）");
-		log.setUid(user.getUid());
+		if (user != null) {
+			log.setCreator(user.getRealName() + "（" + user.getUsername() + "）");
+			log.setUid(user.getUid());
+		}
 		log.setCreatedTime(new Date());
 		log.setRequestIp(ip);
 		String[] functionArr = targetName.split("[.]");

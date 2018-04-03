@@ -2,6 +2,7 @@ package com.lt.permission.dao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.lt.permission.model.Role;
 import com.lt.permission.model.User;
@@ -28,5 +29,10 @@ public interface RoleDao {
 	public List<Role> getRoleByUid(String uid);
 	
 	public List<Role> getNonRoleByUid(String uid);
+	
+	public List<Role> getRolesByUsername(String username);
+
+	public List<Role> getRolesByFid(String fid);
+	
 	
 }

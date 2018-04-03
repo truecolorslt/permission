@@ -119,4 +119,9 @@ public class FunctionServiceImpl extends BaseServiceImpl implements
 		}
 		return i;
 	}
+
+	@Override
+	public List<Function> getFunctionHasUrl() {
+		return functionDao.getFunctionHasUrl();
+	}
 }

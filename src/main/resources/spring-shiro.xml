@@ -38,7 +38,9 @@
 	</bean>
 
 	<!-- 认证数据库存储 -->
+	<bean id="shiroManager" class="com.lt.permission.shiro.service.impl.ShiroManagerImpl" />
 	<bean id="login" class="com.lt.permission.shiro.filter.LoginFilter" />
+	<bean id="roleOr" class="com.lt.permission.shiro.filter.RoleFilter" />
 
 	<!-- 启用shrio授权注解拦截方式filter -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -49,25 +51,30 @@
 		<!-- 权限认证失败 没有权限认证提交的地址 -->
 		<property name="unauthorizedUrl" value="/unauthorized.jsp" />
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
+
+		<!-- ******************初始配置，现采用自定义****************** -->
 		<!-- 具体配置需要拦截哪些 URL, 以及访问对应的 URL 时使用 Shiro 的什么 Filter 进行拦截. -->
-		<property name="filterChainDefinitions">
-			<value>
-				<!-- /** = authc 所有url都必须认证通过才可以访问 -->
-				/main = authc
-				/function/* = authc
-				/dict/* = authc
-				/user/* = authc
-				/role/* = authc
-				/log/* = authc
-				<!-- 对静态资源设置匿名访问 -->
-				/static/* = anon
-				/login.jsp = anon
-				/logout = logout
-			</value>
-		</property>
+		<!-- <property name="filterChainDefinitions"> -->
+		<!-- <value> -->
+		<!-- /** = authc 所有url都必须认证通过才可以访问 -->
+		<!-- /main = authc -->
+		<!-- /function/* = authc -->
+		<!-- /dict/* = authc -->
+		<!-- /user/* = authc -->
+		<!-- /role/* = authc -->
+		<!-- /log/* = authc -->
+		<!-- 对静态资源设置匿名访问 -->
+		<!-- /static/* = anon -->
+		<!-- /login.jsp = anon -->
+		<!-- /logout = logout -->
+		<!-- </value> -->
+		<!-- </property> -->
+
+		<property name="filterChainDefinitions" value="#{shiroManager.loadFilterChainDefinitions()}" />
 		<property name="filters">
 			<util:map>
-				<entry key="login" value-ref="login"></entry>
+				<entry key="login" value-ref="login" />
+				<entry key="roleOr" value-ref="roleOr" />
 			</util:map>
 		</property>
 	</bean>

@@ -34,13 +34,6 @@ public interface IUserService {
 	public User getUserByUsernameAndPwd(String username, String password);
 
 	/**
-	 * 根据用户帐号获取角色
-	 * 
-	 * @param username
-	 */
-	public Set<String> getRolesByUsername(String username);
-
-	/**
 	 * 根据账号获取用户信息
 	 * 
 	 * @param username

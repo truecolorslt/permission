@@ -312,4 +312,16 @@
 		)
 		order by f.fsort
 	</select>
+
+
+	<select id="getFunctionHasUrl" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_function
+		<![CDATA[ 
+		where is_delete=0 and 
+		furl is not null and furl<>''
+		order by fsort
+		]]>
+	</select>
 </mapper>

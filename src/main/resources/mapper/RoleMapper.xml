@@ -220,4 +220,24 @@
 		and r.is_delete=0 
 		order by r.created_time
 	</select>
+	<select id="getRolesByUsername" resultMap="BaseResultMap">
+		select distinct r.rcode
+		from t_role r 
+		left join t_user_role ur
+			on r.rid=ur.rid
+		left join t_user u
+			on ur.uid=u.uid 
+		where u.username=#{username,jdbcType=VARCHAR} 
+		and r.is_delete=0 and ur.is_delete=0 and u.is_delete=0
+		order by r.created_time
+	</select>
+	<select id="getRolesByFid" resultMap="BaseResultMap">
+		select distinct r.rcode
+		from t_role r 
+		left join t_role_function rf
+			on r.rid=rf.rid
+		where rf.fid=#{fid,jdbcType=VARCHAR} 
+		and r.is_delete=0 and rf.is_delete=0
+		order by r.created_time
+	</select>
 </mapper>

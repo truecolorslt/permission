@@ -2,6 +2,7 @@ package com.lt.permission.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.lt.permission.dto.RoleDto;
 import com.lt.permission.dto.RoleQueryDto;
@@ -57,13 +58,28 @@ public interface IRoleService {
 	 * @param rid
 	 * @return
 	 */
-	public List<Map<String,Object>> getFunctionByRole(String rid);
-	
+	public List<Map<String, Object>> getFunctionByRole(String rid);
+
 	/**
 	 * 根据用户ID获取角色集合
+	 * 
 	 * @param uid
-	 * @param hasRole	true-已经拥有的角色；false-未拥有的角色
+	 * @param hasRole
+	 *            true-已经拥有的角色；false-未拥有的角色
 	 * @return
 	 */
-	public List<Role> getRoleByUid(String uid,Boolean hasRole);
+	public List<Role> getRoleByUid(String uid, Boolean hasRole);
+
+	/**
+	 * 根据用户帐号获取角色
+	 * 
+	 * @param username
+	 */
+	public List<Role> getRolesByUsername(String username);
+	/**
+	 * 根据菜单ID获取角色
+	 * 
+	 * @param username
+	 */
+	public List<Role> getRolesByFid(String fid);
 }

@@ -99,12 +99,6 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	}
 
 	@Override
-	public Set<String> getRolesByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int deleteUser(String uid) {
 		return userDao.logicDeleteUser(uid);
 	}

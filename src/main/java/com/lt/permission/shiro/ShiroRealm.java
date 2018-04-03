@@ -1,5 +1,9 @@
 package com.lt.permission.shiro;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -18,7 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lt.permission.model.Role;
 import com.lt.permission.model.User;
+import com.lt.permission.service.IRoleService;
 import com.lt.permission.service.IUserService;
 import com.lt.permission.shiro.token.ShiroToken;
 
@@ -31,6 +37,8 @@ public class ShiroRealm extends AuthorizingRealm {
 
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IRoleService roleService;
 
 	/**
 	 * 用户登陆认证(提供账户信息返回认证信息)
@@ -69,7 +77,8 @@ public class ShiroRealm extends AuthorizingRealm {
 			return authenticationInfo;
 		} else {
 			// 用户账号不存在
-			throw new UnknownAccountException();
+			// throw new UnknownAccountException();
+			return null;
 		}
 		// 账号锁定 LockedAccountException
 
@@ -81,10 +90,17 @@ public class ShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principalCollection) {
-		String userName = principalCollection.getPrimaryPrincipal().toString();
+		String userName = ((User) principalCollection.getPrimaryPrincipal())
+				.getUsername();
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-		simpleAuthorizationInfo.setRoles(userService
-				.getRolesByUsername(userName));
+		List<Role> roleList = roleService.getRolesByUsername(userName);
+		if (roleList != null && roleList.size() > 0) {
+			Set<String> roleSet = new HashSet<String>();
+			for (Role r : roleList) {
+				roleSet.add(r.getRcode());
+			}
+			simpleAuthorizationInfo.setRoles(roleSet);
+		}
 		return simpleAuthorizationInfo;
 	}
 

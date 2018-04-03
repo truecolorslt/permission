@@ -26,4 +26,7 @@ public interface FunctionDao {
 
 	public List<Function> findFunctionTreesByRole(Map<String, List<String>> map);
 
+	public List<Function> getFunctionHasUrl();
+	
+
 }

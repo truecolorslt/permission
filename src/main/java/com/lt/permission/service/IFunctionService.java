@@ -60,4 +60,11 @@ public interface IFunctionService {
 	 * @param fid
 	 */
 	public int deleteFunction(String fid);
+
+	/**
+	 * 获取所有有带有url的菜单
+	 * 
+	 * @return
+	 */
+	public List<Function> getFunctionHasUrl();
 }
