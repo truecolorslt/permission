@@ -61,7 +61,7 @@
 					<hr>
 					<div class="panel-body" style="height: 100%;">
 						<div class="jqGrid_wrapper" style="height: 100%;/* overflow-x:scroll */">
-							<table id="table_list" style="height: 100%;"></table>
+							<table id="table_list"></table>
 							<div id="pager_list"></div>
 						</div>
 					</div>

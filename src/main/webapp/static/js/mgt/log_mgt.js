@@ -106,7 +106,7 @@ function initTable() {
 			});
 
 	// 自应高度
-	var newHeight = $(window).height() - 265;
+	var newHeight = $(window).height() - 275;
 	$(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText",
 			"height: " + newHeight + "px!important;");
 	//水平方向scrollbar

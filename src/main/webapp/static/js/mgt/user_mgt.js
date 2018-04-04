@@ -36,10 +36,10 @@ function initTable() {
 						rownumbers : true,
 						datatype : "json",
 						autowidth : true,
-						shrinkToFit : true,
-						autoScroll : true,
+						shrinkToFit : false,
 						rowNum : 10,
-						width: 800,
+						//width: 800,
+						autowidth:true,
 						rowList : [ 10, 20, 50 ],
 						colModel : [
 								{
@@ -171,9 +171,13 @@ function initTable() {
 	$("#table_list").jqGrid('setFrozenColumns');
 
 	// 自应高度
-	var newHeight = $(window).height() - 265;
+	var newHeight = $(window).height() - 275;
 	$(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText",
 			"height: " + newHeight + "px!important;");
+	
+	//水平方向scrollbar
+	$(".ui-jqgrid .ui-jqgrid-bdiv").css("overflow-x",
+			"scroll");
 
 	// Add responsive to jqGrid
 	$(window).bind('resize', function() {
