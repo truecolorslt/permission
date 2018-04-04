@@ -55,8 +55,8 @@ public class ShiroManagerImpl implements ShiroManager {
 
 		StringBuffer sb = new StringBuffer();
 		// 登录成功主页
-		sb.append("/main = authc").append(CRLF);
-		sb.append("/function/findUserFunctionTrees = anon").append(CRLF);
+		sb.append("/main = authc,login").append(CRLF);
+		sb.append("/function/findUserFunctionTrees = authc,login").append(CRLF);
 		// 对静态资源设置匿名访问
 		sb.append("/static/* = anon ").append(CRLF);
 		sb.append("/login.jsp = anon ").append(CRLF);
@@ -81,7 +81,7 @@ public class ShiroManagerImpl implements ShiroManager {
 				}
 				String furl = f.getFurl();
 				furl = furl.substring(0, furl.indexOf("/"));
-				sb.append("/" + furl + "/* = authc,roleOr[\"" + roleStr + "\"] ")
+				sb.append("/" + furl + "/* = authc,login,roleOr[\"" + roleStr + "\"] ")
 						.append(CRLF);
 			}
 		}

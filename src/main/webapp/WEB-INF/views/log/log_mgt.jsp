@@ -41,10 +41,10 @@
 						<div class="form-group">
 							<label class="control-label col-sm-3" style="" for="">操作日期</label>
 							<div class="col-sm-2">
-								<input class="form-control" type="text" value="" id="startDate" placeholder="开始日期">
+								<input class="form-control" type="text" title="双击清空日期" value="" id="startDate" placeholder="开始日期">
 							</div>
 							<div class="col-sm-2">
-								<input class="form-control" type="text" value="" id="endDate" placeholder="结束日期">
+								<input class="form-control" type="text" title="双击清空日期" value="" id="endDate" placeholder="结束日期">
 							</div>
 							<div class="col-sm-12" style="text-align:center;">&nbsp;</div>
 							<div class="col-sm-12" style="text-align:center;">
