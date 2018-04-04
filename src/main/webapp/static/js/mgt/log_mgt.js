@@ -31,7 +31,8 @@ function initTable() {
 				rownumbers : true,
 				datatype : "json",
 				// height : 370,
-				// width : 1180,
+//				width : 900,
+				autowidth:true,
 				// autowidth : true,
 				viewrecords : true,
 				rowNum : 10,
@@ -108,6 +109,10 @@ function initTable() {
 	var newHeight = $(window).height() - 265;
 	$(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText",
 			"height: " + newHeight + "px!important;");
+	//水平方向scrollbar
+	$(".ui-jqgrid .ui-jqgrid-bdiv").css("overflow-x",
+			"scroll");
+	
 
 	// Add responsive to jqGrid
 	$(window).bind('resize', function() {
