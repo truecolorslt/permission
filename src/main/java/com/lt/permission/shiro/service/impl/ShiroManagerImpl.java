@@ -80,9 +80,12 @@ public class ShiroManagerImpl implements ShiroManager {
 					}
 				}
 				String furl = f.getFurl();
-				furl = furl.substring(0, furl.indexOf("/"));
-				sb.append("/" + furl + "/* = authc,login,roleOr[\"" + roleStr + "\"] ")
-						.append(CRLF);
+				if (furl.indexOf("/") != -1) {
+					furl = furl.substring(0, furl.indexOf("/"));
+				}
+				sb.append(
+						"/" + furl + "/* = authc,login,roleOr[\"" + roleStr
+								+ "\"] ").append(CRLF);
 			}
 		}
 

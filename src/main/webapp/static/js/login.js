@@ -81,8 +81,8 @@ function initButton() {
 					// swal('新增数据字典失败!', '', 'error');
 				},
 				success : function(data) { // 请求成功后处理函数。
-					var result = data.result;
-					if (result) {
+					var result = data.code;
+					if (result == window.RESULT_CODE_SUCCESS) {
 						$.notify({
 							// options
 							icon : "glyphicon glyphicon-ok",

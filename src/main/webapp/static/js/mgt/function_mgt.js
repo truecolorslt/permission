@@ -61,8 +61,8 @@ function addFunction(l) {
 					      'error');
 			},
 			success : function(data) { // 请求成功后处理函数。
-				var result = data.result;
-				if(result) {
+				var result = data.code;
+				if (result == window.RESULT_CODE_SUCCESS) {
 					swal(
 				      '新增菜单成功!',
 				      '',
@@ -72,9 +72,10 @@ function addFunction(l) {
 					// refreshNode(pfid);
 					initFunctionTrees();
 				} else {
+					var msg = data.msg;
 					swal(
 				      '新增菜单失败!',
-				      '',
+				      msg,
 				      'error');
 				}
 			},
@@ -110,17 +111,18 @@ function updateFunction(l) {
 					      'error');
 			},
 			success : function(data) { // 请求成功后处理函数。
-				var result = data.result;
-				if(result) {
+				var result = data.code;
+				if (result == window.RESULT_CODE_SUCCESS) {
 					swal(
 						      '修改菜单成功!',
 						      '',
 						      'success');
 					initFunctionTrees();
 				} else {
+					var msg = data.msg;
 					swal(
 						      '修改菜单失败!',
-						      '',
+						      msg,
 						      'error');
 				}
 			},
@@ -162,11 +164,6 @@ function initFunctionTrees() {
 			onClick : getFunction,
 			beforeRemove: deleteFunction,
 			beforeClick : isRootNode
-		},
-		async:{
-			enable: true,
-			url: "findFunctionTreesByPfid",
-			autoParam: ["id"]
 		}
 	};
 
@@ -176,10 +173,40 @@ function initFunctionTrees() {
 		dataType : "json",
 		url : "findFunctionTrees",// 请求的action路径
 		error : function() {// 请求失败处理函数
-			alert('树形菜单加载失败');
+			$.notify({
+				// options
+				icon : "glyphicon glyphicon-warning-sign",
+				title : "功能菜单加载失败：",
+				message : msg,
+			}, {
+				// settings
+				type : "danger",
+				placement : {
+					from : "buttom",
+					align : "right"
+				}
+			});
 		},
 		success : function(data) { // 请求成功后处理函数。
-			treeNodes = data; // 把后台封装好的简单Json格式赋给treeNodes
+			var result = data.code;
+			if (result == window.RESULT_CODE_SUCCESS) {
+				treeNodes = data.data; // 把后台封装好的简单Json格式赋给treeNodes
+			} else {
+				var msg = data.msg;
+				$.notify({
+					// options
+					icon : "glyphicon glyphicon-warning-sign",
+					title : "功能菜单加载失败：",
+					message : msg,
+				}, {
+					// settings
+					type : "warning",
+					placement : {
+						from : "top",
+						align : "right"
+					}
+				});
+			}
 		}
 	});
 	$.fn.zTree.init($("#functionTree"), setting, treeNodes);
@@ -239,21 +266,39 @@ function getFunction(event, treeId, treeNode) {
 
 	$.ajax({
 		type : 'POST',
-		contentType : "application/json;charset=UTF-8",
 		dataType : "json",
 		url : "getFunction",// 请求的action路径
-		data : JSON.stringify(param),
+		data : param,
 		error : function() {// 请求失败处理函数
 			alert('获取[' + treeNode.name + ']功能菜单信息失败');
 		},
 		success : function(data) { // 请求成功后处理函数。
-			$("#pFunctionName").html(pTreeNode.name);
-			$("#fname").val(data.fname);
-			$("#fcode").val(data.fcode);
-			$("#fsort").val(data.fsort);
-			$("#ficon").val(data.ficon);
-			$("#furl").val(data.furl);
-			$("#fid").val(data.fid);
+			var result = data.code;
+			if (result == window.RESULT_CODE_SUCCESS) {
+				var info = data.data;
+				$("#pFunctionName").html(pTreeNode.name);
+				$("#fname").val(info.fname);
+				$("#fcode").val(info.fcode);
+				$("#fsort").val(info.fsort);
+				$("#ficon").val(info.ficon);
+				$("#furl").val(info.furl);
+				$("#fid").val(info.fid);
+			} else {
+				var msg = data.msg;
+				$.notify({
+					// options
+					icon : "glyphicon glyphicon-warning-sign",
+					title : "获取功能菜单详情失败：",
+					message : msg,
+				}, {
+					// settings
+					type : "warning",
+					placement : {
+						from : "top",
+						align : "right"
+					}
+				});
+			}
 		}
 	});
 }
@@ -293,9 +338,8 @@ function deleteFunction(treeId, treeNode) {
 			  $.ajax({
 					type : 'POST',
 					dataType : "json",
-					contentType : 'application/json;charset=utf-8',
 					url : "deleteFunction",// 请求的action路径
-					data:JSON.stringify(param),
+					data:param,
 					error : function() {// 请求失败处理函数
 						swal(
 					      '删除菜单失败!',
@@ -304,8 +348,8 @@ function deleteFunction(treeId, treeNode) {
 					    );
 					},
 					success : function(data) { // 请求成功后处理函数。
-						var result = data.result;
-						if(result) {
+						var result = data.code;
+						if (result == window.RESULT_CODE_SUCCESS) {
 							swal(
 						      '删除菜单成功!',
 						      '',
@@ -313,9 +357,10 @@ function deleteFunction(treeId, treeNode) {
 						    );
 							initFunctionTrees();
 						} else {
+							var msg = data.msg;
 							swal(
 						      '删除菜单失败!',
-						      '',
+						      msg,
 						      'error'
 						    );
 						}

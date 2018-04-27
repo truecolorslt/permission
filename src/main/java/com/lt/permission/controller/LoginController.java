@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
+import com.lt.permission.common.ResultEnum;
+import com.lt.permission.common.ResultObject;
 import com.lt.permission.dto.LoginDto;
+import com.lt.permission.exception.PermissionException;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IUserService;
 import com.lt.permission.shiro.token.TokenManager;
 import com.lt.permission.util.MD5Util;
+import com.lt.permission.util.ResultUtil;
 
 /**
  * 登录逻辑控制器
@@ -44,35 +48,25 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/doLogin")
 	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_LOGIN, logDesc = "用户登录")
 	@ResponseBody
-	public String doLogin(@RequestBody LoginDto dto) {
-		// dto.setPassword(MD5Util.getMD5(dto.getPassword()));
-		JSONObject jo = new JSONObject();
-		// jo.put("result", true);
+	public ResultObject<User> doLogin(@RequestBody LoginDto dto) {
+		// 登陆成功
 		try {
-			// 登陆成功
 			TokenManager.login(dto, false);
-			jo.put("result", true);
 		} catch (IncorrectCredentialsException ice) {
 			// 捕获密码错误异常
-			jo.put("result", false);
-			jo.put("msg", "密码错误！");
+			throw new PermissionException(ResultEnum.RESULT_CODE_PASSWORD_ERROR);
 		} catch (UnknownAccountException uae) {
 			// 捕获未知用户名异常
-			jo.put("result", false);
-			jo.put("msg", "用户帐号不存在！");
+			throw new PermissionException(ResultEnum.RESULT_CODE_USER_NOT_EXIST);
 		} catch (ExcessiveAttemptsException eae) {
 			// 捕获错误登录过多的异常
-			jo.put("result", false);
-			jo.put("msg", "用户帐号登录过多！");
+			throw new PermissionException(ResultEnum.RESULT_CODE_LOGIN_MUCH);
 		} catch (AuthenticationException e) {
-			jo.put("result", false);
-			jo.put("msg", "身份验证失败！");
+			throw new PermissionException(ResultEnum.RESULT_CODE_LOGIN_FAIL);
 		} catch (Exception e) {
-			jo.put("result", false);
-			jo.put("msg", e.getMessage());
+			throw new PermissionException(ResultEnum.RESULT_CODE_SYS_ERROR);
 		}
-
-		return jo.toString();
+		return ResultUtil.success();
 	}
 
 	/**

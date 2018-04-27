@@ -21,6 +21,12 @@ public class BaseController {
 	@Autowired
 	private IDictService dictService;
 
+	/**
+	 * 将对象转换成json数组对象
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	public JSONArray toJSONArray(Object obj) {
 		if (obj != null) {
 			return JsonUtils.toJSONArray(obj);
@@ -29,6 +35,12 @@ public class BaseController {
 		}
 	}
 
+	/**
+	 * 将对象转换成json对象
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	public JSONObject toJSONObject(Object obj) {
 		if (obj != null) {
 			return JsonUtils.toJSONObject(obj);

@@ -216,7 +216,7 @@ public class SystemLogAspect {
 		log.setLid(UUID.randomUUID().toString());
 		log.setDescription(logDesc);
 		if (e != null) {
-			log.setExceptionCode(e.getClass().getName());
+			log.setExceptionCode(e.getClass().getSimpleName());
 			log.setExceptionDetail(e.getMessage());
 			/* ==========记录本地异常日志========== */
 			logger.info("异常代码:" + e.getClass().getName());

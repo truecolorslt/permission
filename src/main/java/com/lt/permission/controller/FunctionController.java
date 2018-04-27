@@ -11,15 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
+import com.lt.permission.common.ResultEnum;
+import com.lt.permission.common.ResultObject;
 import com.lt.permission.dto.FunctionDto;
+import com.lt.permission.exception.PermissionException;
 import com.lt.permission.model.Function;
 import com.lt.permission.model.User;
 import com.lt.permission.service.IFunctionService;
+import com.lt.permission.util.ResultUtil;
 
 /**
  * 功能菜单控制器
@@ -93,37 +98,31 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(value = "/findFunctionTrees")
 	@ResponseBody
-	public String findFunctionTrees() {
-		String treesJson = "";
-		try {
-			List<Function> functionList = functionService
-					.findAllFunctionTrees();
-			List<Map<String, Object>> mapList = null;
-			mapList = new ArrayList<Map<String, Object>>();
-			Map<String, Object> rootMap = new HashMap<String, Object>();
-			rootMap.put("id", "0");
-			rootMap.put("pId", null);
-			rootMap.put("name", "当前系统");
-			rootMap.put("open", true);
-			rootMap.put("nocheck", true);
-			mapList.add(rootMap);
-			if (functionList != null && functionList.size() > 0) {
-				for (Function f : functionList) {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("id", f.getFid());
-					map.put("pId", f.getPfid());
-					map.put("name", f.getFname());
-					if ("0".equals(f.getPfid())) {
-						map.put("open", true);
-					}
-					mapList.add(map);
+	public ResultObject<List<Map<String, Object>>> findFunctionTrees() {
+		List<Map<String, Object>> mapList = null;
+		List<Function> functionList = functionService.findAllFunctionTrees();
+		mapList = new ArrayList<Map<String, Object>>();
+		Map<String, Object> rootMap = new HashMap<String, Object>();
+		rootMap.put("id", "0");
+		rootMap.put("pId", null);
+		rootMap.put("name", "当前系统");
+		rootMap.put("open", true);
+		rootMap.put("nocheck", true);
+		mapList.add(rootMap);
+		if (functionList != null && functionList.size() > 0) {
+			for (Function f : functionList) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", f.getFid());
+				map.put("pId", f.getPfid());
+				map.put("name", f.getFname());
+				if ("0".equals(f.getPfid())) {
+					map.put("open", true);
 				}
+				mapList.add(map);
 			}
-			treesJson = this.toJSONArray(mapList).toString();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return treesJson;
+
+		return ResultUtil.success(mapList);
 	}
 
 	/**
@@ -135,32 +134,10 @@ public class FunctionController extends BaseController {
 	@RequestMapping(value = "/getFunction")
 	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "查询功能明细")
 	@ResponseBody
-	public String getFunction(@RequestBody String param) {
-		String rtnStr = "";
-		JSONObject jo = new JSONObject();
-
-		// 如果页面传的是json字符串，用下列方式解析
-		Map<String, Object> m = (Map<String, Object>) jo.parse(param);
-		// string转map
-		JSONObject parseObject = jo.parseObject(param); // string转json
-
-		// 如果页面传的是json数组字符串，用下列方式解析
-		// List<Map> parseArray = jo.parseArray(param, Map.class);
-		// System.out.println(parseArray); // string转list
-		//
-		// JSONArray parseArray2 = jo.parseArray(param);
-		// System.out.println(parseArray2);
-
-		String fid = parseObject.getString("fid");
-		try {
-			Function f = functionService.getFunction(fid);
-			if (f != null) {
-				rtnStr = this.toJSONObject(f).toString();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return rtnStr;
+	public ResultObject<Function> getFunction(
+			@RequestParam(value = "fid", required = true) String fid) {
+		Function f = functionService.getFunction(fid);
+		return ResultUtil.success(f);
 	}
 
 	/**
@@ -172,29 +149,16 @@ public class FunctionController extends BaseController {
 	@RequestMapping(value = "/addFunction")
 	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "新增功能信息")
 	@ResponseBody
-	public String addFunction(@RequestBody FunctionDto dto) {
-		String rtnStr = "";
-		try {
-			// 获取父级节点信息
-			if ("0".equals(dto.getPfid())) {
-				dto.setFrelation("0");
-			} else {
-				Function pf = functionService.getFunction(dto.getPfid());
-				dto.setFrelation(pf.getFrelation());
-			}
-
-			int i = functionService.addFunction(dto);
-			JSONObject jo = new JSONObject();
-			if (i > 0) {
-				jo.put("result", true);
-			} else {
-				jo.put("result", false);
-			}
-			rtnStr = jo.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public ResultObject addFunction(@RequestBody FunctionDto dto) {
+		// 获取父级节点信息
+		if ("0".equals(dto.getPfid())) {
+			dto.setFrelation("0");
+		} else {
+			Function pf = functionService.getFunction(dto.getPfid());
+			dto.setFrelation(pf.getFrelation());
 		}
-		return rtnStr;
+		functionService.addFunction(dto);
+		return ResultUtil.success();
 	}
 
 	/**
@@ -206,21 +170,9 @@ public class FunctionController extends BaseController {
 	@RequestMapping(value = "/updateFunction")
 	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "修改功能信息")
 	@ResponseBody
-	public String updateFunction(@RequestBody FunctionDto dto) {
-		String rtnStr = "";
-		try {
-			int i = functionService.updateFunction(dto);
-			JSONObject jo = new JSONObject();
-			if (i > 0) {
-				jo.put("result", true);
-			} else {
-				jo.put("result", false);
-			}
-			rtnStr = jo.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return rtnStr;
+	public ResultObject updateFunction(@RequestBody FunctionDto dto) {
+		functionService.updateFunction(dto);
+		return ResultUtil.success();
 	}
 
 	/**
@@ -232,29 +184,10 @@ public class FunctionController extends BaseController {
 	@RequestMapping(value = "/deleteFunction")
 	@Log(logType = DictConstants.DICT_CODE_LOG_TYPE_OPT, logDesc = "删除功能信息")
 	@ResponseBody
-	public String deleteFunction(@RequestBody String param) {
-		String rtnStr = "";
-		JSONObject jo = new JSONObject();
-
-		// 如果页面传的是json字符串，用下列方式解析
-		Map<String, Object> m = (Map<String, Object>) jo.parse(param);
-		// string转map
-		JSONObject parseObject = jo.parseObject(param); // string转json
-
-		String fid = parseObject.getString("fid");
-		try {
-			int i = functionService.deleteFunction(fid);
-			JSONObject jo1 = new JSONObject();
-			if (i > 0) {
-				jo1.put("result", true);
-			} else {
-				jo1.put("result", false);
-			}
-			rtnStr = jo1.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return rtnStr;
+	public ResultObject deleteFunction(
+			@RequestParam(value = "fid", required = true) String fid) {
+		functionService.deleteFunction(fid);
+		return ResultUtil.success();
 	}
 
 	/**
