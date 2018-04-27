@@ -145,6 +145,7 @@
 </body>
 </html>
 
+<script src="<%=path%>/static/js/global.js"></script>
 <script type="text/javascript"
 	src="<%=path%>/static/js/jquery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript"

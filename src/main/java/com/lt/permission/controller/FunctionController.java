@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lt.permission.annotation.Log;
 import com.lt.permission.common.DictConstants;
-import com.lt.permission.common.ResultEnum;
 import com.lt.permission.common.ResultObject;
 import com.lt.permission.dto.FunctionDto;
-import com.lt.permission.exception.PermissionException;
 import com.lt.permission.model.Function;
-import com.lt.permission.model.User;
 import com.lt.permission.service.IFunctionService;
 import com.lt.permission.util.ResultUtil;
 
@@ -48,47 +44,40 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(value = "/findUserFunctionTrees")
 	@ResponseBody
-	public String findUserFunctionTrees() {
-		String treesJson = "";
-		try {
-			List<Function> functionList = functionService
-					.findFunctionTreesByUid(this.getUid());
-			List<Map<String, Object>> mapList = null;
-			if (functionList != null && functionList.size() > 0) {
-				mapList = new ArrayList<Map<String, Object>>();
-				for (Function f : functionList) {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("F_ModuleId", f.getFid());
-					map.put("F_ParentId", f.getPfid());
-					map.put("F_EnCode", f.getFcode());
-					map.put("F_FullName", f.getFname());
-					map.put("F_Icon", f.getFicon());
-					map.put("F_UrlAddress", f.getFurl());
-					// map.put("F_Target", "expand");
-					// map.put("F_IsMenu", 0);
-					// map.put("F_AllowExpand", 1);
-					// map.put("F_IsPublic", 0);
-					// map.put("F_AllowEdit", null);
-					// map.put("F_AllowDelete", null);
-					// map.put("F_SortCode", 1);
-					// map.put("F_DeleteMark", 0);
-					// map.put("F_EnabledMark", 1);
-					// map.put("F_Description", null);
-					// map.put("F_CreateDate", null);
-					// map.put("F_CreateUserId", null);
-					// map.put("F_CreateUserName", null);
-					// map.put("F_ModifyDate", "2015-11-17 11,22,46");
-					// map.put("F_ModifyUserId", "System");
-					// map.put("F_ModifyUserName", "超级管理员");
-					mapList.add(map);
-				}
-				treesJson = this.toJSONArray(mapList).toString();
+	public ResultObject<List<Map<String, Object>>> findUserFunctionTrees() {
+		List<Function> functionList = functionService
+				.findFunctionTreesByUid(this.getUid());
+		List<Map<String, Object>> mapList = null;
+		if (functionList != null && functionList.size() > 0) {
+			mapList = new ArrayList<Map<String, Object>>();
+			for (Function f : functionList) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("F_ModuleId", f.getFid());
+				map.put("F_ParentId", f.getPfid());
+				map.put("F_EnCode", f.getFcode());
+				map.put("F_FullName", f.getFname());
+				map.put("F_Icon", f.getFicon());
+				map.put("F_UrlAddress", f.getFurl());
+				// map.put("F_Target", "expand");
+				// map.put("F_IsMenu", 0);
+				// map.put("F_AllowExpand", 1);
+				// map.put("F_IsPublic", 0);
+				// map.put("F_AllowEdit", null);
+				// map.put("F_AllowDelete", null);
+				// map.put("F_SortCode", 1);
+				// map.put("F_DeleteMark", 0);
+				// map.put("F_EnabledMark", 1);
+				// map.put("F_Description", null);
+				// map.put("F_CreateDate", null);
+				// map.put("F_CreateUserId", null);
+				// map.put("F_CreateUserName", null);
+				// map.put("F_ModifyDate", "2015-11-17 11,22,46");
+				// map.put("F_ModifyUserId", "System");
+				// map.put("F_ModifyUserName", "超级管理员");
+				mapList.add(map);
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return treesJson;
+		return ResultUtil.success(mapList);
 	}
 
 	/**
@@ -121,7 +110,6 @@ public class FunctionController extends BaseController {
 				mapList.add(map);
 			}
 		}
-
 		return ResultUtil.success(mapList);
 	}
 
@@ -198,36 +186,31 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(value = "/findFunctionTreesByPfid")
 	@ResponseBody
-	public String findFunctionTreesByPfid(String id) {
-		String treesJson = "";
-		try {
-			String frelation = "";
-			if ("0".equals(id)) {
-				frelation = "0";
-			} else {
-				Function curFunc = functionService.getFunction(id);
-				frelation = curFunc.getFrelation();
-			}
-
-			List<Function> functionList = functionService
-					.findFunctionTreesByPfid(frelation);
-
-			List<Map<String, Object>> mapList = null;
-			if (functionList != null && functionList.size() > 0) {
-				mapList = new ArrayList<Map<String, Object>>();
-				for (Function f : functionList) {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("id", f.getFid());
-					map.put("pId", f.getPfid());
-					map.put("name", f.getFname());
-					mapList.add(map);
-				}
-				treesJson = this.toJSONArray(mapList).toString();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	public ResultObject<List<Map<String, Object>>> findFunctionTreesByPfid(
+			String id) {
+		String frelation = "";
+		if ("0".equals(id)) {
+			frelation = "0";
+		} else {
+			Function curFunc = functionService.getFunction(id);
+			frelation = curFunc.getFrelation();
 		}
-		return treesJson;
+
+		List<Function> functionList = functionService
+				.findFunctionTreesByPfid(frelation);
+
+		List<Map<String, Object>> mapList = null;
+		if (functionList != null && functionList.size() > 0) {
+			mapList = new ArrayList<Map<String, Object>>();
+			for (Function f : functionList) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", f.getFid());
+				map.put("pId", f.getPfid());
+				map.put("name", f.getFname());
+				mapList.add(map);
+			}
+		}
+		return ResultUtil.success(mapList);
 	}
 
 	/**
