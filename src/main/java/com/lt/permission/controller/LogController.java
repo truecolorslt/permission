@@ -59,7 +59,7 @@ public class LogController extends BaseController {
 	 */
 	@RequestMapping(value = "/findLogs")
 	@ResponseBody
-	public String findDicts(
+	public String findLogs(
 			@RequestParam(value = "page", defaultValue = "1") String page,
 			@RequestParam(value = "rows", defaultValue = "10") String rows,
 			@RequestParam(value = "logType", required = false) String logType,
@@ -119,7 +119,7 @@ public class LogController extends BaseController {
 					jo.put("records", "0");
 					jo.put("rows", "");
 				}
-				dictsJson = this.toJSONObject(jo).toString();
+				dictsJson = jo.toString();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
